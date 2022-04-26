@@ -1,4 +1,4 @@
-﻿namespace bmpコンバーター
+﻿namespace BMPコンバーター
 {
     partial class Form1
     {
@@ -30,12 +30,12 @@
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.Openfolderbutton = new System.Windows.Forms.Button();
-            this.Folderpathtext = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.Extractbutton = new System.Windows.Forms.Button();
             this.Extractpathtext = new System.Windows.Forms.TextBox();
             this.Convertbutton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.Folderpathtext = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -61,14 +61,6 @@
             this.Openfolderbutton.UseVisualStyleBackColor = true;
             this.Openfolderbutton.Click += new System.EventHandler(this.Openfolderbutton_Click);
             // 
-            // Folderpathtext
-            // 
-            this.Folderpathtext.Location = new System.Drawing.Point(10, 57);
-            this.Folderpathtext.Name = "Folderpathtext";
-            this.Folderpathtext.ReadOnly = true;
-            this.Folderpathtext.Size = new System.Drawing.Size(478, 22);
-            this.Folderpathtext.TabIndex = 1;
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.Extractbutton);
@@ -78,7 +70,7 @@
             this.groupBox2.Size = new System.Drawing.Size(494, 89);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "①出力フォルダを指定";
+            this.groupBox2.Text = "②出力フォルダを指定";
             // 
             // Extractbutton
             // 
@@ -92,11 +84,13 @@
             // 
             // Extractpathtext
             // 
+            this.Extractpathtext.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::BMPコンバーター.Properties.Settings.Default, "EPT", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.Extractpathtext.Location = new System.Drawing.Point(10, 57);
             this.Extractpathtext.Name = "Extractpathtext";
             this.Extractpathtext.ReadOnly = true;
             this.Extractpathtext.Size = new System.Drawing.Size(478, 22);
             this.Extractpathtext.TabIndex = 1;
+            this.Extractpathtext.Text = global::BMPコンバーター.Properties.Settings.Default.EPT;
             // 
             // Convertbutton
             // 
@@ -117,6 +111,16 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "※未入力の場合、デスクトップの「BMP」に出力されます";
             // 
+            // Folderpathtext
+            // 
+            this.Folderpathtext.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::BMPコンバーター.Properties.Settings.Default, "FPT", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Folderpathtext.Location = new System.Drawing.Point(10, 57);
+            this.Folderpathtext.Name = "Folderpathtext";
+            this.Folderpathtext.ReadOnly = true;
+            this.Folderpathtext.Size = new System.Drawing.Size(478, 22);
+            this.Folderpathtext.TabIndex = 1;
+            this.Folderpathtext.Text = global::BMPコンバーター.Properties.Settings.Default.FPT;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -128,6 +132,8 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
             this.Text = "BMPコンバーター";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

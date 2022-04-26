@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace bmpコンバーター
+namespace BMPコンバーター
 {
     public partial class Form1 : Form
     {
@@ -133,6 +133,16 @@ namespace bmpコンバーター
             }
 
         labelfinish:;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.Save();
         }
     }
 }
