@@ -94,6 +94,8 @@ namespace BMPコンバーター
                     0x28, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0xE0, 0x00, 0x00, 0x00, 0x01, 0x00, 0x04, 0x00, 0x00, 0x00,
                     0x00, 0x00, 0x00, 0x70, 0x00, 0x00, 0xF0, 0x0A, 0x00, 0x00, 0xF0, 0x0A, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00,
                     0x10, 0x00, 0x00, 0x00 };
+            int BMPallnumber = 0;
+            int colortortalmax = 0;
 
             for (int i = 0; i < files.Count(); i++)
             {
@@ -107,6 +109,13 @@ namespace BMPコンバーター
                 if (colortortalstring.Length == 1)
                     colortortalstring = "0" + colortortalstring;
                 int colortortal = Convert.ToInt32(colortortalstring, 16);
+
+                if (colortortalmax < colortortal)
+                {
+                    BMPallnumber = i;
+                    colortortalmax = colortortal;
+                }
+                    
                 byte[] colorbyte = new byte[colortortal * 4];
                 int seek = 138;
                 fsrBMP.Seek(seek, SeekOrigin.Begin);
@@ -144,7 +153,7 @@ namespace BMPコンバーター
             FileStream fsrBMPall = File.Create(Extractpath + @"BMP\" + "BMPall" + ".bmp");
             string BMPall = Extractpath + @"BMP\" + "BMPall" + ".bmp";
             int seek_BMPall = 118;
-            FileStream fsrBMPwheel = new FileStream(Extractpath + @"BMP\" + files.ElementAt(0).ToString(), FileMode.Open, FileAccess.Read);
+            FileStream fsrBMPwheel = new FileStream(Extractpath + @"BMP\" + files.ElementAt(BMPallnumber).ToString(), FileMode.Open, FileAccess.Read);
             byte[] fsrBMPall_dainyu = new byte[118];
             fsrBMPwheel.Read(fsrBMPall_dainyu, 0, 118);
             fsrBMPwheel.Close();
