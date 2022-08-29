@@ -28,63 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.File_open = new System.Windows.Forms.Button();
-            this.Convert = new System.Windows.Forms.Button();
-            this.OBJpath = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
-            // 
-            // File_open
-            // 
-            this.File_open.Location = new System.Drawing.Point(12, 12);
-            this.File_open.Name = "File_open";
-            this.File_open.Size = new System.Drawing.Size(408, 24);
-            this.File_open.TabIndex = 0;
-            this.File_open.Text = "ファイルを開く";
-            this.File_open.UseVisualStyleBackColor = true;
-            this.File_open.Click += new System.EventHandler(this.File_open_Click);
-            // 
-            // Convert
-            // 
-            this.Convert.Location = new System.Drawing.Point(165, 80);
-            this.Convert.Name = "Convert";
-            this.Convert.Size = new System.Drawing.Size(100, 24);
-            this.Convert.TabIndex = 4;
-            this.Convert.Text = "変換";
-            this.Convert.UseVisualStyleBackColor = true;
-            this.Convert.Click += new System.EventHandler(this.Convert_Click);
-            // 
-            // OBJpath
-            // 
-            this.OBJpath.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::GT2用obj編集ツール.Properties.Settings.Default, "OBJpathsave", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.OBJpath.Location = new System.Drawing.Point(12, 47);
-            this.OBJpath.Name = "OBJpath";
-            this.OBJpath.ReadOnly = true;
-            this.OBJpath.Size = new System.Drawing.Size(408, 22);
-            this.OBJpath.TabIndex = 5;
-            this.OBJpath.Text = global::GT2用obj編集ツール.Properties.Settings.Default.OBJpathsave;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(432, 118);
-            this.Controls.Add(this.OBJpath);
-            this.Controls.Add(this.Convert);
-            this.Controls.Add(this.File_open);
+            this.ClientSize = new System.Drawing.Size(324, 94);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
-            this.Text = "GT2用obj編集ツール";
+            this.Text = "GT2用obj編集ツール 1.02";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Shown += new System.EventHandler(this.Form1_Shown);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button File_open;
-        private System.Windows.Forms.Button Convert;
-        private System.Windows.Forms.TextBox OBJpath;
     }
 }
 
