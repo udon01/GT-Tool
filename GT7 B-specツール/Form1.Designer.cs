@@ -66,6 +66,7 @@
             this.Rightkeywait = new System.Windows.Forms.NumericUpDown();
             this.Settingexport = new System.Windows.Forms.Button();
             this.Settingimport = new System.Windows.Forms.Button();
+            this.Start_fulldaily = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Waitbacktomenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Waitentry)).BeginInit();
@@ -81,12 +82,12 @@
             // 
             // Start_notdaily
             // 
-            this.Start_notdaily.Location = new System.Drawing.Point(9, 214);
+            this.Start_notdaily.Location = new System.Drawing.Point(9, 212);
             this.Start_notdaily.Margin = new System.Windows.Forms.Padding(2);
             this.Start_notdaily.Name = "Start_notdaily";
             this.Start_notdaily.Size = new System.Drawing.Size(378, 24);
             this.Start_notdaily.TabIndex = 15;
-            this.Start_notdaily.Text = "開始(デイリーミッション未消化) ※0kmのみ";
+            this.Start_notdaily.Text = "開始(デイリーミッション未消化)";
             this.Start_notdaily.UseVisualStyleBackColor = true;
             this.Start_notdaily.Click += new System.EventHandler(this.Start_notdaily_Click);
             // 
@@ -145,7 +146,7 @@
             // Workmessage
             // 
             this.Workmessage.AutoSize = true;
-            this.Workmessage.Location = new System.Drawing.Point(9, 250);
+            this.Workmessage.Location = new System.Drawing.Point(11, 280);
             this.Workmessage.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Workmessage.Name = "Workmessage";
             this.Workmessage.Size = new System.Drawing.Size(120, 12);
@@ -613,11 +614,23 @@
             this.Settingimport.UseVisualStyleBackColor = true;
             this.Settingimport.Click += new System.EventHandler(this.Settingimport_Click);
             // 
+            // Start_fulldaily
+            // 
+            this.Start_fulldaily.Location = new System.Drawing.Point(9, 245);
+            this.Start_fulldaily.Margin = new System.Windows.Forms.Padding(2);
+            this.Start_fulldaily.Name = "Start_fulldaily";
+            this.Start_fulldaily.Size = new System.Drawing.Size(378, 24);
+            this.Start_fulldaily.TabIndex = 33;
+            this.Start_fulldaily.Text = "開始(完全放置)";
+            this.Start_fulldaily.UseVisualStyleBackColor = true;
+            this.Start_fulldaily.Click += new System.EventHandler(this.Start_fulldaily_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(396, 274);
+            this.ClientSize = new System.Drawing.Size(396, 301);
+            this.Controls.Add(this.Start_fulldaily);
             this.Controls.Add(this.Settingimport);
             this.Controls.Add(this.Settingexport);
             this.Controls.Add(this.label19);
@@ -640,7 +653,7 @@
             this.Controls.Add(this.Start);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
-            this.Text = "GT7 B-specツール v1.5";
+            this.Text = "GT7 B-specツール v1.6";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -699,6 +712,7 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Button Settingexport;
         private System.Windows.Forms.Button Settingimport;
+        private System.Windows.Forms.Button Start_fulldaily;
     }
 }
 

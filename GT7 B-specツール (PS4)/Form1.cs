@@ -325,7 +325,7 @@ namespace GT7_B_specツール_PS4
                 controller.SetButtonState(DualShock4Button.Circle, false);
             }
 
-            if (count == 3)
+            if (count <= 3)
             {
                 await Task.Delay(5000);
                 controller.SetButtonState(DualShock4Button.Circle, true);
@@ -348,6 +348,188 @@ namespace GT7_B_specツール_PS4
                 await Task.Delay(220);
                 controller.SetButtonState(DualShock4Button.Circle, false);
             }
+
+            await Task.Delay(wait_replay);
+
+            controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            controller.SetButtonState(DualShock4Button.Circle, false);
+            await Task.Delay(500);
+            controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            controller.SetButtonState(DualShock4Button.Circle, false);
+
+            await Task.Delay(wait_racemenu);
+
+            controller.SetDPadDirection(DualShock4DPadDirection.East);
+            await Task.Delay(220);
+            controller.SetDPadDirection(DualShock4DPadDirection.None);
+            await Task.Delay(500);
+            controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            controller.SetButtonState(DualShock4Button.Circle, false);
+
+            await Task.Delay(wait_entry2);
+
+            controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            controller.SetButtonState(DualShock4Button.Circle, false);
+            await Task.Delay(1300);
+
+            controller.SetButtonState(DualShock4Button.Cross, true);
+            await Task.Delay(220);
+            controller.SetButtonState(DualShock4Button.Cross, false);
+            await Task.Delay(500);
+            controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            controller.SetButtonState(DualShock4Button.Circle, false);
+            await Task.Delay(500);
+            controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            controller.SetButtonState(DualShock4Button.Circle, false);
+
+            await Task.Delay(wait_backtomenu);
+
+            if (stop == false)
+            {
+                goto label1;
+            }
+
+            else if (stop == true)
+            {
+                goto label2;
+            }
+
+        label2:
+            stop = false;
+            controller.Disconnect();
+            Workmessage.Text = "現在実行されていません";
+        }
+
+        private async void Start_fulldaily_Click(object sender, EventArgs e)
+        {
+
+            stop = false;
+            Workmessage.Text = "実行中...";
+            decimal wait_entry_dec = Waitentry.Value;
+            decimal wait_start_dec = Waitstart.Value;
+            decimal wait_replay_dec = Waitreplay.Value;
+            decimal wait_racemenu_dec = Waitracemenu.Value;
+            decimal wait_entry2_dec = Waitentry2.Value;
+            decimal wait_backtomenu_dec = Waitbacktomenu.Value;
+            int racefinish_min = decimal.ToInt32(Racefinishmin.Value);
+            int racefinish_sec = decimal.ToInt32(Racefinishsec.Value);
+            decimal rightkey_down_dec = Rightkeydown.Value;
+            decimal rightkey_wait_dec = Rightkeywait.Value;
+            int racefinishover = 0;
+            wait_entry_dec = wait_entry_dec * 1000;
+            wait_start_dec = wait_start_dec * 1000;
+            wait_replay_dec = wait_replay_dec * 1000;
+            wait_racemenu_dec = wait_racemenu_dec * 1000;
+            wait_entry2_dec = wait_entry2_dec * 1000;
+            wait_backtomenu_dec = wait_backtomenu_dec * 1000;
+            rightkey_down_dec = rightkey_down_dec * 1000;
+            rightkey_wait_dec = rightkey_wait_dec * 1000;
+            racefinish_min = racefinish_min * 60;
+            int racefinish = racefinish_min + racefinish_sec;
+            racefinish = racefinish * 1000;
+            int wait_entry = decimal.ToInt32(wait_entry_dec);
+            int wait_start = decimal.ToInt32(wait_start_dec);
+            int wait_replay = decimal.ToInt32(wait_replay_dec);
+            int wait_racemenu = decimal.ToInt32(wait_racemenu_dec);
+            int wait_entry2 = decimal.ToInt32(wait_entry2_dec);
+            int wait_backtomenu = decimal.ToInt32(wait_backtomenu_dec);
+            int rightkey_down = decimal.ToInt32(rightkey_down_dec);
+            int rightkey_wait = decimal.ToInt32(rightkey_wait_dec);
+
+            var client = new ViGEmClient();
+            var controller = client.CreateDualShock4Controller();
+            controller.Connect();
+
+            await Task.Delay(500);
+
+        label1:
+            foreach (System.Diagnostics.Process p
+            in System.Diagnostics.Process.GetProcesses())
+            {
+                if (0 <= p.MainWindowTitle.IndexOf("PS Remote Play"))
+                {
+                    SetForegroundWindow(p.MainWindowHandle);
+                    break;
+                }
+            }
+
+            controller.SetDPadDirection(DualShock4DPadDirection.South);
+            await Task.Delay(220);
+            controller.SetDPadDirection(DualShock4DPadDirection.None);
+
+            for (int i = 0; i < 6; i++)
+            {
+                await Task.Delay(220);
+                controller.SetDPadDirection(DualShock4DPadDirection.East);
+                await Task.Delay(220);
+                controller.SetDPadDirection(DualShock4DPadDirection.None);
+            }
+
+            await Task.Delay(300);
+            controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            controller.SetButtonState(DualShock4Button.Circle, false);
+            await Task.Delay(800);
+            controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            controller.SetButtonState(DualShock4Button.Circle, false);
+
+            await Task.Delay(wait_entry);
+
+            controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            controller.SetButtonState(DualShock4Button.Circle, false);
+            await Task.Delay(1500);
+            controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            controller.SetButtonState(DualShock4Button.Circle, false);
+
+            await Task.Delay(wait_start);
+
+            await Task.Delay(14000);
+            controller.SetButtonState(DualShock4Button.Cross, true);
+            controller.SetDPadDirection(DualShock4DPadDirection.East);
+            await Task.Delay(2000);
+            controller.SetDPadDirection(DualShock4DPadDirection.None);
+            await Task.Delay(500);
+
+            racefinishover = 0;
+            while (true)
+            {
+                controller.SetDPadDirection(DualShock4DPadDirection.East);
+                await Task.Delay(rightkey_down);
+                controller.SetDPadDirection(DualShock4DPadDirection.None);
+                await Task.Delay(rightkey_wait);
+                racefinishover = racefinishover + rightkey_down + rightkey_wait;
+                if (racefinishover >= racefinish)
+                    break;
+            }
+
+            controller.SetButtonState(DualShock4Button.Cross, false);
+
+
+            for (int i = 0; i < 6; i++)
+            {
+                await Task.Delay(1000);
+                controller.SetButtonState(DualShock4Button.Circle, true);
+                await Task.Delay(220);
+                controller.SetButtonState(DualShock4Button.Circle, false);
+            }
+
+            await Task.Delay(5000);
+            controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            controller.SetButtonState(DualShock4Button.Circle, false);
+            await Task.Delay(1000);
+            controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            controller.SetButtonState(DualShock4Button.Circle, false);
 
             await Task.Delay(wait_replay);
 
