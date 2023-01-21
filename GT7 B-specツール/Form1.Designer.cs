@@ -60,13 +60,17 @@
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
+            this.Settingexport = new System.Windows.Forms.Button();
+            this.Settingimport = new System.Windows.Forms.Button();
+            this.Start_fulldaily = new System.Windows.Forms.Button();
+            this.Accelcheck = new System.Windows.Forms.CheckBox();
+            this.Handlecheck = new System.Windows.Forms.CheckBox();
+            this.Boostcheck = new System.Windows.Forms.CheckBox();
             this.Rightkeydown = new System.Windows.Forms.NumericUpDown();
             this.Racefinishsec = new System.Windows.Forms.NumericUpDown();
             this.Racefinishmin = new System.Windows.Forms.NumericUpDown();
             this.Rightkeywait = new System.Windows.Forms.NumericUpDown();
-            this.Settingexport = new System.Windows.Forms.Button();
-            this.Settingimport = new System.Windows.Forms.Button();
-            this.Start_fulldaily = new System.Windows.Forms.Button();
+            this.PS5check = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Waitbacktomenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Waitentry)).BeginInit();
@@ -82,7 +86,7 @@
             // 
             // Start_notdaily
             // 
-            this.Start_notdaily.Location = new System.Drawing.Point(9, 212);
+            this.Start_notdaily.Location = new System.Drawing.Point(9, 230);
             this.Start_notdaily.Margin = new System.Windows.Forms.Padding(2);
             this.Start_notdaily.Name = "Start_notdaily";
             this.Start_notdaily.Size = new System.Drawing.Size(378, 24);
@@ -134,7 +138,7 @@
             // 
             // Stop
             // 
-            this.Stop.Location = new System.Drawing.Point(233, 178);
+            this.Stop.Location = new System.Drawing.Point(233, 196);
             this.Stop.Margin = new System.Windows.Forms.Padding(2);
             this.Stop.Name = "Stop";
             this.Stop.Size = new System.Drawing.Size(154, 24);
@@ -146,7 +150,7 @@
             // Workmessage
             // 
             this.Workmessage.AutoSize = true;
-            this.Workmessage.Location = new System.Drawing.Point(11, 280);
+            this.Workmessage.Location = new System.Drawing.Point(11, 298);
             this.Workmessage.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Workmessage.Name = "Workmessage";
             this.Workmessage.Size = new System.Drawing.Size(120, 12);
@@ -431,7 +435,7 @@
             // 
             // Start
             // 
-            this.Start.Location = new System.Drawing.Point(9, 178);
+            this.Start.Location = new System.Drawing.Point(9, 196);
             this.Start.Margin = new System.Windows.Forms.Padding(2);
             this.Start.Name = "Start";
             this.Start.Size = new System.Drawing.Size(154, 24);
@@ -520,6 +524,78 @@
             this.label20.TabIndex = 28;
             this.label20.Text = "右キー入力秒";
             // 
+            // Settingexport
+            // 
+            this.Settingexport.Location = new System.Drawing.Point(290, 99);
+            this.Settingexport.Margin = new System.Windows.Forms.Padding(2);
+            this.Settingexport.Name = "Settingexport";
+            this.Settingexport.Size = new System.Drawing.Size(98, 28);
+            this.Settingexport.TabIndex = 31;
+            this.Settingexport.Text = "設定を書き出す";
+            this.Settingexport.UseVisualStyleBackColor = true;
+            this.Settingexport.Click += new System.EventHandler(this.Settingexport_Click);
+            // 
+            // Settingimport
+            // 
+            this.Settingimport.Location = new System.Drawing.Point(290, 134);
+            this.Settingimport.Margin = new System.Windows.Forms.Padding(2);
+            this.Settingimport.Name = "Settingimport";
+            this.Settingimport.Size = new System.Drawing.Size(98, 28);
+            this.Settingimport.TabIndex = 32;
+            this.Settingimport.Text = "設定を読み込む";
+            this.Settingimport.UseVisualStyleBackColor = true;
+            this.Settingimport.Click += new System.EventHandler(this.Settingimport_Click);
+            // 
+            // Start_fulldaily
+            // 
+            this.Start_fulldaily.Location = new System.Drawing.Point(9, 263);
+            this.Start_fulldaily.Margin = new System.Windows.Forms.Padding(2);
+            this.Start_fulldaily.Name = "Start_fulldaily";
+            this.Start_fulldaily.Size = new System.Drawing.Size(378, 24);
+            this.Start_fulldaily.TabIndex = 33;
+            this.Start_fulldaily.Text = "開始(完全放置)";
+            this.Start_fulldaily.UseVisualStyleBackColor = true;
+            this.Start_fulldaily.Click += new System.EventHandler(this.Start_fulldaily_Click);
+            // 
+            // Accelcheck
+            // 
+            this.Accelcheck.AutoSize = true;
+            this.Accelcheck.Checked = global::GT7_B_specツール.Properties.Settings.Default.accelcheck;
+            this.Accelcheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Accelcheck.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::GT7_B_specツール.Properties.Settings.Default, "accelcheck", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Accelcheck.Location = new System.Drawing.Point(256, 175);
+            this.Accelcheck.Name = "Accelcheck";
+            this.Accelcheck.Size = new System.Drawing.Size(84, 16);
+            this.Accelcheck.TabIndex = 36;
+            this.Accelcheck.Text = "アクセルをR2";
+            this.Accelcheck.UseVisualStyleBackColor = true;
+            // 
+            // Handlecheck
+            // 
+            this.Handlecheck.AutoSize = true;
+            this.Handlecheck.Checked = global::GT7_B_specツール.Properties.Settings.Default.handlecheck;
+            this.Handlecheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Handlecheck.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::GT7_B_specツール.Properties.Settings.Default, "handlecheck", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Handlecheck.Location = new System.Drawing.Point(127, 175);
+            this.Handlecheck.Name = "Handlecheck";
+            this.Handlecheck.Size = new System.Drawing.Size(123, 16);
+            this.Handlecheck.TabIndex = 35;
+            this.Handlecheck.Text = "ハンドルを左スティック";
+            this.Handlecheck.UseVisualStyleBackColor = true;
+            // 
+            // Boostcheck
+            // 
+            this.Boostcheck.AutoSize = true;
+            this.Boostcheck.Checked = global::GT7_B_specツール.Properties.Settings.Default.boostcheck;
+            this.Boostcheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Boostcheck.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::GT7_B_specツール.Properties.Settings.Default, "boostcheck", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Boostcheck.Location = new System.Drawing.Point(12, 175);
+            this.Boostcheck.Name = "Boostcheck";
+            this.Boostcheck.Size = new System.Drawing.Size(109, 16);
+            this.Boostcheck.TabIndex = 34;
+            this.Boostcheck.Text = "ブースト(R1ボタン)";
+            this.Boostcheck.UseVisualStyleBackColor = true;
+            // 
             // Rightkeydown
             // 
             this.Rightkeydown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール.Properties.Settings.Default, "rightkey_down", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
@@ -592,44 +668,27 @@
             this.Rightkeywait.TabIndex = 21;
             this.Rightkeywait.Value = global::GT7_B_specツール.Properties.Settings.Default.rightkey_wait;
             // 
-            // Settingexport
+            // PS5check
             // 
-            this.Settingexport.Location = new System.Drawing.Point(290, 99);
-            this.Settingexport.Margin = new System.Windows.Forms.Padding(2);
-            this.Settingexport.Name = "Settingexport";
-            this.Settingexport.Size = new System.Drawing.Size(98, 28);
-            this.Settingexport.TabIndex = 31;
-            this.Settingexport.Text = "設定を書き出す";
-            this.Settingexport.UseVisualStyleBackColor = true;
-            this.Settingexport.Click += new System.EventHandler(this.Settingexport_Click);
-            // 
-            // Settingimport
-            // 
-            this.Settingimport.Location = new System.Drawing.Point(290, 134);
-            this.Settingimport.Margin = new System.Windows.Forms.Padding(2);
-            this.Settingimport.Name = "Settingimport";
-            this.Settingimport.Size = new System.Drawing.Size(98, 28);
-            this.Settingimport.TabIndex = 32;
-            this.Settingimport.Text = "設定を読み込む";
-            this.Settingimport.UseVisualStyleBackColor = true;
-            this.Settingimport.Click += new System.EventHandler(this.Settingimport_Click);
-            // 
-            // Start_fulldaily
-            // 
-            this.Start_fulldaily.Location = new System.Drawing.Point(9, 245);
-            this.Start_fulldaily.Margin = new System.Windows.Forms.Padding(2);
-            this.Start_fulldaily.Name = "Start_fulldaily";
-            this.Start_fulldaily.Size = new System.Drawing.Size(378, 24);
-            this.Start_fulldaily.TabIndex = 33;
-            this.Start_fulldaily.Text = "開始(完全放置)";
-            this.Start_fulldaily.UseVisualStyleBackColor = true;
-            this.Start_fulldaily.Click += new System.EventHandler(this.Start_fulldaily_Click);
+            this.PS5check.AutoSize = true;
+            this.PS5check.Checked = global::GT7_B_specツール.Properties.Settings.Default.ps5check;
+            this.PS5check.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::GT7_B_specツール.Properties.Settings.Default, "ps5check", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.PS5check.Location = new System.Drawing.Point(346, 175);
+            this.PS5check.Name = "PS5check";
+            this.PS5check.Size = new System.Drawing.Size(44, 16);
+            this.PS5check.TabIndex = 37;
+            this.PS5check.Text = "PS5";
+            this.PS5check.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(396, 301);
+            this.ClientSize = new System.Drawing.Size(396, 321);
+            this.Controls.Add(this.PS5check);
+            this.Controls.Add(this.Accelcheck);
+            this.Controls.Add(this.Handlecheck);
+            this.Controls.Add(this.Boostcheck);
             this.Controls.Add(this.Start_fulldaily);
             this.Controls.Add(this.Settingimport);
             this.Controls.Add(this.Settingexport);
@@ -653,7 +712,7 @@
             this.Controls.Add(this.Start);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
-            this.Text = "GT7 B-specツール v1.6";
+            this.Text = "GT7 B-specツール v1.75";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -713,6 +772,10 @@
         private System.Windows.Forms.Button Settingexport;
         private System.Windows.Forms.Button Settingimport;
         private System.Windows.Forms.Button Start_fulldaily;
+        private System.Windows.Forms.CheckBox Boostcheck;
+        private System.Windows.Forms.CheckBox Handlecheck;
+        private System.Windows.Forms.CheckBox Accelcheck;
+        private System.Windows.Forms.CheckBox PS5check;
     }
 }
 
