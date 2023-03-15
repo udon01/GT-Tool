@@ -1,3 +1,7 @@
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 using System.ComponentModel;
 
 namespace GT3用モデル抽出ツール
@@ -23,7 +27,7 @@ namespace GT3用モデル抽出ツール
         }
 
         public static string[] path = new string[] { "" };
-        public static int j = 0; 
+        public static int j = 0;
         public static int GTM1header = 0;
         public static int facelod0 = 1;
         public static int facelod1 = 1;
@@ -208,7 +212,7 @@ namespace GT3用モデル抽出ツール
                                 else
                                     objwrite2 = objwrite2.Insert(strinvertex, "v \r\n");
                             }
-                            
+
                             if (float3 == 0)
                             {
                                 if (headermodel == 1)
@@ -218,7 +222,7 @@ namespace GT3用モデル抽出ツール
                                 else
                                     objwrite2 = objwrite2.Insert(strinvertex + 2, vertexfloatstr + " ");
                             }
-                                
+
                             else if (float3 == 1)
                             {
                                 if (headermodel == 1)
@@ -266,7 +270,7 @@ namespace GT3用モデル抽出ツール
                         }
 
                         seekcount += 1;
-                        
+
                         for (int m = 0; m < floatcount; m++)
                         {
                             // 法線の浮動小数点を取得
@@ -438,7 +442,7 @@ namespace GT3用モデル抽出ツール
                             else
                                 texturefloatstr = texturefloat.ToString("0.######");
 
-                            int strintexture = 0; 
+                            int strintexture = 0;
                             if (headermodel == 1)
                             {
                                 if (objwrite0.IndexOf("vn") >= 0)
@@ -553,10 +557,6 @@ namespace GT3用モデル抽出ツール
                 sw0.Close();
                 sw1.Close();
                 sw2.Close();
-
-
-            labelprm:;
-
 
 
             labelfinish:;
