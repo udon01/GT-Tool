@@ -22,8 +22,8 @@ namespace GT3用モデルサイズ調整ツール
 
         private void textBox1_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            //0～9と、バックスペース以外の時は、イベントをキャンセルする
-            if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b')
+            //16進数とバックスペース以外の時は入力をキャンセル
+            if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b' && (e.KeyChar < 'a' || 'f' < e.KeyChar) && (e.KeyChar < 'A' || 'F' < e.KeyChar))
             {
                 e.Handled = true;
             }
