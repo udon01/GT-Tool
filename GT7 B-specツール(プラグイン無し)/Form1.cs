@@ -224,7 +224,7 @@ namespace GT7_B_specツール_プラグイン無し
                 await Task.Delay(220);
                 SendInput(numenterup, ref inp2[0], Marshal.SizeOf(inp2[0]));
             }
-            await Task.Delay(780);
+            await Task.Delay(1280);
             SendInput(numenter, ref inp[0], Marshal.SizeOf(inp[0]));
             await Task.Delay(220);
             SendInput(numenterup, ref inp2[0], Marshal.SizeOf(inp2[0]));
@@ -417,7 +417,7 @@ namespace GT7_B_specツール_プラグイン無し
             SendInput(numenter, ref inp[0], Marshal.SizeOf(inp[0]));
             await Task.Delay(220);
             SendInput(numenterup, ref inp2[0], Marshal.SizeOf(inp2[0]));
-            await Task.Delay(780);
+            await Task.Delay(1280);
             SendInput(numenter, ref inp[0], Marshal.SizeOf(inp[0]));
             await Task.Delay(220);
             SendInput(numenterup, ref inp2[0], Marshal.SizeOf(inp2[0]));
@@ -588,7 +588,7 @@ namespace GT7_B_specツール_プラグイン無し
             SendInput(numenter, ref inp[0], Marshal.SizeOf(inp[0]));
             await Task.Delay(220);
             SendInput(numenterup, ref inp2[0], Marshal.SizeOf(inp2[0]));
-            await Task.Delay(780);
+            await Task.Delay(1280);
             SendInput(numenter, ref inp[0], Marshal.SizeOf(inp[0]));
             await Task.Delay(220);
             SendInput(numenterup, ref inp2[0], Marshal.SizeOf(inp2[0]));
