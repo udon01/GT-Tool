@@ -217,7 +217,7 @@ namespace GT7_B_specツール_プラグイン無し
             int entercount = 4;
             if (enter1plus.Checked == true)
                 entercount += 1;
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < entercount; i++)
             {
                 await Task.Delay(780);
                 SendInput(numenter, ref inp[0], Marshal.SizeOf(inp[0]));
