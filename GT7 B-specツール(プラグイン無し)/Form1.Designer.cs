@@ -53,6 +53,7 @@
             this.Settingexport = new System.Windows.Forms.Button();
             this.Settingimport = new System.Windows.Forms.Button();
             this.Start_fulldaily = new System.Windows.Forms.Button();
+            this.enter1plus = new System.Windows.Forms.CheckBox();
             this.Racefinishsec = new System.Windows.Forms.NumericUpDown();
             this.Racefinishmin = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
@@ -66,7 +67,7 @@
             // 
             // Start_notdaily
             // 
-            this.Start_notdaily.Location = new System.Drawing.Point(9, 160);
+            this.Start_notdaily.Location = new System.Drawing.Point(9, 181);
             this.Start_notdaily.Margin = new System.Windows.Forms.Padding(2);
             this.Start_notdaily.Name = "Start_notdaily";
             this.Start_notdaily.Size = new System.Drawing.Size(359, 24);
@@ -77,7 +78,7 @@
             // 
             // Modosu
             // 
-            this.Modosu.Location = new System.Drawing.Point(201, 49);
+            this.Modosu.Location = new System.Drawing.Point(202, 53);
             this.Modosu.Margin = new System.Windows.Forms.Padding(2);
             this.Modosu.Name = "Modosu";
             this.Modosu.Size = new System.Drawing.Size(60, 63);
@@ -118,7 +119,7 @@
             // 
             // Stop
             // 
-            this.Stop.Location = new System.Drawing.Point(214, 126);
+            this.Stop.Location = new System.Drawing.Point(214, 147);
             this.Stop.Margin = new System.Windows.Forms.Padding(2);
             this.Stop.Name = "Stop";
             this.Stop.Size = new System.Drawing.Size(154, 24);
@@ -130,7 +131,7 @@
             // Workmessage
             // 
             this.Workmessage.AutoSize = true;
-            this.Workmessage.Location = new System.Drawing.Point(8, 227);
+            this.Workmessage.Location = new System.Drawing.Point(8, 248);
             this.Workmessage.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Workmessage.Name = "Workmessage";
             this.Workmessage.Size = new System.Drawing.Size(120, 12);
@@ -317,7 +318,7 @@
             // 
             // Start
             // 
-            this.Start.Location = new System.Drawing.Point(9, 126);
+            this.Start.Location = new System.Drawing.Point(9, 147);
             this.Start.Margin = new System.Windows.Forms.Padding(2);
             this.Start.Name = "Start";
             this.Start.Size = new System.Drawing.Size(154, 24);
@@ -368,7 +369,7 @@
             // 
             // Settingexport
             // 
-            this.Settingexport.Location = new System.Drawing.Point(270, 49);
+            this.Settingexport.Location = new System.Drawing.Point(270, 53);
             this.Settingexport.Margin = new System.Windows.Forms.Padding(2);
             this.Settingexport.Name = "Settingexport";
             this.Settingexport.Size = new System.Drawing.Size(98, 28);
@@ -379,7 +380,7 @@
             // 
             // Settingimport
             // 
-            this.Settingimport.Location = new System.Drawing.Point(270, 84);
+            this.Settingimport.Location = new System.Drawing.Point(270, 88);
             this.Settingimport.Margin = new System.Windows.Forms.Padding(2);
             this.Settingimport.Name = "Settingimport";
             this.Settingimport.Size = new System.Drawing.Size(98, 28);
@@ -390,7 +391,7 @@
             // 
             // Start_fulldaily
             // 
-            this.Start_fulldaily.Location = new System.Drawing.Point(9, 193);
+            this.Start_fulldaily.Location = new System.Drawing.Point(9, 214);
             this.Start_fulldaily.Margin = new System.Windows.Forms.Padding(2);
             this.Start_fulldaily.Name = "Start_fulldaily";
             this.Start_fulldaily.Size = new System.Drawing.Size(359, 24);
@@ -398,6 +399,18 @@
             this.Start_fulldaily.Text = "開始(完全放置)";
             this.Start_fulldaily.UseVisualStyleBackColor = true;
             this.Start_fulldaily.Click += new System.EventHandler(this.Start_fulldaily_Click);
+            // 
+            // enter1plus
+            // 
+            this.enter1plus.AutoSize = true;
+            this.enter1plus.Checked = global::GT7_B_specツール_プラグイン無し.Properties.Settings.Default.enter1;
+            this.enter1plus.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::GT7_B_specツール_プラグイン無し.Properties.Settings.Default, "enter1", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.enter1plus.Location = new System.Drawing.Point(9, 125);
+            this.enter1plus.Name = "enter1plus";
+            this.enter1plus.Size = new System.Drawing.Size(232, 16);
+            this.enter1plus.TabIndex = 34;
+            this.enter1plus.Text = "レース終了後の決定ボタン入力を1回増やす";
+            this.enter1plus.UseVisualStyleBackColor = true;
             // 
             // Racefinishsec
             // 
@@ -433,7 +446,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(376, 251);
+            this.ClientSize = new System.Drawing.Size(376, 271);
+            this.Controls.Add(this.enter1plus);
             this.Controls.Add(this.Start_fulldaily);
             this.Controls.Add(this.Settingimport);
             this.Controls.Add(this.Settingexport);
@@ -451,7 +465,7 @@
             this.Controls.Add(this.Start);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
-            this.Text = "GT7 B-specツール v0.5";
+            this.Text = "GT7 B-specツール v0.53";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -495,6 +509,7 @@
         private System.Windows.Forms.Button Settingexport;
         private System.Windows.Forms.Button Settingimport;
         private System.Windows.Forms.Button Start_fulldaily;
+        private System.Windows.Forms.CheckBox enter1plus;
     }
 }
 

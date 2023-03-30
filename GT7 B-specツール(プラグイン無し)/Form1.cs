@@ -104,16 +104,14 @@ namespace GT7_B_specツール_プラグイン無し
             decimal wait_replay_dec = Waitreplay.Value;
             decimal wait_racemenu_dec = Waitracemenu.Value;
             decimal wait_entry2_dec = Waitentry2.Value;
-            int racefinish_min = decimal.ToInt32(Racefinishmin.Value);
-            int racefinish_sec = decimal.ToInt32(Racefinishsec.Value);
+            int racefinish_min = 0;
+            int racefinish_sec = 0;
+            int racefinish = 0;
             int racefinishover = 0;
             wait_start_dec = wait_start_dec * 1000;
             wait_replay_dec = wait_replay_dec * 1000;
             wait_racemenu_dec = wait_racemenu_dec * 1000;
             wait_entry2_dec = wait_entry2_dec * 1000;
-            racefinish_min = racefinish_min * 60;
-            int racefinish = racefinish_min + racefinish_sec;
-            racefinish = racefinish * 1000;
             int wait_start = decimal.ToInt32(wait_start_dec);
             int wait_replay = decimal.ToInt32(wait_replay_dec);
             int wait_racemenu = decimal.ToInt32(wait_racemenu_dec);
@@ -202,6 +200,12 @@ namespace GT7_B_specツール_プラグイン無し
             await Task.Delay(7000);
 
             racefinishover = 0;
+            racefinish_min = (int)Racefinishmin.Value;
+            racefinish_sec = (int)Racefinishsec.Value;
+            racefinish_min = racefinish_min * 60;
+            racefinish = racefinish_min + racefinish_sec;
+            racefinish = racefinish * 1000;
+
             while (true)
             {
                 await Task.Delay(1000);
@@ -210,13 +214,20 @@ namespace GT7_B_specツール_プラグイン無し
                     break;
             }
 
-            for (int i = 0; i < 5; i++)
+            int entercount = 4;
+            if (enter1plus.Checked == true)
+                entercount += 1;
+            for (int i = 0; i < 4; i++)
             {
                 await Task.Delay(780);
                 SendInput(numenter, ref inp[0], Marshal.SizeOf(inp[0]));
                 await Task.Delay(220);
                 SendInput(numenterup, ref inp2[0], Marshal.SizeOf(inp2[0]));
             }
+            await Task.Delay(780);
+            SendInput(numenter, ref inp[0], Marshal.SizeOf(inp[0]));
+            await Task.Delay(220);
+            SendInput(numenterup, ref inp2[0], Marshal.SizeOf(inp2[0]));
 
             await Task.Delay(wait_replay);
 
@@ -274,16 +285,14 @@ namespace GT7_B_specツール_プラグイン無し
             decimal wait_replay_dec = Waitreplay.Value;
             decimal wait_racemenu_dec = Waitracemenu.Value;
             decimal wait_entry2_dec = Waitentry2.Value;
-            int racefinish_min = decimal.ToInt32(Racefinishmin.Value);
-            int racefinish_sec = decimal.ToInt32(Racefinishsec.Value);
+            int racefinish_min = 0;
+            int racefinish_sec = 0;
+            int racefinish = 0;
             int racefinishover = 0;
             wait_start_dec = wait_start_dec * 1000;
             wait_replay_dec = wait_replay_dec * 1000;
             wait_racemenu_dec = wait_racemenu_dec * 1000;
             wait_entry2_dec = wait_entry2_dec * 1000;
-            racefinish_min = racefinish_min * 60;
-            int racefinish = racefinish_min + racefinish_sec;
-            racefinish = racefinish * 1000;
             int wait_start = decimal.ToInt32(wait_start_dec);
             int wait_replay = decimal.ToInt32(wait_replay_dec);
             int wait_racemenu = decimal.ToInt32(wait_racemenu_dec);
@@ -375,6 +384,12 @@ namespace GT7_B_specツール_プラグイン無し
             await Task.Delay(7000);
 
             racefinishover = 0;
+            racefinish_min = (int)Racefinishmin.Value;
+            racefinish_sec = (int)Racefinishsec.Value;
+            racefinish_min = racefinish_min * 60;
+            racefinish = racefinish_min + racefinish_sec;
+            racefinish = racefinish * 1000;
+
             while (true)
             {
                 await Task.Delay(1000);
@@ -383,7 +398,10 @@ namespace GT7_B_specツール_プラグイン無し
                     break;
             }
 
-            for (int i = 0; i < 3; i++)
+            int entercount = 3;
+            if (enter1plus.Checked == true)
+                entercount += 1;
+            for (int i = 0; i < entercount; i++)
             {
                 await Task.Delay(780);
                 SendInput(numenter, ref inp[0], Marshal.SizeOf(inp[0]));
@@ -391,8 +409,8 @@ namespace GT7_B_specツール_プラグイン無し
                 SendInput(numenterup, ref inp2[0], Marshal.SizeOf(inp2[0]));
             }
 
-            if (count <= 3)
-                await Task.Delay(3000);
+            if (count <= 2)
+                await Task.Delay(5000);
             else
                 await Task.Delay(780);
 
@@ -444,16 +462,14 @@ namespace GT7_B_specツール_プラグイン無し
             decimal wait_replay_dec = Waitreplay.Value;
             decimal wait_racemenu_dec = Waitracemenu.Value;
             decimal wait_entry2_dec = Waitentry2.Value;
-            int racefinish_min = decimal.ToInt32(Racefinishmin.Value);
-            int racefinish_sec = decimal.ToInt32(Racefinishsec.Value);
+            int racefinish_min = 0;
+            int racefinish_sec = 0;
+            int racefinish = 0;
             int racefinishover = 0;
             wait_start_dec = wait_start_dec * 1000;
             wait_replay_dec = wait_replay_dec * 1000;
             wait_racemenu_dec = wait_racemenu_dec * 1000;
             wait_entry2_dec = wait_entry2_dec * 1000;
-            racefinish_min = racefinish_min * 60;
-            int racefinish = racefinish_min + racefinish_sec;
-            racefinish = racefinish * 1000;
             int wait_start = decimal.ToInt32(wait_start_dec);
             int wait_replay = decimal.ToInt32(wait_replay_dec);
             int wait_racemenu = decimal.ToInt32(wait_racemenu_dec);
@@ -542,6 +558,12 @@ namespace GT7_B_specツール_プラグイン無し
             await Task.Delay(7000);
 
             racefinishover = 0;
+            racefinish_min = (int)Racefinishmin.Value;
+            racefinish_sec = (int)Racefinishsec.Value;
+            racefinish_min = racefinish_min * 60;
+            racefinish = racefinish_min + racefinish_sec;
+            racefinish = racefinish * 1000;
+
             while (true)
             {
                 await Task.Delay(1000);
@@ -550,7 +572,10 @@ namespace GT7_B_specツール_プラグイン無し
                     break;
             }
 
-            for (int i = 0; i < 3; i++)
+            int entercount = 3;
+            if (enter1plus.Checked == true)
+                entercount += 1;
+            for (int i = 0; i < entercount; i++)
             {
                 await Task.Delay(780);
                 SendInput(numenter, ref inp[0], Marshal.SizeOf(inp[0]));
@@ -558,7 +583,7 @@ namespace GT7_B_specツール_プラグイン無し
                 SendInput(numenterup, ref inp2[0], Marshal.SizeOf(inp2[0]));
             }
 
-            await Task.Delay(3000);
+            await Task.Delay(5000);
 
             SendInput(numenter, ref inp[0], Marshal.SizeOf(inp[0]));
             await Task.Delay(220);
@@ -606,11 +631,12 @@ namespace GT7_B_specツール_プラグイン無し
             if (result == DialogResult.OK)
             {
                 Waitstart.Value = 1;
-                Waitreplay.Value = Convert.ToDecimal(2.5);
+                Waitreplay.Value = 2;
                 Waitracemenu.Value = 2;
-                Waitentry2.Value = Convert.ToDecimal(2.5);
+                Waitentry2.Value = 2;
                 Racefinishmin.Value = 5;
                 Racefinishsec.Value = 10;
+                enter1plus.Checked = false;
 
                 MessageBox.Show("初期化しました", "", MessageBoxButtons.OK);
             }
@@ -649,6 +675,10 @@ namespace GT7_B_specツール_プラグイン無し
                     sw.WriteLine("リプレイ～レースメニュー：" + Waitracemenu.Value + "秒");
                     sw.WriteLine("2戦目ロード：" + Waitentry2.Value + "秒");
                     sw.WriteLine("リザルトまで：" + Racefinishmin.Value + "分" + Racefinishsec.Value + "秒");
+                    if (enter1plus.Checked == true)
+                        sw.WriteLine("レース終了後の決定ボタン入力を1回増やす：" + "ON");
+                    else
+                        sw.WriteLine("レース終了後の決定ボタン入力を1回増やす：" + "OFF");
                     sw.Close();
                     stream.Close();
                 }
@@ -728,6 +758,11 @@ namespace GT7_B_specツール_プラグイン無し
                         linedec2 = 59;
                     Racefinishmin.Value = linedec;
                     Racefinishsec.Value = linedec2;
+
+                    line = sr.ReadLine();
+                    line = line.Remove(0, line.IndexOf("：") + 1);
+                    if (line == "ON" || line == "on" || line == "オン")
+                        enter1plus.Checked = true;
 
                     //閉じる
                     sr.Close();
