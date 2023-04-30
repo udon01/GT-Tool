@@ -63,6 +63,7 @@
             this.Settingexport = new System.Windows.Forms.Button();
             this.Settingimport = new System.Windows.Forms.Button();
             this.Start_fulldaily = new System.Windows.Forms.Button();
+            this.PS5check = new System.Windows.Forms.CheckBox();
             this.Accelcheck = new System.Windows.Forms.CheckBox();
             this.Handlecheck = new System.Windows.Forms.CheckBox();
             this.Boostcheck = new System.Windows.Forms.CheckBox();
@@ -70,7 +71,6 @@
             this.Racefinishsec = new System.Windows.Forms.NumericUpDown();
             this.Racefinishmin = new System.Windows.Forms.NumericUpDown();
             this.Rightkeywait = new System.Windows.Forms.NumericUpDown();
-            this.PS5check = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Waitbacktomenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Waitentry)).BeginInit();
@@ -557,6 +557,18 @@
             this.Start_fulldaily.UseVisualStyleBackColor = true;
             this.Start_fulldaily.Click += new System.EventHandler(this.Start_fulldaily_Click);
             // 
+            // PS5check
+            // 
+            this.PS5check.AutoSize = true;
+            this.PS5check.Checked = global::GT7_B_specツール.Properties.Settings.Default.ps5check;
+            this.PS5check.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::GT7_B_specツール.Properties.Settings.Default, "ps5check", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.PS5check.Location = new System.Drawing.Point(346, 175);
+            this.PS5check.Name = "PS5check";
+            this.PS5check.Size = new System.Drawing.Size(44, 16);
+            this.PS5check.TabIndex = 37;
+            this.PS5check.Text = "PS5";
+            this.PS5check.UseVisualStyleBackColor = true;
+            // 
             // Accelcheck
             // 
             this.Accelcheck.AutoSize = true;
@@ -668,18 +680,6 @@
             this.Rightkeywait.TabIndex = 21;
             this.Rightkeywait.Value = global::GT7_B_specツール.Properties.Settings.Default.rightkey_wait;
             // 
-            // PS5check
-            // 
-            this.PS5check.AutoSize = true;
-            this.PS5check.Checked = global::GT7_B_specツール.Properties.Settings.Default.ps5check;
-            this.PS5check.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::GT7_B_specツール.Properties.Settings.Default, "ps5check", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.PS5check.Location = new System.Drawing.Point(346, 175);
-            this.PS5check.Name = "PS5check";
-            this.PS5check.Size = new System.Drawing.Size(44, 16);
-            this.PS5check.TabIndex = 37;
-            this.PS5check.Text = "PS5";
-            this.PS5check.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -712,7 +712,7 @@
             this.Controls.Add(this.Start);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
-            this.Text = "GT7 B-specツール v1.75";
+            this.Text = "GT7 B-specツール v1.77";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

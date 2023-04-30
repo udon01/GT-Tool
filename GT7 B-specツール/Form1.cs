@@ -117,7 +117,7 @@ namespace GT7_B_specツール
                 controller.SetButtonState(DualShock4Button.Cross, false);
             else
                 controller.SetButtonState(DualShock4Button.Circle, false);
-            await Task.Delay(1500);
+            await Task.Delay(1000);
             if (PS5check.Checked == true)
                 controller.SetButtonState(DualShock4Button.Cross, true);
             else
@@ -243,7 +243,7 @@ namespace GT7_B_specツール
                 controller.SetButtonState(DualShock4Button.Cross, false);
             else
                 controller.SetButtonState(DualShock4Button.Circle, false);
-            await Task.Delay(1300);
+            await Task.Delay(1000);
 
             if (PS5check.Checked == true)
                 controller.SetButtonState(DualShock4Button.Circle, true);
@@ -254,7 +254,7 @@ namespace GT7_B_specツール
                 controller.SetButtonState(DualShock4Button.Circle, false);
             else
                 controller.SetButtonState(DualShock4Button.Cross, false);
-            await Task.Delay(500);
+            await Task.Delay(400);
             if (PS5check.Checked == true)
                 controller.SetButtonState(DualShock4Button.Cross, true);
             else
@@ -264,7 +264,27 @@ namespace GT7_B_specツール
                 controller.SetButtonState(DualShock4Button.Cross, false);
             else
                 controller.SetButtonState(DualShock4Button.Circle, false);
-            await Task.Delay(500);
+            await Task.Delay(400);
+            if (PS5check.Checked == true)
+                controller.SetButtonState(DualShock4Button.Cross, true);
+            else
+                controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            if (PS5check.Checked == true)
+                controller.SetButtonState(DualShock4Button.Cross, false);
+            else
+                controller.SetButtonState(DualShock4Button.Circle, false);
+            await Task.Delay(400);
+            if (PS5check.Checked == true)
+                controller.SetButtonState(DualShock4Button.Cross, true);
+            else
+                controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            if (PS5check.Checked == true)
+                controller.SetButtonState(DualShock4Button.Cross, false);
+            else
+                controller.SetButtonState(DualShock4Button.Circle, false);
+            await Task.Delay(400);
             if (PS5check.Checked == true)
                 controller.SetButtonState(DualShock4Button.Cross, true);
             else
@@ -278,14 +298,9 @@ namespace GT7_B_specツール
             await Task.Delay(wait_backtomenu);
 
             if (stop == false)
-            {
-                goto label1;
-            }
-
+            goto label1;
             else if (stop == true)
-            {
-                goto label2;
-            }
+            goto label2;
 
         label2:
             stop = false;
@@ -408,7 +423,7 @@ namespace GT7_B_specツール
                 controller.SetButtonState(DualShock4Button.Cross, false);
             else
                 controller.SetButtonState(DualShock4Button.Circle, false);
-            await Task.Delay(1500);
+            await Task.Delay(1000);
             if (PS5check.Checked == true)
                 controller.SetButtonState(DualShock4Button.Cross, true);
             else
@@ -487,52 +502,29 @@ namespace GT7_B_specツール
             }
 
             if (count <= 3)
-            {
                 await Task.Delay(5000);
-                if (PS5check.Checked == true)
-                    controller.SetButtonState(DualShock4Button.Cross, true);
-                else
-                    controller.SetButtonState(DualShock4Button.Circle, true);
-                await Task.Delay(220);
-                if (PS5check.Checked == true)
-                    controller.SetButtonState(DualShock4Button.Cross, false);
-                else
-                    controller.SetButtonState(DualShock4Button.Circle, false);
-                await Task.Delay(780);
-                if (PS5check.Checked == true)
-                    controller.SetButtonState(DualShock4Button.Cross, true);
-                else
-                    controller.SetButtonState(DualShock4Button.Circle, true);
-                await Task.Delay(220);
-                if (PS5check.Checked == true)
-                    controller.SetButtonState(DualShock4Button.Cross, false);
-                else
-                    controller.SetButtonState(DualShock4Button.Circle, false);
-            }
-
             else
-            {
                 await Task.Delay(1000);
-                if (PS5check.Checked == true)
-                    controller.SetButtonState(DualShock4Button.Cross, true);
-                else
-                    controller.SetButtonState(DualShock4Button.Circle, true);
-                await Task.Delay(220);
-                if (PS5check.Checked == true)
-                    controller.SetButtonState(DualShock4Button.Cross, false);
-                else
-                    controller.SetButtonState(DualShock4Button.Circle, false);
-                await Task.Delay(780);
-                if (PS5check.Checked == true)
-                    controller.SetButtonState(DualShock4Button.Cross, true);
-                else
-                    controller.SetButtonState(DualShock4Button.Circle, true);
-                await Task.Delay(220);
-                if (PS5check.Checked == true)
-                    controller.SetButtonState(DualShock4Button.Cross, false);
-                else
-                    controller.SetButtonState(DualShock4Button.Circle, false);
-            }
+
+            if (PS5check.Checked == true)
+                controller.SetButtonState(DualShock4Button.Cross, true);
+            else
+                controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            if (PS5check.Checked == true)
+                controller.SetButtonState(DualShock4Button.Cross, false);
+            else
+                controller.SetButtonState(DualShock4Button.Circle, false);
+            await Task.Delay(780);
+            if (PS5check.Checked == true)
+                controller.SetButtonState(DualShock4Button.Cross, true);
+            else
+                controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            if (PS5check.Checked == true)
+                controller.SetButtonState(DualShock4Button.Cross, false);
+            else
+                controller.SetButtonState(DualShock4Button.Circle, false);
 
             await Task.Delay(wait_replay);
 
@@ -583,7 +575,7 @@ namespace GT7_B_specツール
                 controller.SetButtonState(DualShock4Button.Cross, false);
             else
                 controller.SetButtonState(DualShock4Button.Circle, false);
-            await Task.Delay(1300);
+            await Task.Delay(1000);
 
             if (PS5check.Checked == true)
                 controller.SetButtonState(DualShock4Button.Circle, true);
@@ -594,7 +586,7 @@ namespace GT7_B_specツール
                 controller.SetButtonState(DualShock4Button.Circle, false);
             else
                 controller.SetButtonState(DualShock4Button.Cross, false);
-            await Task.Delay(500);
+            await Task.Delay(400);
             if (PS5check.Checked == true)
                 controller.SetButtonState(DualShock4Button.Cross, true);
             else
@@ -604,7 +596,27 @@ namespace GT7_B_specツール
                 controller.SetButtonState(DualShock4Button.Cross, false);
             else
                 controller.SetButtonState(DualShock4Button.Circle, false);
-            await Task.Delay(500);
+            await Task.Delay(400);
+            if (PS5check.Checked == true)
+                controller.SetButtonState(DualShock4Button.Cross, true);
+            else
+                controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            if (PS5check.Checked == true)
+                controller.SetButtonState(DualShock4Button.Cross, false);
+            else
+                controller.SetButtonState(DualShock4Button.Circle, false);
+            await Task.Delay(400);
+            if (PS5check.Checked == true)
+                controller.SetButtonState(DualShock4Button.Cross, true);
+            else
+                controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            if (PS5check.Checked == true)
+                controller.SetButtonState(DualShock4Button.Cross, false);
+            else
+                controller.SetButtonState(DualShock4Button.Circle, false);
+            await Task.Delay(400);
             if (PS5check.Checked == true)
                 controller.SetButtonState(DualShock4Button.Cross, true);
             else
@@ -618,14 +630,9 @@ namespace GT7_B_specツール
             await Task.Delay(wait_backtomenu);
 
             if (stop == false)
-            {
                 goto label1;
-            }
-
             else if (stop == true)
-            {
                 goto label2;
-            }
 
         label2:
             stop = false;
@@ -729,7 +736,7 @@ namespace GT7_B_specツール
                 controller.SetButtonState(DualShock4Button.Cross, false);
             else
                 controller.SetButtonState(DualShock4Button.Circle, false);
-            await Task.Delay(1500);
+            await Task.Delay(1000);
             if (PS5check.Checked == true)
                 controller.SetButtonState(DualShock4Button.Cross, true);
             else
@@ -877,7 +884,7 @@ namespace GT7_B_specツール
                 controller.SetButtonState(DualShock4Button.Cross, false);
             else
                 controller.SetButtonState(DualShock4Button.Circle, false);
-            await Task.Delay(1300);
+            await Task.Delay(1000);
 
             if (PS5check.Checked == true)
                 controller.SetButtonState(DualShock4Button.Circle, true);
@@ -888,7 +895,7 @@ namespace GT7_B_specツール
                 controller.SetButtonState(DualShock4Button.Circle, false);
             else
                 controller.SetButtonState(DualShock4Button.Cross, false);
-            await Task.Delay(500);
+            await Task.Delay(400);
             if (PS5check.Checked == true)
                 controller.SetButtonState(DualShock4Button.Cross, true);
             else
@@ -898,7 +905,27 @@ namespace GT7_B_specツール
                 controller.SetButtonState(DualShock4Button.Cross, false);
             else
                 controller.SetButtonState(DualShock4Button.Circle, false);
-            await Task.Delay(500);
+            await Task.Delay(400);
+            if (PS5check.Checked == true)
+                controller.SetButtonState(DualShock4Button.Cross, true);
+            else
+                controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            if (PS5check.Checked == true)
+                controller.SetButtonState(DualShock4Button.Cross, false);
+            else
+                controller.SetButtonState(DualShock4Button.Circle, false);
+            await Task.Delay(400);
+            if (PS5check.Checked == true)
+                controller.SetButtonState(DualShock4Button.Cross, true);
+            else
+                controller.SetButtonState(DualShock4Button.Circle, true);
+            await Task.Delay(220);
+            if (PS5check.Checked == true)
+                controller.SetButtonState(DualShock4Button.Cross, false);
+            else
+                controller.SetButtonState(DualShock4Button.Circle, false);
+            await Task.Delay(400);
             if (PS5check.Checked == true)
                 controller.SetButtonState(DualShock4Button.Cross, true);
             else
@@ -912,14 +939,9 @@ namespace GT7_B_specツール
             await Task.Delay(wait_backtomenu);
 
             if (stop == false)
-            {
-                goto label1;
-            }
-
+            goto label1;
             else if (stop == true)
-            {
-                goto label2;
-            }
+            goto label2;
 
         label2:
             stop = false;
@@ -948,10 +970,6 @@ namespace GT7_B_specツール
                 PS5check.Checked = false;
 
                 MessageBox.Show("初期化しました", "", MessageBoxButtons.OK);
-            }
-            else if (result == DialogResult.Cancel)
-            {
-
             }
         }
 
