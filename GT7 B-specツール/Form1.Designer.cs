@@ -42,15 +42,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.Waitbacktomenu = new System.Windows.Forms.NumericUpDown();
             this.label12 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.Waitentry = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
-            this.Waitentry2 = new System.Windows.Forms.NumericUpDown();
-            this.Waitracemenu = new System.Windows.Forms.NumericUpDown();
-            this.Waitreplay = new System.Windows.Forms.NumericUpDown();
-            this.Waitstart = new System.Windows.Forms.NumericUpDown();
             this.Start = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
@@ -71,17 +65,23 @@
             this.Racefinishsec = new System.Windows.Forms.NumericUpDown();
             this.Racefinishmin = new System.Windows.Forms.NumericUpDown();
             this.Rightkeywait = new System.Windows.Forms.NumericUpDown();
+            this.Waitbacktomenu = new System.Windows.Forms.NumericUpDown();
+            this.Waitentry = new System.Windows.Forms.NumericUpDown();
+            this.Waitentry2 = new System.Windows.Forms.NumericUpDown();
+            this.Waitracemenu = new System.Windows.Forms.NumericUpDown();
+            this.Waitreplay = new System.Windows.Forms.NumericUpDown();
+            this.Waitstart = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Rightkeydown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Racefinishsec)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Racefinishmin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Rightkeywait)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Waitbacktomenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Waitentry)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Waitentry2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Waitracemenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Waitreplay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Waitstart)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Rightkeydown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Racefinishsec)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Racefinishmin)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Rightkeywait)).BeginInit();
             this.SuspendLayout();
             // 
             // Start_notdaily
@@ -247,32 +247,6 @@
             this.label11.TabIndex = 23;
             this.label11.Text = "秒";
             // 
-            // Waitbacktomenu
-            // 
-            this.Waitbacktomenu.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール.Properties.Settings.Default, "wait_backtomenu", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.Waitbacktomenu.DecimalPlaces = 1;
-            this.Waitbacktomenu.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.Waitbacktomenu.Location = new System.Drawing.Point(120, 125);
-            this.Waitbacktomenu.Margin = new System.Windows.Forms.Padding(2);
-            this.Waitbacktomenu.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.Waitbacktomenu.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.Waitbacktomenu.Name = "Waitbacktomenu";
-            this.Waitbacktomenu.Size = new System.Drawing.Size(39, 19);
-            this.Waitbacktomenu.TabIndex = 22;
-            this.Waitbacktomenu.Value = global::GT7_B_specツール.Properties.Settings.Default.wait_backtomenu;
-            // 
             // label12
             // 
             this.label12.AutoSize = true;
@@ -293,32 +267,6 @@
             this.label9.TabIndex = 20;
             this.label9.Text = "秒";
             // 
-            // Waitentry
-            // 
-            this.Waitentry.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール.Properties.Settings.Default, "wait_entry", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.Waitentry.DecimalPlaces = 1;
-            this.Waitentry.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.Waitentry.Location = new System.Drawing.Point(120, 17);
-            this.Waitentry.Margin = new System.Windows.Forms.Padding(2);
-            this.Waitentry.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.Waitentry.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.Waitentry.Name = "Waitentry";
-            this.Waitentry.Size = new System.Drawing.Size(39, 19);
-            this.Waitentry.TabIndex = 19;
-            this.Waitentry.Value = global::GT7_B_specツール.Properties.Settings.Default.wait_entry;
-            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -328,110 +276,6 @@
             this.label10.Size = new System.Drawing.Size(60, 12);
             this.label10.TabIndex = 18;
             this.label10.Text = "エントリー後";
-            // 
-            // Waitentry2
-            // 
-            this.Waitentry2.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール.Properties.Settings.Default, "wait_race2load", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.Waitentry2.DecimalPlaces = 1;
-            this.Waitentry2.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.Waitentry2.Location = new System.Drawing.Point(120, 103);
-            this.Waitentry2.Margin = new System.Windows.Forms.Padding(2);
-            this.Waitentry2.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.Waitentry2.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.Waitentry2.Name = "Waitentry2";
-            this.Waitentry2.Size = new System.Drawing.Size(39, 19);
-            this.Waitentry2.TabIndex = 15;
-            this.Waitentry2.Value = global::GT7_B_specツール.Properties.Settings.Default.wait_race2load;
-            // 
-            // Waitracemenu
-            // 
-            this.Waitracemenu.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール.Properties.Settings.Default, "wait_racemenu", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.Waitracemenu.DecimalPlaces = 1;
-            this.Waitracemenu.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.Waitracemenu.Location = new System.Drawing.Point(120, 82);
-            this.Waitracemenu.Margin = new System.Windows.Forms.Padding(2);
-            this.Waitracemenu.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.Waitracemenu.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.Waitracemenu.Name = "Waitracemenu";
-            this.Waitracemenu.Size = new System.Drawing.Size(39, 19);
-            this.Waitracemenu.TabIndex = 12;
-            this.Waitracemenu.Value = global::GT7_B_specツール.Properties.Settings.Default.wait_racemenu;
-            // 
-            // Waitreplay
-            // 
-            this.Waitreplay.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール.Properties.Settings.Default, "wait_replay", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.Waitreplay.DecimalPlaces = 1;
-            this.Waitreplay.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.Waitreplay.Location = new System.Drawing.Point(120, 60);
-            this.Waitreplay.Margin = new System.Windows.Forms.Padding(2);
-            this.Waitreplay.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.Waitreplay.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.Waitreplay.Name = "Waitreplay";
-            this.Waitreplay.Size = new System.Drawing.Size(39, 19);
-            this.Waitreplay.TabIndex = 9;
-            this.Waitreplay.Value = global::GT7_B_specツール.Properties.Settings.Default.wait_replay;
-            // 
-            // Waitstart
-            // 
-            this.Waitstart.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール.Properties.Settings.Default, "wait_start", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.Waitstart.DecimalPlaces = 1;
-            this.Waitstart.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.Waitstart.Location = new System.Drawing.Point(120, 38);
-            this.Waitstart.Margin = new System.Windows.Forms.Padding(2);
-            this.Waitstart.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.Waitstart.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.Waitstart.Name = "Waitstart";
-            this.Waitstart.Size = new System.Drawing.Size(39, 19);
-            this.Waitstart.TabIndex = 6;
-            this.Waitstart.Value = global::GT7_B_specツール.Properties.Settings.Default.wait_start;
             // 
             // Start
             // 
@@ -561,6 +405,7 @@
             // 
             this.PS5check.AutoSize = true;
             this.PS5check.Checked = global::GT7_B_specツール.Properties.Settings.Default.ps5check;
+            this.PS5check.CheckState = System.Windows.Forms.CheckState.Checked;
             this.PS5check.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::GT7_B_specツール.Properties.Settings.Default, "ps5check", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.PS5check.Location = new System.Drawing.Point(346, 175);
             this.PS5check.Name = "PS5check";
@@ -680,6 +525,162 @@
             this.Rightkeywait.TabIndex = 21;
             this.Rightkeywait.Value = global::GT7_B_specツール.Properties.Settings.Default.rightkey_wait;
             // 
+            // Waitbacktomenu
+            // 
+            this.Waitbacktomenu.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール.Properties.Settings.Default, "wait_backtomenu", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Waitbacktomenu.DecimalPlaces = 1;
+            this.Waitbacktomenu.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.Waitbacktomenu.Location = new System.Drawing.Point(120, 125);
+            this.Waitbacktomenu.Margin = new System.Windows.Forms.Padding(2);
+            this.Waitbacktomenu.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.Waitbacktomenu.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Waitbacktomenu.Name = "Waitbacktomenu";
+            this.Waitbacktomenu.Size = new System.Drawing.Size(39, 19);
+            this.Waitbacktomenu.TabIndex = 22;
+            this.Waitbacktomenu.Value = global::GT7_B_specツール.Properties.Settings.Default.wait_backtomenu;
+            // 
+            // Waitentry
+            // 
+            this.Waitentry.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール.Properties.Settings.Default, "wait_entry", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Waitentry.DecimalPlaces = 1;
+            this.Waitentry.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.Waitentry.Location = new System.Drawing.Point(120, 17);
+            this.Waitentry.Margin = new System.Windows.Forms.Padding(2);
+            this.Waitentry.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.Waitentry.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Waitentry.Name = "Waitentry";
+            this.Waitentry.Size = new System.Drawing.Size(39, 19);
+            this.Waitentry.TabIndex = 19;
+            this.Waitentry.Value = global::GT7_B_specツール.Properties.Settings.Default.wait_entry;
+            // 
+            // Waitentry2
+            // 
+            this.Waitentry2.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール.Properties.Settings.Default, "wait_race2load", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Waitentry2.DecimalPlaces = 1;
+            this.Waitentry2.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.Waitentry2.Location = new System.Drawing.Point(120, 103);
+            this.Waitentry2.Margin = new System.Windows.Forms.Padding(2);
+            this.Waitentry2.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.Waitentry2.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Waitentry2.Name = "Waitentry2";
+            this.Waitentry2.Size = new System.Drawing.Size(39, 19);
+            this.Waitentry2.TabIndex = 15;
+            this.Waitentry2.Value = global::GT7_B_specツール.Properties.Settings.Default.wait_race2load;
+            // 
+            // Waitracemenu
+            // 
+            this.Waitracemenu.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール.Properties.Settings.Default, "wait_racemenu", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Waitracemenu.DecimalPlaces = 1;
+            this.Waitracemenu.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.Waitracemenu.Location = new System.Drawing.Point(120, 82);
+            this.Waitracemenu.Margin = new System.Windows.Forms.Padding(2);
+            this.Waitracemenu.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.Waitracemenu.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Waitracemenu.Name = "Waitracemenu";
+            this.Waitracemenu.Size = new System.Drawing.Size(39, 19);
+            this.Waitracemenu.TabIndex = 12;
+            this.Waitracemenu.Value = global::GT7_B_specツール.Properties.Settings.Default.wait_racemenu;
+            // 
+            // Waitreplay
+            // 
+            this.Waitreplay.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール.Properties.Settings.Default, "wait_replay", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Waitreplay.DecimalPlaces = 1;
+            this.Waitreplay.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.Waitreplay.Location = new System.Drawing.Point(120, 60);
+            this.Waitreplay.Margin = new System.Windows.Forms.Padding(2);
+            this.Waitreplay.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.Waitreplay.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Waitreplay.Name = "Waitreplay";
+            this.Waitreplay.Size = new System.Drawing.Size(39, 19);
+            this.Waitreplay.TabIndex = 9;
+            this.Waitreplay.Value = global::GT7_B_specツール.Properties.Settings.Default.wait_replay;
+            // 
+            // Waitstart
+            // 
+            this.Waitstart.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール.Properties.Settings.Default, "wait_start", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Waitstart.DecimalPlaces = 1;
+            this.Waitstart.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.Waitstart.Location = new System.Drawing.Point(120, 38);
+            this.Waitstart.Margin = new System.Windows.Forms.Padding(2);
+            this.Waitstart.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.Waitstart.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Waitstart.Name = "Waitstart";
+            this.Waitstart.Size = new System.Drawing.Size(39, 19);
+            this.Waitstart.TabIndex = 6;
+            this.Waitstart.Value = global::GT7_B_specツール.Properties.Settings.Default.wait_start;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -712,20 +713,20 @@
             this.Controls.Add(this.Start);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
-            this.Text = "GT7 B-specツール v1.77";
+            this.Text = "GT7 B-specツール v1.78";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Rightkeydown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Racefinishsec)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Racefinishmin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Rightkeywait)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Waitbacktomenu)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Waitentry)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Waitentry2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Waitracemenu)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Waitreplay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Waitstart)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Rightkeydown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Racefinishsec)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Racefinishmin)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Rightkeywait)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
