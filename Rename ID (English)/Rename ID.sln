@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 15 for Windows Desktop
+VisualStudioVersion = 15.0.28307.1684
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rename ID", "Rename ID\Rename ID.csproj", "{93976E87-6767-44A0-AC3A-A33FCC8E6209}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{93976E87-6767-44A0-AC3A-A33FCC8E6209}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93976E87-6767-44A0-AC3A-A33FCC8E6209}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93976E87-6767-44A0-AC3A-A33FCC8E6209}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93976E87-6767-44A0-AC3A-A33FCC8E6209}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {234C7AEC-4A4C-4CEF-8FDA-9FDCF0FFD105}
+	EndGlobalSection
+EndGlobal

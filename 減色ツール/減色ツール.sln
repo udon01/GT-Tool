@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 15 for Windows Desktop
+VisualStudioVersion = 15.0.28307.1684
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "減色ツール", "減色ツール\減色ツール.csproj", "{3CA62B31-EC70-480D-A9A3-73CB8719766E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3CA62B31-EC70-480D-A9A3-73CB8719766E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CA62B31-EC70-480D-A9A3-73CB8719766E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CA62B31-EC70-480D-A9A3-73CB8719766E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CA62B31-EC70-480D-A9A3-73CB8719766E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2CAC5536-0A82-4F53-9F08-F0F6D3A33420}
+	EndGlobalSection
+EndGlobal

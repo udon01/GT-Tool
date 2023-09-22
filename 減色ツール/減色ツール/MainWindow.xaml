@@ -1,0 +1,39 @@
+﻿<Window x:Class="_20180302_単純減色と誤差拡散ディザ.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_20180302_単純減色と誤差拡散ディザ"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <Image Name="MyImage" UseLayoutRounding="True" Stretch="None"/>
+        </ScrollViewer>
+        <StackPanel Grid.Column="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="RGB各色数" VerticalAlignment="Center" Margin="4,0" FontSize="18"/>
+                <TextBox Name="NumericTextBox" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"
+                 Text="{Binding ElementName=NumericScrollBar, Path=Value, UpdateSourceTrigger=PropertyChanged}"
+                 Width="40" FontSize="18"/>
+                <ScrollBar Name="NumericScrollBar" Value="16" Minimum="1" Maximum="256" SmallChange="1" LargeChange="1"
+                   RenderTransformOrigin="0.5,0.5">
+                    <ScrollBar.RenderTransform>
+                        <RotateTransform Angle="180"/>
+                    </ScrollBar.RenderTransform>
+                </ScrollBar>
+                <TextBlock Name="TextBlockColorCount" Text="4096"/>
+            </StackPanel>
+            <Button x:Name="Buttonload" Content="画像の読み込み" Click="Buttonload_Click"/>
+            <Button Name="ButtonConvertErrorToRight" Content="右隣へ誤差拡散"/>
+            <Button Name="ButtonConvertFloydSteinberg" Content="FloydSteinberg式誤差拡散"/>
+            <Button Name="ButtonConvert" Content="ディザ無し"/>
+            <Button Name="ButtonOrigin" Content="元の画像"/>
+            <Button x:Name="Buttonsave" Content="名前を付けて保存" Click="Buttonsave_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
