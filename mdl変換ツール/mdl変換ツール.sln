@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mdl変換ツール", "mdl変換ツール\mdl変換ツール.csproj", "{0328191A-1246-4A67-949B-29B9D31A190C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0328191A-1246-4A67-949B-29B9D31A190C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0328191A-1246-4A67-949B-29B9D31A190C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0328191A-1246-4A67-949B-29B9D31A190C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0328191A-1246-4A67-949B-29B9D31A190C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {15019C32-58D9-4413-A9B9-F3EDDFFC0BD0}
+	EndGlobalSection
+EndGlobal
