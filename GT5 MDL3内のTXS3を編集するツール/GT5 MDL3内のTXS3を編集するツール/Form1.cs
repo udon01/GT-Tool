@@ -181,11 +181,15 @@ namespace GT5_MDL3内のTXS3を編集するツール
                     byte[] TXS3_yoko = new byte[2];
                     Array.Copy(bs, TXS3_pointer + 12, TXS3_yoko, 0, 2);
                     int TXS3_yoko_int = Getbyteint2(TXS3_yoko, 0);
+
+                    /*TXS3converter1.1.3
                     if (DXT == "86")
                     {
                         TXS3_yoko_int /= 2;
                         TXS3_yoko = Gethex2(TXS3_yoko_int);
                     }
+                    */
+
                     byte[] TXS3_tate = new byte[2];
                     Array.Copy(bs, TXS3_pointer + 14, TXS3_tate, 0, 2);
                     Array.Resize(ref TXS3_header, TXS3_header.Length + 2);

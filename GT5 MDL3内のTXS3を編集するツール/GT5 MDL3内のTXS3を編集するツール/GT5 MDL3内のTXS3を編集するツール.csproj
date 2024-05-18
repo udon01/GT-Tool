@@ -7,7 +7,7 @@
     <ProjectGuid>{FED3CFD4-2AFE-4EE9-9B70-BD71E44426BE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>GT5_MDL3内のTXS3を編集するツール</RootNamespace>
-    <AssemblyName>GT5 MDL3内のTXS3を編集するツール</AssemblyName>
+    <AssemblyName>GT5 MDL3内のTXS3を編集するツール v1.01</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
