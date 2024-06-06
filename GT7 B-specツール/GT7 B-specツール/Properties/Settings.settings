@@ -20,12 +20,6 @@
     <Setting Name="wait_backtomenu" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">8</Value>
     </Setting>
-    <Setting Name="racefinish_min" Type="System.Decimal" Scope="User">
-      <Value Profile="(Default)">3</Value>
-    </Setting>
-    <Setting Name="racefinish_sec" Type="System.Decimal" Scope="User">
-      <Value Profile="(Default)">56</Value>
-    </Setting>
     <Setting Name="rightkey_down" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">0.3</Value>
     </Setting>
@@ -52,6 +46,12 @@
     </Setting>
     <Setting Name="gettimecheck" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="racefinish_min" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">4</Value>
+    </Setting>
+    <Setting Name="racefinish_sec" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">2</Value>
     </Setting>
   </Settings>
 </SettingsFile>

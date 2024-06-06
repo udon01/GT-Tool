@@ -59,38 +59,18 @@ namespace GT7_B_specツール_カスタムレース用
                     goto label2;
 
                 label1:
-                decimal wait_start_dec = 0;
-                decimal wait_replay_dec = 0;
-                decimal wait_racemenu_dec = 0;
-                decimal wait_entry2_dec = 0;
-                decimal rightkey_down_dec = Rightkeydown.Value;
-                decimal rightkey_wait_dec = Rightkeywait.Value;
+                decimal wait_start_dec = Waitstart.Value * 1000;
+                decimal wait_replay_dec = Waitreplay.Value * 1000;
+                decimal wait_racemenu_dec = Waitracemenu.Value * 1000;
+                decimal wait_entry2_dec = Waitentry2.Value * 1000;
 
-                if (PS5check.Checked)
-                {
-                    wait_start_dec = 1500;
-                    wait_replay_dec = 2000;
-                    wait_racemenu_dec = 2000;
-                    wait_entry2_dec = 2000;
-                }
-                else 
-                {
-                    wait_start_dec = 4000;
-                    wait_replay_dec = 4000;
-                    wait_racemenu_dec = 4000;
-                    wait_entry2_dec = 4000;
-                }
-
-                rightkey_down_dec = rightkey_down_dec * 1000;
-                rightkey_wait_dec = rightkey_wait_dec * 1000;
-                int racefinish_min = decimal.ToInt32(Racefinishmin.Value);
+                decimal rightkey_down_dec = Rightkeydown.Value * 1000;
+                decimal rightkey_wait_dec = Rightkeywait.Value * 1000;
+                int racefinish_min = decimal.ToInt32(Racefinishmin.Value) * 60;
                 int racefinish_sec = decimal.ToInt32(Racefinishsec.Value);
                 int racefinishover = 0;
-                racefinish_min *= 60;
-                int racefinish = racefinish_min + racefinish_sec;
-                racefinish *= 1000;
-                int nitroon_wait = decimal.ToInt32(Nitroonwait.Value);
-                nitroon_wait *= 1000;
+                int racefinish = (racefinish_min + racefinish_sec) * 1000;
+                int nitroon_wait = decimal.ToInt32(Nitroonwait.Value) * 1000;
                 int wait_start = decimal.ToInt32(wait_start_dec);
                 int wait_replay = decimal.ToInt32(wait_replay_dec);
                 int wait_racemenu = decimal.ToInt32(wait_racemenu_dec);
@@ -505,38 +485,18 @@ namespace GT7_B_specツール_カスタムレース用
                 int count_day = 1;
 
             label1:
-                decimal wait_start_dec = 0;
-                decimal wait_replay_dec = 0;
-                decimal wait_racemenu_dec = 0;
-                decimal wait_entry2_dec = 0;
-                decimal rightkey_down_dec = Rightkeydown.Value;
-                decimal rightkey_wait_dec = Rightkeywait.Value;
+                decimal wait_start_dec = Waitstart.Value * 1000;
+                decimal wait_replay_dec = Waitreplay.Value * 1000;
+                decimal wait_racemenu_dec = Waitracemenu.Value * 1000;
+                decimal wait_entry2_dec = Waitentry2.Value * 1000;
 
-                if (PS5check.Checked)
-                {
-                    wait_start_dec = 1500;
-                    wait_replay_dec = 2000;
-                    wait_racemenu_dec = 2000;
-                    wait_entry2_dec = 2000;
-                }
-                else
-                {
-                    wait_start_dec = 4000;
-                    wait_replay_dec = 4000;
-                    wait_racemenu_dec = 4000;
-                    wait_entry2_dec = 4000;
-                }
-
-                rightkey_down_dec = rightkey_down_dec * 1000;
-                rightkey_wait_dec = rightkey_wait_dec * 1000;
-                int racefinish_min = decimal.ToInt32(Racefinishmin.Value);
+                decimal rightkey_down_dec = Rightkeydown.Value * 1000;
+                decimal rightkey_wait_dec = Rightkeywait.Value * 1000;
+                int racefinish_min = decimal.ToInt32(Racefinishmin.Value) * 60;
                 int racefinish_sec = decimal.ToInt32(Racefinishsec.Value);
                 int racefinishover = 0;
-                racefinish_min *= 60;
-                int racefinish = racefinish_min + racefinish_sec;
-                racefinish *= 1000;
-                int nitroon_wait = decimal.ToInt32(Nitroonwait.Value);
-                nitroon_wait *= 1000;
+                int racefinish = (racefinish_min + racefinish_sec) * 1000;
+                int nitroon_wait = decimal.ToInt32(Nitroonwait.Value) * 1000;
                 int wait_start = decimal.ToInt32(wait_start_dec);
                 int wait_replay = decimal.ToInt32(wait_replay_dec);
                 int wait_racemenu = decimal.ToInt32(wait_racemenu_dec);
@@ -946,7 +906,7 @@ namespace GT7_B_specツール_カスタムレース用
                 PS5check.Checked = true;
                 ComboBoxaccel.Text = "R2";
                 ComboBoxhandle.Text = "左スティック";
-                ComboBoxboost.Text = "なし";
+                ComboBoxboost.Text = "R1";
                 Alwaysstickcheck.Checked = true;
                 Stickangle.Value = 25;
                 Gettimecheck.Checked = true;
@@ -984,9 +944,9 @@ namespace GT7_B_specツール_カスタムレース用
                 stream = sfd.OpenFile();
                 if (stream != null)
                 {
-                    System.IO.StreamWriter sw = new System.IO.StreamWriter(stream);
+                    StreamWriter sw = new StreamWriter(stream);
                     sw.WriteLine("レース終了まで：" + Racefinishmin.Value + "分" + Racefinishsec.Value + "秒");
-                    sw.Write("PS5：");
+                    sw.Write("×ボタンで決定：");
                     if (PS5check.Checked == true)
                         sw.WriteLine("ON");
                     else
@@ -1078,7 +1038,7 @@ namespace GT7_B_specツール_カスタムレース用
                             Racefinishsec.Value = linedec2;
                         }
 
-                        else if (0 <= line.IndexOf("PS5："))
+                        else if (0 <= line.IndexOf("PS5：") || 0 <= line.IndexOf("×ボタンで決定："))
                         {
                             line = line.Remove(0, line.IndexOf("：") + 1);
                             if (line == "ON" || line == "on" || line == "オン")

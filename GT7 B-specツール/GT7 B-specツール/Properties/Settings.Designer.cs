@@ -97,30 +97,6 @@ namespace GT7_B_specツール.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3")]
-        public decimal racefinish_min {
-            get {
-                return ((decimal)(this["racefinish_min"]));
-            }
-            set {
-                this["racefinish_min"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("56")]
-        public decimal racefinish_sec {
-            get {
-                return ((decimal)(this["racefinish_sec"]));
-            }
-            set {
-                this["racefinish_sec"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0.3")]
         public decimal rightkey_down {
             get {
@@ -224,6 +200,30 @@ namespace GT7_B_specツール.Properties {
             }
             set {
                 this["gettimecheck"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        public decimal racefinish_min {
+            get {
+                return ((decimal)(this["racefinish_min"]));
+            }
+            set {
+                this["racefinish_min"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public decimal racefinish_sec {
+            get {
+                return ((decimal)(this["racefinish_sec"]));
+            }
+            set {
+                this["racefinish_sec"] = value;
             }
         }
     }

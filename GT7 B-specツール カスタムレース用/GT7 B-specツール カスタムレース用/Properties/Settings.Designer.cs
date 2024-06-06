@@ -12,7 +12,7 @@ namespace GT7_B_specツール_カスタムレース用.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.6.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.8.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -109,7 +109,7 @@ namespace GT7_B_specツール_カスタムレース用.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("なし")]
+        [global::System.Configuration.DefaultSettingValueAttribute("R1")]
         public string comboboxboost {
             get {
                 return ((string)(this["comboboxboost"]));
@@ -169,7 +169,19 @@ namespace GT7_B_specツール_カスタムレース用.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public decimal dailyticket_get {
+            get {
+                return ((decimal)(this["dailyticket_get"]));
+            }
+            set {
+                this["dailyticket_get"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("右")]
         public string ComboBoxhandlemuki {
             get {
                 return ((string)(this["ComboBoxhandlemuki"]));
@@ -181,13 +193,49 @@ namespace GT7_B_specツール_カスタムレース用.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2")]
-        public decimal dailyticket_get {
+        [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
+        public decimal wait_start {
             get {
-                return ((decimal)(this["dailyticket_get"]));
+                return ((decimal)(this["wait_start"]));
             }
             set {
-                this["dailyticket_get"] = value;
+                this["wait_start"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public decimal wait_replay {
+            get {
+                return ((decimal)(this["wait_replay"]));
+            }
+            set {
+                this["wait_replay"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public decimal wait_racemenu {
+            get {
+                return ((decimal)(this["wait_racemenu"]));
+            }
+            set {
+                this["wait_racemenu"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public decimal wait_entry2 {
+            get {
+                return ((decimal)(this["wait_entry2"]));
+            }
+            set {
+                this["wait_entry2"] = value;
             }
         }
     }

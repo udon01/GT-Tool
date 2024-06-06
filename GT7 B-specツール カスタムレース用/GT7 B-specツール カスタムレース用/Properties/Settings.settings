@@ -24,7 +24,7 @@
       <Value Profile="(Default)">25</Value>
     </Setting>
     <Setting Name="comboboxboost" Type="System.String" Scope="User">
-      <Value Profile="(Default)">なし</Value>
+      <Value Profile="(Default)">R1</Value>
     </Setting>
     <Setting Name="comboboxaccel" Type="System.String" Scope="User">
       <Value Profile="(Default)">R2</Value>
@@ -38,10 +38,22 @@
     <Setting Name="nitroon_wait" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">5</Value>
     </Setting>
-    <Setting Name="ComboBoxhandlemuki" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="dailyticket_get" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="ComboBoxhandlemuki" Type="System.String" Scope="User">
+      <Value Profile="(Default)">右</Value>
+    </Setting>
+    <Setting Name="wait_start" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">0.5</Value>
+    </Setting>
+    <Setting Name="wait_replay" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="wait_racemenu" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="wait_entry2" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">2</Value>
     </Setting>
   </Settings>

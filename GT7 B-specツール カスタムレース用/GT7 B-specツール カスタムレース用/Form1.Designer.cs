@@ -46,17 +46,29 @@
             this.label25 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.Dailyticketget = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.ComboBoxhandlemuki = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.Nitroonwait = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.Waitentry2 = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.Waitracemenu = new System.Windows.Forms.NumericUpDown();
+            this.Waitreplay = new System.Windows.Forms.NumericUpDown();
+            this.Waitstart = new System.Windows.Forms.NumericUpDown();
+            this.Dailyticketget = new System.Windows.Forms.NumericUpDown();
+            this.ComboBoxhandlemuki = new System.Windows.Forms.ComboBox();
+            this.Nitroonwait = new System.Windows.Forms.NumericUpDown();
             this.Gettimecheck = new System.Windows.Forms.CheckBox();
             this.ComboBoxhandle = new System.Windows.Forms.ComboBox();
             this.ComboBoxaccel = new System.Windows.Forms.ComboBox();
@@ -69,6 +81,11 @@
             this.Alwaysstickcheck = new System.Windows.Forms.CheckBox();
             this.PS5check = new System.Windows.Forms.CheckBox();
             this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Waitentry2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Waitracemenu)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Waitreplay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Waitstart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Dailyticketget)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Nitroonwait)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Rightkeywait)).BeginInit();
@@ -80,7 +97,7 @@
             // 
             // Start_notdaily
             // 
-            this.Start_notdaily.Location = new System.Drawing.Point(130, 215);
+            this.Start_notdaily.Location = new System.Drawing.Point(128, 283);
             this.Start_notdaily.Margin = new System.Windows.Forms.Padding(2);
             this.Start_notdaily.Name = "Start_notdaily";
             this.Start_notdaily.Size = new System.Drawing.Size(300, 24);
@@ -102,7 +119,7 @@
             // 
             // Stop
             // 
-            this.Stop.Location = new System.Drawing.Point(330, 180);
+            this.Stop.Location = new System.Drawing.Point(328, 248);
             this.Stop.Margin = new System.Windows.Forms.Padding(2);
             this.Stop.Name = "Stop";
             this.Stop.Size = new System.Drawing.Size(100, 24);
@@ -114,7 +131,7 @@
             // Workmessage
             // 
             this.Workmessage.AutoSize = true;
-            this.Workmessage.Location = new System.Drawing.Point(130, 250);
+            this.Workmessage.Location = new System.Drawing.Point(128, 318);
             this.Workmessage.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Workmessage.Name = "Workmessage";
             this.Workmessage.Size = new System.Drawing.Size(120, 12);
@@ -124,7 +141,7 @@
             // 
             // Start
             // 
-            this.Start.Location = new System.Drawing.Point(130, 180);
+            this.Start.Location = new System.Drawing.Point(128, 248);
             this.Start.Margin = new System.Windows.Forms.Padding(2);
             this.Start.Name = "Start";
             this.Start.Size = new System.Drawing.Size(100, 24);
@@ -251,7 +268,6 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.Dailyticketget);
@@ -286,21 +302,12 @@
             this.groupBox2.Controls.Add(this.Rightkeydown);
             this.groupBox2.Controls.Add(this.Alwaysstickcheck);
             this.groupBox2.Controls.Add(this.PS5check);
-            this.groupBox2.Location = new System.Drawing.Point(12, 9);
+            this.groupBox2.Location = new System.Drawing.Point(10, 9);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(537, 154);
+            this.groupBox2.Size = new System.Drawing.Size(537, 152);
             this.groupBox2.TabIndex = 49;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "調整用";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(316, 130);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(89, 12);
-            this.label5.TabIndex = 61;
-            this.label5.Text = "(ロード時間調整)";
             // 
             // label4
             // 
@@ -320,15 +327,6 @@
             this.label3.TabIndex = 59;
             this.label3.Text = "回目";
             // 
-            // Dailyticketget
-            // 
-            this.Dailyticketget.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール_カスタムレース用.Properties.Settings.Default, "dailyticket_get", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.Dailyticketget.Location = new System.Drawing.Point(224, 105);
-            this.Dailyticketget.Name = "Dailyticketget";
-            this.Dailyticketget.Size = new System.Drawing.Size(34, 19);
-            this.Dailyticketget.TabIndex = 58;
-            this.Dailyticketget.Value = global::GT7_B_specツール_カスタムレース用.Properties.Settings.Default.dailyticket_get;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -346,20 +344,6 @@
             this.label1.Size = new System.Drawing.Size(314, 12);
             this.label1.TabIndex = 56;
             this.label1.Text = "(タイム+5秒ほどでokですが劣化を考慮する場合はもう少し長めで)";
-            // 
-            // ComboBoxhandlemuki
-            // 
-            this.ComboBoxhandlemuki.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::GT7_B_specツール_カスタムレース用.Properties.Settings.Default, "ComboBoxhandlemuki", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.ComboBoxhandlemuki.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ComboBoxhandlemuki.FormattingEnabled = true;
-            this.ComboBoxhandlemuki.Items.AddRange(new object[] {
-            "右",
-            "左"});
-            this.ComboBoxhandlemuki.Location = new System.Drawing.Point(85, 81);
-            this.ComboBoxhandlemuki.Name = "ComboBoxhandlemuki";
-            this.ComboBoxhandlemuki.Size = new System.Drawing.Size(35, 20);
-            this.ComboBoxhandlemuki.TabIndex = 55;
-            this.ComboBoxhandlemuki.Text = global::GT7_B_specツール_カスタムレース用.Properties.Settings.Default.ComboBoxhandlemuki;
             // 
             // label12
             // 
@@ -379,6 +363,223 @@
             this.label11.TabIndex = 53;
             this.label11.Text = "秒後にオン";
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(7, 130);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(143, 12);
+            this.label10.TabIndex = 51;
+            this.label10.Text = "ナイトロONの場合... 開始から";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.Waitentry2);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.Waitracemenu);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.Waitreplay);
+            this.groupBox1.Controls.Add(this.label15);
+            this.groupBox1.Controls.Add(this.label18);
+            this.groupBox1.Controls.Add(this.Waitstart);
+            this.groupBox1.Controls.Add(this.label19);
+            this.groupBox1.Location = new System.Drawing.Point(94, 167);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(370, 66);
+            this.groupBox1.TabIndex = 50;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "PS4ユーザー向け(ロード時間調整)";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(347, 40);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(17, 12);
+            this.label8.TabIndex = 28;
+            this.label8.Text = "秒";
+            // 
+            // Waitentry2
+            // 
+            this.Waitentry2.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール_カスタムレース用.Properties.Settings.Default, "wait_entry2", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Waitentry2.DecimalPlaces = 1;
+            this.Waitentry2.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.Waitentry2.Location = new System.Drawing.Point(306, 37);
+            this.Waitentry2.Margin = new System.Windows.Forms.Padding(2);
+            this.Waitentry2.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.Waitentry2.Name = "Waitentry2";
+            this.Waitentry2.Size = new System.Drawing.Size(39, 19);
+            this.Waitentry2.TabIndex = 27;
+            this.Waitentry2.Value = global::GT7_B_specツール_カスタムレース用.Properties.Settings.Default.wait_entry2;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(190, 40);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(112, 12);
+            this.label7.TabIndex = 26;
+            this.label7.Text = "リトライ～レースメニュー";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(347, 19);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(17, 12);
+            this.label6.TabIndex = 25;
+            this.label6.Text = "秒";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(7, 40);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(115, 12);
+            this.label5.TabIndex = 23;
+            this.label5.Text = "リプレイ～レース終了後";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(167, 40);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(17, 12);
+            this.label9.TabIndex = 22;
+            this.label9.Text = "秒";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(190, 19);
+            this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(99, 12);
+            this.label15.TabIndex = 20;
+            this.label15.Text = "賞金獲得～リプレイ";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(167, 19);
+            this.label18.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(17, 12);
+            this.label18.TabIndex = 19;
+            this.label18.Text = "秒";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(7, 19);
+            this.label19.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(118, 12);
+            this.label19.TabIndex = 17;
+            this.label19.Text = "スタートボタンを押した後";
+            // 
+            // Waitracemenu
+            // 
+            this.Waitracemenu.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール_カスタムレース用.Properties.Settings.Default, "wait_racemenu", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Waitracemenu.DecimalPlaces = 1;
+            this.Waitracemenu.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.Waitracemenu.Location = new System.Drawing.Point(126, 37);
+            this.Waitracemenu.Margin = new System.Windows.Forms.Padding(2);
+            this.Waitracemenu.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.Waitracemenu.Name = "Waitracemenu";
+            this.Waitracemenu.Size = new System.Drawing.Size(39, 19);
+            this.Waitracemenu.TabIndex = 24;
+            this.Waitracemenu.Value = global::GT7_B_specツール_カスタムレース用.Properties.Settings.Default.wait_racemenu;
+            // 
+            // Waitreplay
+            // 
+            this.Waitreplay.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール_カスタムレース用.Properties.Settings.Default, "wait_replay", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Waitreplay.DecimalPlaces = 1;
+            this.Waitreplay.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.Waitreplay.Location = new System.Drawing.Point(306, 16);
+            this.Waitreplay.Margin = new System.Windows.Forms.Padding(2);
+            this.Waitreplay.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.Waitreplay.Name = "Waitreplay";
+            this.Waitreplay.Size = new System.Drawing.Size(39, 19);
+            this.Waitreplay.TabIndex = 21;
+            this.Waitreplay.Value = global::GT7_B_specツール_カスタムレース用.Properties.Settings.Default.wait_replay;
+            // 
+            // Waitstart
+            // 
+            this.Waitstart.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール_カスタムレース用.Properties.Settings.Default, "wait_start", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Waitstart.DecimalPlaces = 1;
+            this.Waitstart.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.Waitstart.Location = new System.Drawing.Point(126, 16);
+            this.Waitstart.Margin = new System.Windows.Forms.Padding(2);
+            this.Waitstart.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.Waitstart.Name = "Waitstart";
+            this.Waitstart.Size = new System.Drawing.Size(39, 19);
+            this.Waitstart.TabIndex = 18;
+            this.Waitstart.Value = global::GT7_B_specツール_カスタムレース用.Properties.Settings.Default.wait_start;
+            // 
+            // Dailyticketget
+            // 
+            this.Dailyticketget.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール_カスタムレース用.Properties.Settings.Default, "dailyticket_get", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Dailyticketget.Location = new System.Drawing.Point(224, 105);
+            this.Dailyticketget.Name = "Dailyticketget";
+            this.Dailyticketget.Size = new System.Drawing.Size(34, 19);
+            this.Dailyticketget.TabIndex = 58;
+            this.Dailyticketget.Value = global::GT7_B_specツール_カスタムレース用.Properties.Settings.Default.dailyticket_get;
+            // 
+            // ComboBoxhandlemuki
+            // 
+            this.ComboBoxhandlemuki.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::GT7_B_specツール_カスタムレース用.Properties.Settings.Default, "ComboBoxhandlemuki", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.ComboBoxhandlemuki.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBoxhandlemuki.FormattingEnabled = true;
+            this.ComboBoxhandlemuki.Items.AddRange(new object[] {
+            "右",
+            "左"});
+            this.ComboBoxhandlemuki.Location = new System.Drawing.Point(85, 81);
+            this.ComboBoxhandlemuki.Name = "ComboBoxhandlemuki";
+            this.ComboBoxhandlemuki.Size = new System.Drawing.Size(35, 20);
+            this.ComboBoxhandlemuki.TabIndex = 55;
+            this.ComboBoxhandlemuki.Text = global::GT7_B_specツール_カスタムレース用.Properties.Settings.Default.ComboBoxhandlemuki;
+            // 
             // Nitroonwait
             // 
             this.Nitroonwait.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::GT7_B_specツール_カスタムレース用.Properties.Settings.Default, "nitroon_wait", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
@@ -393,15 +594,6 @@
             this.Nitroonwait.Size = new System.Drawing.Size(35, 19);
             this.Nitroonwait.TabIndex = 52;
             this.Nitroonwait.Value = global::GT7_B_specツール_カスタムレース用.Properties.Settings.Default.nitroon_wait;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(7, 130);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(143, 12);
-            this.label10.TabIndex = 51;
-            this.label10.Text = "ナイトロONの場合... 開始から";
             // 
             // Gettimecheck
             // 
@@ -588,16 +780,17 @@
             this.PS5check.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::GT7_B_specツール_カスタムレース用.Properties.Settings.Default, "ps5check", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.PS5check.Location = new System.Drawing.Point(318, 110);
             this.PS5check.Name = "PS5check";
-            this.PS5check.Size = new System.Drawing.Size(44, 16);
+            this.PS5check.Size = new System.Drawing.Size(97, 16);
             this.PS5check.TabIndex = 37;
-            this.PS5check.Text = "PS5";
+            this.PS5check.Text = "×ボタンで決定";
             this.PS5check.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(556, 276);
+            this.ClientSize = new System.Drawing.Size(556, 341);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.Start_notdaily);
             this.Controls.Add(this.Stop);
@@ -605,10 +798,16 @@
             this.Controls.Add(this.Start);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
-            this.Text = "GT7 B-specツール カスタムレース用 v1.05";
+            this.Text = "GT7 B-specツール カスタムレース用 ver1.10";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Waitentry2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Waitracemenu)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Waitreplay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Waitstart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Dailyticketget)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Nitroonwait)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Rightkeywait)).EndInit();
@@ -661,8 +860,20 @@
         private System.Windows.Forms.NumericUpDown Dailyticketget;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.NumericUpDown Waitentry2;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.NumericUpDown Waitracemenu;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.NumericUpDown Waitreplay;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.NumericUpDown Waitstart;
+        private System.Windows.Forms.Label label19;
     }
 }
 

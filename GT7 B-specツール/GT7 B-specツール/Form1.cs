@@ -44,28 +44,18 @@ namespace GT7_B_specツール
 
                 label1:
 
-                decimal wait_entry_dec = Waitentry.Value;
-                decimal wait_start_dec = Waitstart.Value;
-                decimal wait_replay_dec = Waitreplay.Value;
-                decimal wait_racemenu_dec = Waitracemenu.Value;
-                decimal wait_entry2_dec = Waitentry2.Value;
-                decimal wait_backtomenu_dec = Waitbacktomenu.Value;
-                int racefinish_min = decimal.ToInt32(Racefinishmin.Value);
+                decimal wait_entry_dec = Waitentry.Value * 1000;
+                decimal wait_start_dec = Waitstart.Value * 1000;
+                decimal wait_replay_dec = Waitreplay.Value * 1000;
+                decimal wait_racemenu_dec = Waitracemenu.Value * 1000;
+                decimal wait_entry2_dec = Waitentry2.Value * 1000;
+                decimal wait_backtomenu_dec = Waitbacktomenu.Value * 1000;
+                int racefinish_min = decimal.ToInt32(Racefinishmin.Value) * 60;
                 int racefinish_sec = decimal.ToInt32(Racefinishsec.Value);
-                decimal rightkey_down_dec = Rightkeydown.Value;
-                decimal rightkey_wait_dec = Rightkeywait.Value;
+                decimal rightkey_down_dec = Rightkeydown.Value * 1000;
+                decimal rightkey_wait_dec = Rightkeywait.Value * 1000;
                 int racefinishover = 0;
-                wait_entry_dec *= 1000;
-                wait_start_dec *= 1000;
-                wait_replay_dec *= 1000;
-                wait_racemenu_dec *= 1000;
-                wait_entry2_dec *= 1000;
-                wait_backtomenu_dec *= 1000;
-                rightkey_down_dec *= 1000;
-                rightkey_wait_dec *= 1000;
-                racefinish_min *= 60;
-                int racefinish = racefinish_min + racefinish_sec;
-                racefinish *= 1000;
+                int racefinish = (racefinish_min + racefinish_sec) * 1000;
                 racefinish += 6000;
                 int wait_entry = decimal.ToInt32(wait_entry_dec);
                 int wait_start = decimal.ToInt32(wait_start_dec);
@@ -83,7 +73,7 @@ namespace GT7_B_specツール
 
                 for (int i = 0; i < 6; i++)
                 {
-                    await Task.Delay(220);
+                    await Task.Delay(300);
                     controller.SetDPadDirection(DualShock4DPadDirection.East);
                     await Task.Delay(220);
                     controller.SetDPadDirection(DualShock4DPadDirection.None);
@@ -99,7 +89,7 @@ namespace GT7_B_specツール
                     controller.SetButtonState(DualShock4Button.Cross, false);
                 else
                     controller.SetButtonState(DualShock4Button.Circle, false);
-                await Task.Delay(800);
+                await Task.Delay(500);
                 if (PS5check.Checked == true)
                     controller.SetButtonState(DualShock4Button.Cross, true);
                 else
@@ -121,7 +111,7 @@ namespace GT7_B_specツール
                     controller.SetButtonState(DualShock4Button.Cross, false);
                 else
                     controller.SetButtonState(DualShock4Button.Circle, false);
-                await Task.Delay(1000);
+                await Task.Delay(780);
                 if (PS5check.Checked == true)
                     controller.SetButtonState(DualShock4Button.Cross, true);
                 else
@@ -395,7 +385,7 @@ namespace GT7_B_specツール
                     controller.SetButtonState(DualShock4Button.Cross, false);
                 else
                     controller.SetButtonState(DualShock4Button.Circle, false);
-                await Task.Delay(1300);
+                await Task.Delay(1000);
 
                 if (PS5check.Checked == true)
                     controller.SetButtonState(DualShock4Button.Circle, true);
@@ -496,28 +486,18 @@ namespace GT7_B_specツール
 
             label1:
 
-                decimal wait_entry_dec = Waitentry.Value;
-                decimal wait_start_dec = Waitstart.Value;
-                decimal wait_replay_dec = Waitreplay.Value;
-                decimal wait_racemenu_dec = Waitracemenu.Value;
-                decimal wait_entry2_dec = Waitentry2.Value;
-                decimal wait_backtomenu_dec = Waitbacktomenu.Value;
-                int racefinish_min = decimal.ToInt32(Racefinishmin.Value);
+                decimal wait_entry_dec = Waitentry.Value * 1000;
+                decimal wait_start_dec = Waitstart.Value * 1000;
+                decimal wait_replay_dec = Waitreplay.Value * 1000;
+                decimal wait_racemenu_dec = Waitracemenu.Value * 1000;
+                decimal wait_entry2_dec = Waitentry2.Value * 1000;
+                decimal wait_backtomenu_dec = Waitbacktomenu.Value * 1000;
+                int racefinish_min = decimal.ToInt32(Racefinishmin.Value) * 60;
                 int racefinish_sec = decimal.ToInt32(Racefinishsec.Value);
-                decimal rightkey_down_dec = Rightkeydown.Value;
-                decimal rightkey_wait_dec = Rightkeywait.Value;
+                decimal rightkey_down_dec = Rightkeydown.Value * 1000;
+                decimal rightkey_wait_dec = Rightkeywait.Value * 1000;
                 int racefinishover = 0;
-                wait_entry_dec *= 1000;
-                wait_start_dec *= 1000;
-                wait_replay_dec *= 1000;
-                wait_racemenu_dec *= 1000;
-                wait_entry2_dec *= 1000;
-                wait_backtomenu_dec *= 1000;
-                rightkey_down_dec *= 1000;
-                rightkey_wait_dec *= 1000;
-                racefinish_min *= 60;
-                int racefinish = racefinish_min + racefinish_sec;
-                racefinish *= 1000;
+                int racefinish = (racefinish_min + racefinish_sec) * 1000;
                 racefinish += 6000;
                 int wait_entry = decimal.ToInt32(wait_entry_dec);
                 int wait_start = decimal.ToInt32(wait_start_dec);
@@ -538,7 +518,7 @@ namespace GT7_B_specツール
 
                 for (int i = 0; i < 6; i++)
                 {
-                    await Task.Delay(220);
+                    await Task.Delay(300);
                     controller.SetDPadDirection(DualShock4DPadDirection.East);
                     await Task.Delay(220);
                     controller.SetDPadDirection(DualShock4DPadDirection.None);
@@ -554,7 +534,7 @@ namespace GT7_B_specツール
                     controller.SetButtonState(DualShock4Button.Cross, false);
                 else
                     controller.SetButtonState(DualShock4Button.Circle, false);
-                await Task.Delay(800);
+                await Task.Delay(500);
                 if (PS5check.Checked == true)
                     controller.SetButtonState(DualShock4Button.Cross, true);
                 else
@@ -748,7 +728,7 @@ namespace GT7_B_specツール
                     }
                 }
 
-                if (count_day <= 3 && count < 3)
+                if (count_day > 3 && count < 3)
                 {
                     for (int i = 0; i < 9; i++)
                     {
@@ -763,9 +743,10 @@ namespace GT7_B_specツール
                         else
                             controller.SetButtonState(DualShock4Button.Circle, false);
                     }
+                    count_day = 0;
                 }
 
-                if (count_day >= 4 || count >= 3)
+                if (count_day <= 3 || count >= 3)
                 {
                     for (int i = 0; i < 7; i++)
                     {
@@ -802,7 +783,6 @@ namespace GT7_B_specツール
                         controller.SetButtonState(DualShock4Button.Circle, false);
                     nowtime2 = DateTime.Now;
                     count = 0;
-                    count_day = 0;
                 }
 
                 await Task.Delay(wait_replay);
@@ -854,7 +834,7 @@ namespace GT7_B_specツール
                     controller.SetButtonState(DualShock4Button.Cross, false);
                 else
                     controller.SetButtonState(DualShock4Button.Circle, false);
-                await Task.Delay(1300);
+                await Task.Delay(1000);
 
                 if (PS5check.Checked == true)
                     controller.SetButtonState(DualShock4Button.Circle, true);
@@ -924,8 +904,8 @@ namespace GT7_B_specツール
                 Waitracemenu.Value = Convert.ToDecimal(1.5);
                 Waitentry2.Value = 14;
                 Waitbacktomenu.Value = 8;
-                Racefinishmin.Value = 3;
-                Racefinishsec.Value = 56;
+                Racefinishmin.Value = 4;
+                Racefinishsec.Value = 2;
                 Rightkeydown.Value = Convert.ToDecimal(0.3);
                 Rightkeywait.Value = Convert.ToDecimal(0.6);
                 PS5check.Checked = true;
@@ -979,7 +959,7 @@ namespace GT7_B_specツール
                     sw.WriteLine("2戦目ロード：" + Waitentry2.Value + "秒");
                     sw.WriteLine("2戦目棄権～メニュー：" + Waitbacktomenu.Value + "秒");
                     sw.WriteLine("完走タイム：" + Racefinishmin.Value + "分" + Racefinishsec.Value + "秒");
-                    sw.Write("PS5：");
+                    sw.Write("×ボタンで決定：");
                     if (PS5check.Checked == true)
                         sw.WriteLine("ON");
                     else
@@ -1137,7 +1117,7 @@ namespace GT7_B_specツール
                             Racefinishsec.Value = linedec2;
                         }
 
-                        else if (0 <= line.IndexOf("PS5："))
+                        else if (0 <= line.IndexOf("PS5：") || 0 <= line.IndexOf("×ボタンで決定："))
                         {
                             line = line.Remove(0, line.IndexOf("：") + 1);
                             if (line == "ON" || line == "on" || line == "オン")
