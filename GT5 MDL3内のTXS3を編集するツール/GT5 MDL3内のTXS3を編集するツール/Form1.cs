@@ -103,85 +103,16 @@ namespace GT5_MDL3内のTXS3を編集するツール
                     else
                         writefilecount += 1;
 
+                    int lod_count = Getbyteint1(bs, TXS3_pointer + 10);
+                    if (lod_count > 1)
+                        lod_count -= 5;
+
                     TXS3_tex_seek = Getbyteint4(bs, TXS3_pointer);
                     int TXS3_tex_length = Getbyteint4(bs, TXS3_pointer + 4);
-                    byte[] TXS3_tex = new byte[TXS3_tex_length];
-                    Array.Copy(bs, TXS3_tex_seek, TXS3_tex, 0, TXS3_tex_length);
-
-                    byte[] TXS3_header = new byte[4];
-                    byte[] TXS3 = new byte[4] { 0x54, 0x58, 0x53, 0x33 };
-                    Array.Copy(TXS3, 0, TXS3_header, 0, 4);
-
-                    byte[] TXS3_length = Gethex4(256 + TXS3_tex_length);
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                    Array.Copy(TXS3_length, 0, TXS3_header, TXS3_header.Length - 4, 4);
-
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                    Array.Copy(zero4, 0, TXS3_header, TXS3_header.Length - 4, 4);
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                    Array.Copy(TXS3_length, 0, TXS3_header, TXS3_header.Length - 4, 4);
-
-                    byte[] TXS3_unk1 = new byte[16] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x84 };
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 16);
-                    Array.Copy(TXS3_unk1, 0, TXS3_header, TXS3_header.Length - 16, 16);
-
-                    /*
-                    //GT6用?
-                    if (DXT == "")
-                    {
-                        byte[] TXS3_DXT = new byte[4] { 0x00, 0x00, 0x01, 0x00 };
-                        Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                        Array.Copy(TXS3_DXT, 0, TXS3_header, TXS3_header.Length - 4, 4);
-                    }
-                    */
-
-                    for (int i = 0; i < 8; i++)
-                    {
-                        Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                        Array.Copy(zero4, 0, TXS3_header, TXS3_header.Length - 4, 4);
-                    }
-
-                    byte[] TXS3_unk2 = new byte[4] { 0x00, 0x00, 0x1A, 0x00 };
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                    Array.Copy(TXS3_unk2, 0, TXS3_header, TXS3_header.Length - 4, 4);
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                    Array.Copy(zero4, 0, TXS3_header, TXS3_header.Length - 4, 4);
-
-                    byte[] TXS3_unk3 = new byte[2] { 0x00, 0x01 };
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
-                    Array.Copy(TXS3_unk3, 0, TXS3_header, TXS3_header.Length - 2, 2);
-
-                    byte[] TXS3_DXT1 = new byte[1] { 0xA6 };
-                    byte[] TXS3_DXT3 = new byte[1] { 0xA7 };
-                    byte[] TXS3_DXT5 = new byte[1] { 0xA8 };
-                    byte[] TXS3_DXT10 = new byte[1] { 0xA5 };
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
-
-                    if (DXT == "86")
-                        Array.Copy(TXS3_DXT1, 0, TXS3_header, TXS3_header.Length - 1, 1);
-                    else if (DXT == "87")
-                        Array.Copy(TXS3_DXT3, 0, TXS3_header, TXS3_header.Length - 1, 1);
-                    else if (DXT == "88")
-                        Array.Copy(TXS3_DXT5, 0, TXS3_header, TXS3_header.Length - 1, 1);
-                    else if (DXT == "85")
-                        Array.Copy(TXS3_DXT10, 0, TXS3_header, TXS3_header.Length - 1, 1);
-
-                    byte[] TXS3_unk4 = new byte[1] { 0x2A };
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
-                    Array.Copy(TXS3_unk4, 0, TXS3_header, TXS3_header.Length - 1, 1);
-
-                    byte[] TXS3_unk5 = new byte[4] { 0x00, 0x03, 0x03, 0x03 };
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                    Array.Copy(TXS3_unk5, 0, TXS3_header, TXS3_header.Length - 4, 4);
-
-                    byte[] TXS3_unk6 = new byte[12] { 0x80, 0x07, 0x80, 0x00, 0x00, 0x00, 0xAA, 0xE4, 0x02, 0x02, 0x20, 0x00 };
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 12);
-                    Array.Copy(TXS3_unk6, 0, TXS3_header, TXS3_header.Length - 12, 12);
 
                     byte[] TXS3_yoko = new byte[2];
                     Array.Copy(bs, TXS3_pointer + 12, TXS3_yoko, 0, 2);
                     int TXS3_yoko_int = Getbyteint2(TXS3_yoko, 0);
-
                     /*TXS3converter1.1.3
                     if (DXT == "86")
                     {
@@ -192,123 +123,220 @@ namespace GT5_MDL3内のTXS3を編集するツール
 
                     byte[] TXS3_tate = new byte[2];
                     Array.Copy(bs, TXS3_pointer + 14, TXS3_tate, 0, 2);
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
-                    Array.Copy(TXS3_yoko, 0, TXS3_header, TXS3_header.Length - 2, 2);
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
-                    Array.Copy(TXS3_tate, 0, TXS3_header, TXS3_header.Length - 2, 2);
+                    int TXS3_tate_int = Getbyteint2(TXS3_tate, 0);
 
-                    byte[] TXS3_unk7 = new byte[10] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18, 0x40, 0x00, 0x10 };
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 10);
-                    Array.Copy(TXS3_unk7, 0, TXS3_header, TXS3_header.Length - 10, 10);
-
-                    int TXS3_yoko_4 = Getbyteint2(TXS3_yoko, 0) / 4;
-                    string TXS3_yoko_4_str = TXS3_yoko_4.ToString("X");
-                    TXS3_yoko_4_str += "0";
-                    if (TXS3_yoko_4_str.Length == 1 || TXS3_yoko_4_str.Length == 3)
-                        TXS3_yoko_4_str = "0" + TXS3_yoko_4_str;
-                    if (TXS3_yoko_4_str.Length == 2)
-                        TXS3_yoko_4_str = "00" + TXS3_yoko_4_str;
-
-                    byte[] TXS3_yoko_4_byte = StringToBytes(TXS3_yoko_4_str);
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
-                    Array.Copy(TXS3_yoko_4_byte, 0, TXS3_header, TXS3_header.Length - 2, 2);
-
-                    for (int i = 0; i < 6; i++)
+                    for (int j = 0; j < lod_count; j++)
                     {
+                        if (lod_count > 1)
+                        {
+                            TXS3_tex_length = TXS3_yoko_int * TXS3_tate_int;
+                            if (DXT == "86")
+                                TXS3_tex_length /= 2;
+                            else if (DXT == "85")
+                                TXS3_tex_length *= 4;
+                        }
+                        byte[] TXS3_tex = new byte[TXS3_tex_length];
+                        Array.Copy(bs, TXS3_tex_seek, TXS3_tex, 0, TXS3_tex_length);
+
+                        byte[] TXS3_header = new byte[4];
+                        byte[] TXS3 = new byte[4] { 0x54, 0x58, 0x53, 0x33 };
+                        Array.Copy(TXS3, 0, TXS3_header, 0, 4);
+
+                        byte[] TXS3_length = Gethex4(256 + TXS3_tex_length);
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                        Array.Copy(TXS3_length, 0, TXS3_header, TXS3_header.Length - 4, 4);
+
                         Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
                         Array.Copy(zero4, 0, TXS3_header, TXS3_header.Length - 4, 4);
-                    }
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                        Array.Copy(TXS3_length, 0, TXS3_header, TXS3_header.Length - 4, 4);
 
-                    byte[] TXS3_unk8 = new byte[4] { 0x00, 0x00, 0x01, 0x00 };
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                    Array.Copy(TXS3_unk8, 0, TXS3_header, TXS3_header.Length - 4, 4);
+                        byte[] TXS3_unk1 = new byte[16] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x84 };
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 16);
+                        Array.Copy(TXS3_unk1, 0, TXS3_header, TXS3_header.Length - 16, 16);
 
-                    string TXS3_unk9_str = BitConverter.ToString(TXS3_length).Replace("-", string.Empty);
-                    TXS3_unk9_str = TXS3_unk9_str.Substring(0, TXS3_unk9_str.Length - 2);
-                    TXS3_unk9_str = TXS3_unk9_str + "00";
-                    int TXS3_unk9_int = Convert.ToInt32(TXS3_unk9_str, 16);
-                    TXS3_unk9_int -= 256;
-                    TXS3_unk9_str = TXS3_unk9_int.ToString("X");
-
-                    int add0 = 8 - TXS3_unk9_str.Length;
-                    if (add0 > 0)
-                    {
-                        for (int i = 0; i < add0; i++)
+                        /*
+                        //GT6用?
+                        if (DXT == "")
                         {
-                            TXS3_unk9_str = "0" + TXS3_unk9_str;
+                            byte[] TXS3_DXT = new byte[4] { 0x00, 0x00, 0x01, 0x00 };
+                            Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                            Array.Copy(TXS3_DXT, 0, TXS3_header, TXS3_header.Length - 4, 4);
+                        }
+                        */
+
+                        for (int i = 0; i < 8; i++)
+                        {
+                            Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                            Array.Copy(zero4, 0, TXS3_header, TXS3_header.Length - 4, 4);
+                        }
+
+                        byte[] TXS3_unk2 = new byte[4] { 0x00, 0x00, 0x1A, 0x00 };
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                        Array.Copy(TXS3_unk2, 0, TXS3_header, TXS3_header.Length - 4, 4);
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                        Array.Copy(zero4, 0, TXS3_header, TXS3_header.Length - 4, 4);
+
+                        byte[] TXS3_unk3 = new byte[2] { 0x00, 0x01 };
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
+                        Array.Copy(TXS3_unk3, 0, TXS3_header, TXS3_header.Length - 2, 2);
+
+                        byte[] TXS3_DXT1 = new byte[1] { 0xA6 };
+                        byte[] TXS3_DXT3 = new byte[1] { 0xA7 };
+                        byte[] TXS3_DXT5 = new byte[1] { 0xA8 };
+                        byte[] TXS3_DXT10 = new byte[1] { 0xA5 };
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
+
+                        if (DXT == "86")
+                            Array.Copy(TXS3_DXT1, 0, TXS3_header, TXS3_header.Length - 1, 1);
+                        else if (DXT == "87")
+                            Array.Copy(TXS3_DXT3, 0, TXS3_header, TXS3_header.Length - 1, 1);
+                        else if (DXT == "88")
+                            Array.Copy(TXS3_DXT5, 0, TXS3_header, TXS3_header.Length - 1, 1);
+                        else if (DXT == "85")
+                            Array.Copy(TXS3_DXT10, 0, TXS3_header, TXS3_header.Length - 1, 1);
+
+                        byte[] TXS3_unk4 = new byte[1] { 0x2A };
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
+                        Array.Copy(TXS3_unk4, 0, TXS3_header, TXS3_header.Length - 1, 1);
+
+                        byte[] TXS3_unk5 = new byte[4] { 0x00, 0x03, 0x03, 0x03 };
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                        Array.Copy(TXS3_unk5, 0, TXS3_header, TXS3_header.Length - 4, 4);
+
+                        byte[] TXS3_unk6 = new byte[12] { 0x80, 0x07, 0x80, 0x00, 0x00, 0x00, 0xAA, 0xE4, 0x02, 0x02, 0x20, 0x00 };
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 12);
+                        Array.Copy(TXS3_unk6, 0, TXS3_header, TXS3_header.Length - 12, 12);
+
+                        TXS3_yoko = Gethex2(TXS3_yoko_int);
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
+                        Array.Copy(TXS3_yoko, 0, TXS3_header, TXS3_header.Length - 2, 2);
+                        TXS3_tate = Gethex2(TXS3_tate_int);
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
+                        Array.Copy(TXS3_tate, 0, TXS3_header, TXS3_header.Length - 2, 2);
+
+                        byte[] TXS3_unk7 = new byte[10] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18, 0x40, 0x00, 0x10 };
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 10);
+                        Array.Copy(TXS3_unk7, 0, TXS3_header, TXS3_header.Length - 10, 10);
+
+                        int TXS3_yoko_4 = Getbyteint2(TXS3_yoko, 0) / 4;
+                        string TXS3_yoko_4_str = TXS3_yoko_4.ToString("X");
+                        TXS3_yoko_4_str += "0";
+                        if (TXS3_yoko_4_str.Length == 1 || TXS3_yoko_4_str.Length == 3)
+                            TXS3_yoko_4_str = "0" + TXS3_yoko_4_str;
+                        if (TXS3_yoko_4_str.Length == 2)
+                            TXS3_yoko_4_str = "00" + TXS3_yoko_4_str;
+
+                        byte[] TXS3_yoko_4_byte = StringToBytes(TXS3_yoko_4_str);
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
+                        Array.Copy(TXS3_yoko_4_byte, 0, TXS3_header, TXS3_header.Length - 2, 2);
+
+                        for (int i = 0; i < 6; i++)
+                        {
+                            Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                            Array.Copy(zero4, 0, TXS3_header, TXS3_header.Length - 4, 4);
+                        }
+
+                        byte[] TXS3_unk8 = new byte[4] { 0x00, 0x00, 0x01, 0x00 };
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                        Array.Copy(TXS3_unk8, 0, TXS3_header, TXS3_header.Length - 4, 4);
+
+                        string TXS3_unk9_str = BitConverter.ToString(TXS3_length).Replace("-", string.Empty);
+                        TXS3_unk9_str = TXS3_unk9_str.Substring(0, TXS3_unk9_str.Length - 2);
+                        TXS3_unk9_str = TXS3_unk9_str + "00";
+                        int TXS3_unk9_int = Convert.ToInt32(TXS3_unk9_str, 16);
+                        TXS3_unk9_int -= 256;
+                        TXS3_unk9_str = TXS3_unk9_int.ToString("X");
+
+                        int add0 = 8 - TXS3_unk9_str.Length;
+                        if (add0 > 0)
+                        {
+                            for (int i = 0; i < add0; i++)
+                            {
+                                TXS3_unk9_str = "0" + TXS3_unk9_str;
+                            }
+                        }
+
+                        byte[] TXS3_unk9 = StringToBytes(TXS3_unk9_str);
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                        Array.Copy(TXS3_unk9, 0, TXS3_header, TXS3_header.Length - 4, 4);
+
+                        byte[] TXS3_unk10 = new byte[1] { 0x02 };
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
+                        Array.Copy(TXS3_unk10, 0, TXS3_header, TXS3_header.Length - 1, 1);
+
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
+                        if (DXT == "86")
+                            Array.Copy(TXS3_DXT1, 0, TXS3_header, TXS3_header.Length - 1, 1);
+                        else if (DXT == "88")
+                            Array.Copy(TXS3_DXT5, 0, TXS3_header, TXS3_header.Length - 1, 1);
+                        else if (DXT == "85")
+                            Array.Copy(TXS3_DXT10, 0, TXS3_header, TXS3_header.Length - 1, 1);
+
+                        byte[] TXS3_unk11 = new byte[1] { 0x01 };
+                        for (int i = 0; i < 2; i++)
+                        {
+                            Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
+                            Array.Copy(TXS3_unk11, 0, TXS3_header, TXS3_header.Length - 1, 1);
+                        }
+
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
+                        Array.Copy(TXS3_yoko, 0, TXS3_header, TXS3_header.Length - 2, 2);
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
+                        Array.Copy(TXS3_tate, 0, TXS3_header, TXS3_header.Length - 2, 2);
+
+                        byte[] TXS3_unk12 = new byte[4] { 0x00, 0x01, 0x00, 0x00 };
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                        Array.Copy(TXS3_unk12, 0, TXS3_header, TXS3_header.Length - 4, 4);
+
+                        for (int i = 0; i < 26; i++)
+                        {
+                            Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                            Array.Copy(zero4, 0, TXS3_header, TXS3_header.Length - 4, 4);
+                        }
+
+                        if (!Directory.Exists(folderpath))
+                            Directory.CreateDirectory(folderpath);
+
+                        //上下反転(むり)
+                        /*
+                        int TXS3_tate_int = Getbyteint2(TXS3_tate, 0);
+                        int TXS3_narabikae_seek = TXS3_tex_length - 8;
+                        byte[] TXS3_tex_new = new byte[0];
+                        //MessageBox.Show(TXS3_yoko_int + "," + TXS3_tate_int);
+                        for (int i = 0; i < TXS3_tex_length / 8; i++)
+                        {
+                            Array.Resize(ref TXS3_tex_new, TXS3_tex_new.Length + 8);
+                            Array.Copy(TXS3_tex, TXS3_narabikae_seek, TXS3_tex_new, TXS3_tex_new.Length - 8, 8);
+                            TXS3_narabikae_seek -= 8;
+                        }
+                        */
+
+                        string newpath = folderpath + @"\" + writefilecount + "_";
+                        if (lod_count > 1)
+                            newpath = newpath + (j + 1) + "_";
+                        if (DXT == "86")
+                            newpath = newpath + "DXT1";
+                        else if (DXT == "87")
+                            newpath = newpath + "DXT3";
+                        else if (DXT == "88")
+                            newpath = newpath + "DXT5";
+                        else if (DXT == "85")
+                            newpath = newpath + "DXT10";
+                        newpath = newpath + ".img";
+
+                        FileStream fsw = new FileStream(newpath, FileMode.Create, FileAccess.Write);
+                        fsw.Write(TXS3_header, 0, TXS3_header.Length);
+                        fsw.Write(TXS3_tex, 0, TXS3_tex.Length);
+                        fsw.Close();
+
+                        if (lod_count > 1)
+                        {
+                            TXS3_tex_seek += TXS3_tex_length;
+                            TXS3_yoko_int /= 2;
+                            TXS3_tate_int /= 2;
                         }
                     }
-
-                    byte[] TXS3_unk9 = StringToBytes(TXS3_unk9_str);
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                    Array.Copy(TXS3_unk9, 0, TXS3_header, TXS3_header.Length - 4, 4);
-
-                    byte[] TXS3_unk10 = new byte[1] { 0x02 };
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
-                    Array.Copy(TXS3_unk10, 0, TXS3_header, TXS3_header.Length - 1, 1);
-
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
-                    if (DXT == "86")
-                        Array.Copy(TXS3_DXT1, 0, TXS3_header, TXS3_header.Length - 1, 1);
-                    else if (DXT == "88")
-                        Array.Copy(TXS3_DXT5, 0, TXS3_header, TXS3_header.Length - 1, 1);
-                    else if (DXT == "85")
-                        Array.Copy(TXS3_DXT10, 0, TXS3_header, TXS3_header.Length - 1, 1);
-
-                    byte[] TXS3_unk11 = new byte[1] { 0x01 };
-                    for (int i = 0; i < 2; i++)
-                    {
-                        Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
-                        Array.Copy(TXS3_unk11, 0, TXS3_header, TXS3_header.Length - 1, 1);
-                    }
-
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
-                    Array.Copy(TXS3_yoko, 0, TXS3_header, TXS3_header.Length - 2, 2);
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
-                    Array.Copy(TXS3_tate, 0, TXS3_header, TXS3_header.Length - 2, 2);
-
-                    byte[] TXS3_unk12 = new byte[4] { 0x00, 0x01, 0x00, 0x00 };
-                    Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                    Array.Copy(TXS3_unk12, 0, TXS3_header, TXS3_header.Length - 4, 4);
-
-                    for (int i = 0; i < 26; i++)
-                    {
-                        Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                        Array.Copy(zero4, 0, TXS3_header, TXS3_header.Length - 4, 4);
-                    }
-                    
-                    if (!Directory.Exists(folderpath))
-                        Directory.CreateDirectory(folderpath);
-
-                    //上下反転(むり)
-                    /*
-                    int TXS3_tate_int = Getbyteint2(TXS3_tate, 0);
-                    int TXS3_narabikae_seek = TXS3_tex_length - 8;
-                    byte[] TXS3_tex_new = new byte[0];
-                    //MessageBox.Show(TXS3_yoko_int + "," + TXS3_tate_int);
-                    for (int i = 0; i < TXS3_tex_length / 8; i++)
-                    {
-                        Array.Resize(ref TXS3_tex_new, TXS3_tex_new.Length + 8);
-                        Array.Copy(TXS3_tex, TXS3_narabikae_seek, TXS3_tex_new, TXS3_tex_new.Length - 8, 8);
-                        TXS3_narabikae_seek -= 8;
-                    }
-                    */
-
-                    string newpath = folderpath + @"\" + writefilecount + "_";
-                    if (DXT == "86")
-                        newpath = newpath + "DXT1";
-                    else if (DXT == "87")
-                        newpath = newpath + "DXT3";
-                    else if (DXT == "88")
-                        newpath = newpath + "DXT5";
-                    else if (DXT == "85")
-                        newpath = newpath + "DXT10";
-                    newpath = newpath + ".img";
-
-                    FileStream fsw = new FileStream(newpath, FileMode.Create, FileAccess.Write);
-                    fsw.Write(TXS3_header, 0, TXS3_header.Length);
-                    fsw.Write(TXS3_tex, 0, TXS3_tex.Length);
-                    fsw.Close();
 
                 labelTXS3finish:;
 
@@ -334,7 +362,7 @@ namespace GT5_MDL3内のTXS3を編集するツール
                 fsw_fo.Write(bs, 0, bs.Length);
                 int newfilecount = -1;
                 
-                for (a = 0; a < img_files.Count(); a++)
+                for (a = 0; a < TXS3_count; a++)
                 {
                 labelnewfilestart:;
 
@@ -344,23 +372,30 @@ namespace GT5_MDL3内のTXS3を編集するツール
                         TXS3_pointer += 32;
                         goto labelnewfilestart;
                     }
-                    else
-                        newfilecount += 1;
+
+                    int lod_count = Getbyteint1(bs, TXS3_pointer + 10);
+                    if (lod_count > 1)
+                        lod_count -= 5;
 
                     TXS3_tex_seek = Getbyteint4(bs, TXS3_pointer);
                     int TXS3_tex_length = Getbyteint4(bs, TXS3_pointer + 4);
 
-                    byte[] TXS3_tex_new = new byte[0];
-                    //img読み込み
-                    FileStream fsr_img = new FileStream(img_files[newfilecount], FileMode.Open, FileAccess.Read);
-                    byte[] bs_img = new byte[fsr_img.Length];
-                    fsr_img.Read(bs_img, 0, bs_img.Length);
-                    fsr_img.Close();
-                    Array.Resize(ref TXS3_tex_new, bs_img.Length - 256);
-                    Array.Copy(bs_img, 256, TXS3_tex_new, 0, bs_img.Length - 256);
-                    fsw_fo.Seek(TXS3_tex_seek, SeekOrigin.Begin);
-                    fsw_fo.Write(TXS3_tex_new, 0, TXS3_tex_new.Length);
-
+                    for (int j = 0; j < lod_count; j++)
+                    {
+                        newfilecount += 1;
+                        byte[] TXS3_tex_new = new byte[0];
+                        //img読み込み
+                        FileStream fsr_img = new FileStream(img_files[newfilecount], FileMode.Open, FileAccess.Read);
+                        byte[] bs_img = new byte[fsr_img.Length];
+                        fsr_img.Read(bs_img, 0, bs_img.Length);
+                        fsr_img.Close();
+                        Array.Resize(ref TXS3_tex_new, bs_img.Length - 256);
+                        Array.Copy(bs_img, 256, TXS3_tex_new, 0, bs_img.Length - 256);
+                        fsw_fo.Seek(TXS3_tex_seek, SeekOrigin.Begin);
+                        fsw_fo.Write(TXS3_tex_new, 0, TXS3_tex_new.Length);
+                        
+                        TXS3_tex_seek += TXS3_tex_new.Length;
+                    }
                     TXS3_pointer += 32;
                     bgWorker.ReportProgress(a);
                 }
