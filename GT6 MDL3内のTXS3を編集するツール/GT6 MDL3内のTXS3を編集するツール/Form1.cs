@@ -585,7 +585,7 @@ namespace GT6_body_s内のTXS3を編集するツール
                     FileInfo fi_s_cmp = new FileInfo(path_body_GT6);
                     compressMDL3(ref fs_s_cmp, ref fi_s_cmp);
 
-                    //System.IO.File.Delete(Path.GetDirectoryName(path_newfolder) + @"\body_s.bin");
+                    System.IO.File.Delete(Path.GetDirectoryName(path_newfolder) + @"\body_s.bin");
                 }
                 
             labelfinish:;
