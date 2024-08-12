@@ -5,7 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 using static System.Net.WebRequestMethods;
 
 namespace GT6_body_s内のTXS3を編集するツール
@@ -437,16 +439,20 @@ namespace GT6_body_s内のTXS3を編集するツール
                 path_directory = path[b].Substring(0, path_lastindex);
 
                 //hqとraceの存在チェック(テクスチャ)
-                string path_replace = path[b].Substring(path_lastindex, path[b].Length - path_lastindex);
+                string path_replace = path[b].Substring(path_lastindex + 1, path[b].Length - path_lastindex - 1);
                 string texfoldername = "";
 
                 if (path_replace.IndexOf("_hq_texture") >= 0)
                 {
                     texfoldername = path_replace.Replace("_hq_texture", "");
                     path_replace = path_replace.Replace("_hq_texture", "_race_texture");
-                    path_GT6folder = path_directory + texfoldername;
+                    path_GT6folder = path_directory + @"\" + texfoldername;
                     path_body_GT6 = path_GT6folder + @"\hq\body";
                     path2_body_GT6 = path_GT6folder + @"\race\body";
+
+                    if (texfoldername.Length == 8 && Regex.IsMatch(texfoldername, @"^[0-9]+$") == true)
+                        texfoldername = texfoldername.Insert(4, @"\");
+
                     path_newfolder = path_directory + @"\new\" + texfoldername + @"\hq\";
                     path2_newfolder = path_directory + @"\new\" + texfoldername + @"\race\";
                 }
@@ -454,9 +460,13 @@ namespace GT6_body_s内のTXS3を編集するツール
                 {
                     texfoldername = path_replace.Replace("_race_texture", "");
                     path_replace = path_replace.Replace("_race_texture", "_hq_texture");
-                    path_GT6folder = path_directory + texfoldername;
+                    path_GT6folder = path_directory + @"\" + texfoldername;
                     path_body_GT6 = path_GT6folder + @"\race\body";
                     path2_body_GT6 = path_GT6folder + @"\hq\body";
+
+                    if (texfoldername.Length == 8 && Regex.IsMatch(texfoldername, @"^[0-9]+$") == true)
+                        texfoldername = texfoldername.Insert(4, @"\");
+
                     path_newfolder = path_directory + @"\new\" + texfoldername + @"\race\";
                     path2_newfolder = path_directory + @"\new\" + texfoldername + @"\hq\";
                 }
@@ -465,7 +475,7 @@ namespace GT6_body_s内のTXS3を編集するツール
                     goto labelfinish;
                 texfoldername_before = texfoldername;
 
-                path2_tex_folder = path[b].Substring(0, path_lastindex) + path_replace;
+                path2_tex_folder = path[b].Substring(0, path_lastindex) + @"\" + path_replace;
 
                 bool istexfolder = Directory.Exists(path2_tex_folder);
 
@@ -505,7 +515,7 @@ namespace GT6_body_s内のTXS3を編集するツール
                         path_body_GT6 = path2_body_GT6;
                         path_newfolder = path2_newfolder;
                     }
-                    
+
                     if (!System.IO.File.Exists(path_body_s_dcmp))
                         goto labelfinish;
                     Array.Sort(img_files, new LogicalStringComparer());
@@ -526,7 +536,7 @@ namespace GT6_body_s内のTXS3を編集するツール
                     fsr_body_s.Close();
                     
                     FileStream fsw_app = new FileStream(Path.GetDirectoryName(path_newfolder) + @"\body_s.bin", FileMode.Create, FileAccess.Write);
-                    
+
                     int newfilecount = -1;
 
                     int TXS3_header_pointer = Getbyteint4(bs_body, 72);
@@ -580,7 +590,7 @@ namespace GT6_body_s内のTXS3を編集するツール
                     labelnewfilefinish:;
                     }
                     fsw_app.Close();
-                    
+
                     FileStream fs_s_cmp = new FileStream(path_body_GT6, FileMode.Open, FileAccess.Read);
                     FileInfo fi_s_cmp = new FileInfo(path_body_GT6);
                     compressMDL3(ref fs_s_cmp, ref fi_s_cmp);
@@ -1360,8 +1370,13 @@ namespace GT6_body_s内のTXS3を編集するツール
             foldername_base = foldername_base.Substring(foldername_base.LastIndexOf(@"\") + 1, foldername_base.Length - foldername_base.LastIndexOf(@"\") - 1);
             string hq_race = fi.DirectoryName.Substring(fi.DirectoryName.LastIndexOf(@"\") + 1, fi.DirectoryName.Length - fi.DirectoryName.LastIndexOf(@"\") - 1);
             dfs_path = fi.DirectoryName.Substring(0, fi.DirectoryName.LastIndexOf(@"\"));
+
+            if (foldername_base.Length == 8 && Regex.IsMatch(foldername_base, @"^[0-9]+$") == true)
+                foldername_base = foldername_base.Insert(4, @"\");
+
+            //MessageBox.Show(foldername_base);
             dfs_path = dfs_path.Substring(0, dfs_path.LastIndexOf(@"\")) + @"\new\" + foldername_base + @"\" + hq_race + @"\body";
-            
+
             //FileStream zfs = new FileStream(fi.DirectoryName + "\\body_s.multiZlib", FileMode.Open, FileAccess.Read);
             FileStream zfs_cmp = new FileStream(fi.DirectoryName + @"\body_s", FileMode.Open, FileAccess.Read);
             FileStream zfs = new FileStream(dfs_path + @"_s.bin", FileMode.Open, FileAccess.Read);
