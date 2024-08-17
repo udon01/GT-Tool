@@ -107,6 +107,20 @@ namespace GT6_body_s内のTXS3を編集するツール
                 //ここまで
                 */
 
+                /*
+                //確認(展開てすと)
+                FileStream fs_test = new FileStream(path[b], FileMode.Open, FileAccess.Read);
+                byte[] cmp_test = new byte[path[b].Length];
+                fs_test.Read(cmp_test, 0, path[b].Length);
+                fs_test.Close();
+                FileStream dfs_test = new FileStream(path[b] + "_てすと.png", FileMode.Create, FileAccess.Write);
+                byte[] dcmp_test = Ionic.Zlib.DeflateStream.UncompressBuffer(cmp_test);
+                dfs_test.Write(dcmp_test, 0, dcmp_test.Length);
+                dfs_test.Close();
+                goto labelfinish;
+                //ここまで
+                */
+
                 string path_hq = path[b] + @"\hq\body";
                 string path_race = path[b] + @"\race\body";
 
@@ -182,7 +196,7 @@ namespace GT6_body_s内のTXS3を編集するツール
 
                         int lod_count = Getbyteint1(bs_body, TXS3_pointer + 10);
                         if (lod_count > 1)
-                            lod_count -= 5;
+                            lod_count -= 4;
 
                         int TXS3_tex_length = Getbyteint4(bs_body, TXS3_pointer + 4);
 
@@ -203,6 +217,9 @@ namespace GT6_body_s内のTXS3を編集するツール
                                 else if (DXT == "85")
                                     TXS3_tex_length *= 4;
                             }
+                            if (TXS3_tex_length <= 128)
+                                goto labelTXS3finish;
+
                             byte[] TXS3_tex = new byte[TXS3_tex_length];
 
                             if (TXS3_tex_seek + TXS3_tex_length > bs_body_s.Length)
@@ -347,6 +364,8 @@ namespace GT6_body_s内のTXS3を編集するツール
                             Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
                             if (DXT == "86")
                                 Array.Copy(TXS3_DXT1, 0, TXS3_header, TXS3_header.Length - 1, 1);
+                            else if (DXT == "87")
+                                Array.Copy(TXS3_DXT3, 0, TXS3_header, TXS3_header.Length - 1, 1);
                             else if (DXT == "88")
                                 Array.Copy(TXS3_DXT5, 0, TXS3_header, TXS3_header.Length - 1, 1);
                             else if (DXT == "85")
@@ -388,9 +407,7 @@ namespace GT6_body_s内のTXS3を編集するツール
                             }
                             */
 
-                            string newpath = folderpath + @"\" + (TXS3_num + 1) + "_";
-                            if (lod_count > 1)
-                                newpath = newpath + (j + 1) + "_";
+                            string newpath = folderpath + @"\" + (TXS3_num + 1) + "_" + (j + 1) + "_";
                             if (DXT == "86")
                                 newpath = newpath + "DXT1";
                             else if (DXT == "87")
@@ -503,7 +520,7 @@ namespace GT6_body_s内のTXS3を編集するツール
 
                 if (!System.IO.File.Exists(MDL3path))
                     goto labelfinish;
-
+                
                 for (int c = 0; c < loopcount; c++)
                 {
                     string path_body_s_dcmp = path[b] + @"\body_s.bin";
@@ -536,7 +553,7 @@ namespace GT6_body_s内のTXS3を編集するツール
                     fsr_body_s.Close();
                     
                     FileStream fsw_app = new FileStream(Path.GetDirectoryName(path_newfolder) + @"\body_s.bin", FileMode.Create, FileAccess.Write);
-
+                    
                     int newfilecount = -1;
 
                     int TXS3_header_pointer = Getbyteint4(bs_body, 72);
@@ -564,13 +581,49 @@ namespace GT6_body_s内のTXS3を編集するツール
 
                         int lod_count = Getbyteint1(bs_body, TXS3_pointer + 10);
                         if (lod_count > 1)
-                            lod_count -= 5;
+                            lod_count -= 4;
 
                         int TXS3_tex_length = Getbyteint4(bs_body, TXS3_pointer + 4);
 
                         for (int j = 0; j < lod_count; j++)
                         {
                             newfilecount += 1;
+
+                            if (img_files.Count() == newfilecount)
+                                goto lodcountfinish;
+                            string img_files_check_1 = img_files[newfilecount];
+                            img_files_check_1 = Path.GetFileName(img_files_check_1);
+                            string img_files_check_2 = img_files_check_1.Substring(img_files_check_1.IndexOf("_") + 1, 1);
+                            img_files_check_1 = img_files_check_1.Substring(0, img_files_check_1.IndexOf("_"));
+                            if (Regex.IsMatch(img_files_check_1, "[1-9]") == true)
+                            {
+                                int img_files_lod_num = int.Parse(img_files_check_1);
+                                if (img_files_lod_num - 1 != TXS3_num)
+                                {
+                                    newfilecount -= 1;
+                                    goto lodcountfinish;
+                                }
+                            }
+                            else
+                            {
+                                newfilecount -= 1;
+                                goto lodcountfinish;
+                            }
+                            if (Regex.IsMatch(img_files_check_2, "[1-9]") == true)
+                            {
+                                int img_files_lod_num = int.Parse(img_files_check_2);
+                                if (img_files_lod_num - 1 != j)
+                                {
+                                    newfilecount -= 1;
+                                    goto lodcountfinish;
+                                }
+                            }
+                            else
+                            {
+                                newfilecount -= 1;
+                                goto lodcountfinish;
+                            }
+
                             byte[] TXS3_tex_new = new byte[0];
                             //img読み込み
                             FileStream fsr_img = new FileStream(img_files[newfilecount], FileMode.Open, FileAccess.Read);
@@ -580,9 +633,15 @@ namespace GT6_body_s内のTXS3を編集するツール
                             Array.Resize(ref TXS3_tex_new, bs_img.Length - 256);
                             Array.Copy(bs_img, 256, TXS3_tex_new, 0, bs_img.Length - 256);
                             fsw_app.Seek(TXS3_tex_seek, SeekOrigin.Begin);
+
+                            //byte[] test = new byte[bs_img.Length - 256];
+                            //fsw_app.Write(test, 0, TXS3_tex_new.Length);
+
                             fsw_app.Write(TXS3_tex_new, 0, TXS3_tex_new.Length);
 
                             TXS3_tex_seek += TXS3_tex_new.Length;
+
+                        lodcountfinish:;
                         }
                         TXS3_pointer += 32;
                         bgWorker.ReportProgress(a);
@@ -594,7 +653,7 @@ namespace GT6_body_s内のTXS3を編集するツール
                     FileStream fs_s_cmp = new FileStream(path_body_GT6, FileMode.Open, FileAccess.Read);
                     FileInfo fi_s_cmp = new FileInfo(path_body_GT6);
                     compressMDL3(ref fs_s_cmp, ref fi_s_cmp);
-
+                    
                     System.IO.File.Delete(Path.GetDirectoryName(path_newfolder) + @"\body_s.bin");
                 }
                 
@@ -1187,9 +1246,13 @@ namespace GT6_body_s内のTXS3を編集するツール
                         {
                             fs.Seek((chunkInfoOff00 + (0x8 * k)), SeekOrigin.Begin);
                             fs.Read(infoBuffer2, 0, 2); uint zFlag = BitConverter.ToUInt16(ArrayReverse(infoBuffer2), 0);
-                            fs.Read(infoBuffer2, 0, 2); uint zSize = BitConverter.ToUInt16(ArrayReverse(infoBuffer2), 0);
+                            fs.Seek(fs.Position - 2, SeekOrigin.Begin);
+                            fs.Read(infoBuffer4, 0, 4);
+                            byte[] zSize_byte = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
+                            Array.Copy(infoBuffer4, 1, zSize_byte, 1, 3);
+                            uint zSize = BitConverter.ToUInt32(ArrayReverse(zSize_byte), 0);
 
-                            string loopnumber = i.ToString() + "_" + j.ToString() + "_" + k.ToString();
+                            //string loopnumber = i.ToString() + "_" + j.ToString() + "_" + k.ToString();
                             
                             /*
                             //バイト配列書き出し
@@ -1262,13 +1325,15 @@ namespace GT6_body_s内のTXS3を編集するツール
                                 zfs.Seek(chunkStart2, SeekOrigin.Begin);
                                 byte[] cmpData = new byte[zSize];
                                 zfs.Read(cmpData, 0, cmpData.Length);
+
+                                //string loopnumber = i.ToString() + "_" + j.ToString() + "_" + k.ToString() + "_" + l.ToString();
+
                                 if (zFlag == 0)
                                 {
                                     dfs.Write(cmpData, 0, cmpData.Length);
 
                                     /*
                                     //展開データ
-                                    string loopnumber = i.ToString() + "_" + j.ToString() + "_" + k.ToString() + "_" + l.ToString();
                                     FileStream dfs_check_cmp = new FileStream(dfs_path_check + @"cmp\" + text_ex_num + " " + loopnumber + ".bin", FileMode.Create, FileAccess.Write);
                                     dfs_check_cmp.Write(cmpData, 0, cmpData.Length);
                                     dfs_check_cmp.Close();
@@ -1285,7 +1350,6 @@ namespace GT6_body_s内のTXS3を編集するツール
 
                                     /*
                                     //展開データ
-                                    string loopnumber = i.ToString() + "_" + j.ToString() + "_" + k.ToString() + "_" + l.ToString();
                                     FileStream dfs_check_cmp = new FileStream(dfs_path_check + @"cmp\" + text_ex_num + " " + loopnumber + ".bin", FileMode.Create, FileAccess.Write);
                                     dfs_check_cmp.Write(cmpData, 0, cmpData.Length);
                                     dfs_check_cmp.Close();
@@ -1355,10 +1419,10 @@ namespace GT6_body_s内のTXS3を編集するツール
             */
 
             /*
-            //バイト配列書き出し用
+            //バイト配列・展開データ書き出し用
             string text_test = "";
             int fs_read_seek = 0;
-            //int text_ex_num = 1;
+            int text_ex_num = 1;
             //書き出しここまで
             */
 
@@ -1374,7 +1438,6 @@ namespace GT6_body_s内のTXS3を編集するツール
             if (foldername_base.Length == 8 && Regex.IsMatch(foldername_base, @"^[0-9]+$") == true)
                 foldername_base = foldername_base.Insert(4, @"\");
 
-            //MessageBox.Show(foldername_base);
             dfs_path = dfs_path.Substring(0, dfs_path.LastIndexOf(@"\")) + @"\new\" + foldername_base + @"\" + hq_race + @"\body";
 
             //FileStream zfs = new FileStream(fi.DirectoryName + "\\body_s.multiZlib", FileMode.Open, FileAccess.Read);
@@ -1383,8 +1446,12 @@ namespace GT6_body_s内のTXS3を編集するツール
             FileStream dfs = new FileStream(dfs_path, FileMode.Create, FileAccess.Write);
             FileStream dfs_s = new FileStream(dfs_path + "_s", FileMode.Create, FileAccess.Write);
 
-            zfs.Seek(0x04, SeekOrigin.Begin);
+            zfs.Seek(0x1C, SeekOrigin.Begin);
+            zfs.Read(infoBuffer4, 0, 4); uint body_s_texstart_base = BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0);
+            zfs.Seek(body_s_texstart_base + 4, SeekOrigin.Begin);
             zfs.Read(infoBuffer4, 0, 4); uint body_s_texstart = BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0);
+
+            zfs.Seek(0x8, SeekOrigin.Begin);
             zfs.Read(infoBuffer4, 0, 4); uint body_s_texfinish = BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0);
             
             byte[] dfs_body_base = new byte[fs.Length];
@@ -1392,7 +1459,7 @@ namespace GT6_body_s内のTXS3を編集するツール
             dfs.Write(dfs_body_base, 0, dfs_body_base.Length);
 
             fs.Seek(0xDC, SeekOrigin.Begin);
-            fs.Read(infoBuffer4, 0, 4); uint body_s_cmp_point_seek = BitConverter.ToUInt16(ArrayReverse(infoBuffer4), 0);
+            fs.Read(infoBuffer4, 0, 4); uint body_s_cmp_point_seek = BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0);
             fs.Seek(body_s_cmp_point_seek, SeekOrigin.Begin);
 
             fs.Read(infoBuffer2, 0, 2); uint zlibInfo0 = BitConverter.ToUInt16(ArrayReverse(infoBuffer2), 0);
@@ -1493,6 +1560,8 @@ namespace GT6_body_s内のTXS3を編集するツール
                         byte[] dcmpData = new byte[uSize];
                         zfs.Read(dcmpData, 0, dcmpData.Length);
 
+                        //string loopnumber = i.ToString() + "_" + j.ToString() + "_" + k.ToString();
+
                         if (zFlag == 0)
                         {
                             dfs_s.Write(dcmpData, 0, dcmpData.Length);
@@ -1501,7 +1570,6 @@ namespace GT6_body_s内のTXS3を編集するツール
 
                             /*
                             //展開データ
-                            //string loopnumber = i.ToString() + "_" + j.ToString() + "_" + k.ToString();
                             if (!Directory.Exists(dfs_path.Substring(0, dfs_path.LastIndexOf(@"\")) + @"\cmp\"))
                                 Directory.CreateDirectory(dfs_path.Substring(0, dfs_path.LastIndexOf(@"\")) + @"\cmp\");
                             if (!Directory.Exists(dfs_path.Substring(0, dfs_path.LastIndexOf(@"\")) + @"\dcmp\"))
@@ -1521,8 +1589,7 @@ namespace GT6_body_s内のTXS3を編集するツール
 
                             byte[] cmpData_length;
                             byte[] cmpData;
-                            
-                            if (body_s_texstart <= writedata_point_old && body_s_texfinish >= writedata_point_old + uSize)
+                            if (body_s_texstart <= writedata_point_old + uSize && body_s_texfinish >= writedata_point_old + uSize)
                             {
                                 cmpData = Ionic.Zlib.DeflateStream.CompressBuffer(dcmpData);
                                 dfs_s.Write(cmpData, 0, cmpData.Length);
@@ -1551,7 +1618,6 @@ namespace GT6_body_s内のTXS3を編集するツール
 
                             /*
                             //展開データ
-                            //string loopnumber = i.ToString() + "_" + j.ToString() + "_" + k.ToString();
                             if (!Directory.Exists(dfs_path.Substring(0, dfs_path.LastIndexOf(@"\")) + @"\cmp\"))
                                 Directory.CreateDirectory(dfs_path.Substring(0, dfs_path.LastIndexOf(@"\")) + @"\cmp\");
                             if (!Directory.Exists(dfs_path.Substring(0, dfs_path.LastIndexOf(@"\")) + @"\dcmp\"))
@@ -1605,6 +1671,9 @@ namespace GT6_body_s内のTXS3を編集するツール
                             zfs.Seek(writedata_point_old, SeekOrigin.Begin);
                             byte[] dcmpData = new byte[uSize];
                             zfs.Read(dcmpData, 0, dcmpData.Length);
+
+                            //string loopnumber = i.ToString() + "_" + j.ToString() + "_" + k.ToString() + "_" + l.ToString();
+
                             if (zFlag == 0)
                             {
                                 dfs_s.Write(dcmpData, 0, dcmpData.Length);
@@ -1617,7 +1686,6 @@ namespace GT6_body_s内のTXS3を編集するツール
                                     Directory.CreateDirectory(dfs_path.Substring(0, dfs_path.LastIndexOf(@"\")) + @"\cmp\");
                                 if (!Directory.Exists(dfs_path.Substring(0, dfs_path.LastIndexOf(@"\")) + @"\dcmp\"))
                                     Directory.CreateDirectory(dfs_path.Substring(0, dfs_path.LastIndexOf(@"\")) + @"\dcmp\");
-                                string loopnumber = i.ToString() + "_" + j.ToString() + "_" + k.ToString() + "_" + l.ToString();
                                 FileStream dfs_check_cmp = new FileStream(dfs_path.Substring(0, dfs_path.LastIndexOf(@"\")) + @"\cmp\" + text_ex_num + " " + loopnumber + ".bin", FileMode.Create, FileAccess.Write);
                                 dfs_check_cmp.Write(dcmpData, 0, dcmpData.Length);
                                 dfs_check_cmp.Close();
@@ -1664,7 +1732,6 @@ namespace GT6_body_s内のTXS3を編集するツール
                                     Directory.CreateDirectory(dfs_path.Substring(0, dfs_path.LastIndexOf(@"\")) + @"\cmp\");
                                 if (!Directory.Exists(dfs_path.Substring(0, dfs_path.LastIndexOf(@"\")) + @"\dcmp\"))
                                     Directory.CreateDirectory(dfs_path.Substring(0, dfs_path.LastIndexOf(@"\")) + @"\dcmp\");
-                                string loopnumber = i.ToString() + "_" + j.ToString() + "_" + k.ToString() + "_" + l.ToString();
                                 FileStream dfs_check_cmp = new FileStream(dfs_path.Substring(0, dfs_path.LastIndexOf(@"\")) + @"\cmp\" + text_ex_num + " " + loopnumber + ".bin", FileMode.Create, FileAccess.Write);
                                 dfs_check_cmp.Write(cmpData, 0, cmpData.Length);
                                 dfs_check_cmp.Close();

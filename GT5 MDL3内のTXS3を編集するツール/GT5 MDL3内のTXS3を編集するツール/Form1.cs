@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using static System.Net.WebRequestMethods;
 
@@ -105,7 +106,7 @@ namespace GT5_MDL3内のTXS3を編集するツール
 
                     int lod_count = Getbyteint1(bs, TXS3_pointer + 10);
                     if (lod_count > 1)
-                        lod_count -= 5;
+                        lod_count -= 4;
 
                     TXS3_tex_seek = Getbyteint4(bs, TXS3_pointer);
                     int TXS3_tex_length = Getbyteint4(bs, TXS3_pointer + 4);
@@ -135,6 +136,9 @@ namespace GT5_MDL3内のTXS3を編集するツール
                             else if (DXT == "85")
                                 TXS3_tex_length *= 4;
                         }
+                        if (TXS3_tex_length <= 128)
+                            goto labelTXS3finish;
+
                         byte[] TXS3_tex = new byte[TXS3_tex_length];
                         Array.Copy(bs, TXS3_tex_seek, TXS3_tex, 0, TXS3_tex_length);
 
@@ -268,6 +272,8 @@ namespace GT5_MDL3内のTXS3を編集するツール
                         Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
                         if (DXT == "86")
                             Array.Copy(TXS3_DXT1, 0, TXS3_header, TXS3_header.Length - 1, 1);
+                        else if (DXT == "87")
+                            Array.Copy(TXS3_DXT3, 0, TXS3_header, TXS3_header.Length - 1, 1);
                         else if (DXT == "88")
                             Array.Copy(TXS3_DXT5, 0, TXS3_header, TXS3_header.Length - 1, 1);
                         else if (DXT == "85")
@@ -312,9 +318,7 @@ namespace GT5_MDL3内のTXS3を編集するツール
                         }
                         */
 
-                        string newpath = folderpath + @"\" + writefilecount + "_";
-                        if (lod_count > 1)
-                            newpath = newpath + (j + 1) + "_";
+                        string newpath = folderpath + @"\" + writefilecount + "_" + (j + 1) + "_";
                         if (DXT == "86")
                             newpath = newpath + "DXT1";
                         else if (DXT == "87")
@@ -375,7 +379,7 @@ namespace GT5_MDL3内のTXS3を編集するツール
 
                     int lod_count = Getbyteint1(bs, TXS3_pointer + 10);
                     if (lod_count > 1)
-                        lod_count -= 5;
+                        lod_count -= 4;
 
                     TXS3_tex_seek = Getbyteint4(bs, TXS3_pointer);
                     int TXS3_tex_length = Getbyteint4(bs, TXS3_pointer + 4);
@@ -383,6 +387,30 @@ namespace GT5_MDL3内のTXS3を編集するツール
                     for (int j = 0; j < lod_count; j++)
                     {
                         newfilecount += 1;
+
+                        if (lod_count > 1)
+                        {
+                            if (img_files.Count() == newfilecount)
+                                goto lodcountfinish;
+                            string img_files_check = img_files[newfilecount];
+                            img_files_check = Path.GetFileName(img_files_check);
+                            img_files_check = img_files_check.Substring(img_files_check.IndexOf("_") + 1, 1);
+                            if (Regex.IsMatch(img_files_check, "[1-9]") == true)
+                            {
+                                int img_files_lod_num = int.Parse(img_files_check);
+                                if (img_files_lod_num - 1 != j)
+                                {
+                                    newfilecount -= 1;
+                                    goto lodcountfinish;
+                                }
+                            }
+                            else
+                            {
+                                newfilecount -= 1;
+                                goto lodcountfinish;
+                            }
+                        }
+                        
                         byte[] TXS3_tex_new = new byte[0];
                         //img読み込み
                         FileStream fsr_img = new FileStream(img_files[newfilecount], FileMode.Open, FileAccess.Read);
@@ -395,6 +423,8 @@ namespace GT5_MDL3内のTXS3を編集するツール
                         fsw_fo.Write(TXS3_tex_new, 0, TXS3_tex_new.Length);
                         
                         TXS3_tex_seek += TXS3_tex_new.Length;
+
+                    lodcountfinish:;
                     }
                     TXS3_pointer += 32;
                     bgWorker.ReportProgress(a);
