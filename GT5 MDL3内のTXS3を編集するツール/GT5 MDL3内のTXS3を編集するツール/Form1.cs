@@ -352,15 +352,29 @@ namespace GT5_MDL3内のTXS3を編集するツール
             labelfolder:;
                 
                 string folderpath_file = path[b];
-                
                 folderpath_file = folderpath_file.Remove(folderpath_file.LastIndexOf("_texture"), 8);
-                
+
                 if (!System.IO.File.Exists(folderpath_file))
                     goto labelfinish;
 
-                string folderpath_newfile = Path.GetDirectoryName(folderpath_file) + @"\new\" + Path.GetFileName(folderpath_file);
                 if (!Directory.Exists(Path.GetDirectoryName(folderpath_file) + @"\new\"))
                     Directory.CreateDirectory(Path.GetDirectoryName(folderpath_file) + @"\new\");
+
+                string filename = Path.GetFileName(folderpath_file);
+                if (filename.Substring(filename.Length - 3, 3) == "_hq")
+                {
+                    filename = @"hq\" + filename.Substring(0, filename.Length - 3);
+                    if (!Directory.Exists(Path.GetDirectoryName(folderpath_file) + @"\new\" + @"hq\"))
+                        Directory.CreateDirectory(Path.GetDirectoryName(folderpath_file) + @"\new\" + @"hq\");
+                }
+                else if (filename.Substring(filename.Length - 5, 5) == "_race")
+                {
+                    filename = @"race\" + filename.Substring(0, filename.Length - 5);
+                    if (!Directory.Exists(Path.GetDirectoryName(folderpath_file) + @"\new\" + @"race\"))
+                        Directory.CreateDirectory(Path.GetDirectoryName(folderpath_file) + @"\new\" + @"race\");
+                }
+
+                string folderpath_newfile = Path.GetDirectoryName(folderpath_file) + @"\new\" + filename;
 
                 FileStream fsw_fo = new FileStream(folderpath_newfile, FileMode.Create, FileAccess.Write);
                 fsw_fo.Write(bs, 0, bs.Length);
