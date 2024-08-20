@@ -364,12 +364,16 @@ namespace GT5_MDL3内のTXS3を編集するツール
                 if (filename.Substring(filename.Length - 3, 3) == "_hq")
                 {
                     filename = @"hq\" + filename.Substring(0, filename.Length - 3);
+                    if (Path.GetFileName(folderpath_file).Substring(0, 8).All(char.IsDigit))
+                        filename = @"hq\" + Path.GetFileName(folderpath_file).Substring(0, 8);
                     if (!Directory.Exists(Path.GetDirectoryName(folderpath_file) + @"\new\" + @"hq\"))
                         Directory.CreateDirectory(Path.GetDirectoryName(folderpath_file) + @"\new\" + @"hq\");
                 }
                 else if (filename.Substring(filename.Length - 5, 5) == "_race")
                 {
                     filename = @"race\" + filename.Substring(0, filename.Length - 5);
+                    if (Path.GetFileName(folderpath_file).Substring(0, 8).All(char.IsDigit))
+                        filename = @"race\" + Path.GetFileName(folderpath_file).Substring(0, 8);
                     if (!Directory.Exists(Path.GetDirectoryName(folderpath_file) + @"\new\" + @"race\"))
                         Directory.CreateDirectory(Path.GetDirectoryName(folderpath_file) + @"\new\" + @"race\");
                 }
@@ -404,7 +408,7 @@ namespace GT5_MDL3内のTXS3を編集するツール
 
                         if (lod_count > 1)
                         {
-                            if (img_files.Count() == newfilecount)
+                            if (img_files.Count() <= newfilecount)
                                 goto lodcountfinish;
                             string img_files_check = img_files[newfilecount];
                             img_files_check = Path.GetFileName(img_files_check);
@@ -444,7 +448,7 @@ namespace GT5_MDL3内のTXS3を編集するツール
                     bgWorker.ReportProgress(a);
                 }
                 fsw_fo.Close();
-
+                
             labelfinish:;
             }
         }
