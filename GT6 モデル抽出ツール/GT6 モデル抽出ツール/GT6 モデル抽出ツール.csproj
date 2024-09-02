@@ -7,7 +7,7 @@
     <ProjectGuid>{FED3CFD4-2AFE-4EE9-9B70-BD71E44426BE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>GT6_モデル抽出ツール</RootNamespace>
-    <AssemblyName>GT6 モデル抽出ツール</AssemblyName>
+    <AssemblyName>GT6 モデル抽出ツール v1.01</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

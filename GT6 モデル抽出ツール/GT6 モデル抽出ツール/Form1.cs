@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Windows.Forms;
 using Ionic.Zip;
@@ -65,8 +66,8 @@ namespace GT6_モデル抽出ツール
                 FileInfo fi_s = new FileInfo(path[b]);
                 extractMDL3_HIGHLOD(ref fs_s, ref fi_s);
 
-                string expath_base = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\" + "body_s_extracted";
-                string expath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\" + "body_s_extracted";
+                string expath_base = Path.GetDirectoryName(path[b]) + @"\" + "body_s_extracted";
+                string expath = Path.GetDirectoryName(path[b]) + @"\" + "body_s_extracted";
                 for (int i = 0; i < 3; i++)
                 {
                     string expath_py = expath.Replace(@"\", "/");
@@ -259,6 +260,14 @@ namespace GT6_モデル抽出ツール
                 }
             }
             objSw.WriteLine("g " + ffi.Name);
+            /*
+            for (int i = 0; i < posList.Count / 3; i++)
+            {
+                objSw.WriteLine("f  " + (i + 1).ToString() + "/" + (i + 1).ToString() + "/" + (i + 1).ToString() + " "
+                                      + (i + 1).ToString() + "/" + (i + 1).ToString() + "/" + (i + 1).ToString() + " "
+                                      + (i + 1).ToString() + "/" + (i + 1).ToString() + "/" + (i + 1).ToString());
+            }
+            */
             objSw.Close();
         }
         
@@ -652,6 +661,7 @@ namespace GT6_モデル抽出ツール
                         //Enumerate vertices
                         List<List<float>> verticesList = new List<List<float>>();
                         bfs.Seek(vAddress, SeekOrigin.Begin);
+                        //MessageBox.Show(i.ToString() + " " + "vAddress" + " " + vAddress.ToString("X"));
                         for (int j = 0; j < vCount; j++)
                         {
                             List<float> vEnum = new List<float>();
@@ -672,6 +682,7 @@ namespace GT6_モデル抽出ツール
                         //Enumerate Faces
                         List<List<ushort>> facesList = new List<List<ushort>>();
                         bfs.Seek(fAddress, SeekOrigin.Begin);
+                        //MessageBox.Show(i.ToString() + " " + "fAddress" + " " + fAddress.ToString("X"));
                         for (int j = 0; j < (fCount / 3); j++)
                         {
                             List<ushort> fEnum = new List<ushort>();
@@ -747,11 +758,20 @@ namespace GT6_モデル抽出ツール
                         for (int j = 0; j < sTable1[i][7]; j++)
                         {
                             bfs.Seek(meshDataInfo[j][0], SeekOrigin.Begin);
+                            int test = 0;
+                            int test2 = 0;
 
                             //Enumerate ushort vertices as tris
                             List<List<float>> vList0 = new List<List<float>>();
                             int objunknown = 0;
-                            for (int k = 0; k < meshDataInfo[j][8]; k++)
+                            /*
+                            for (int testcount = 0; testcount < meshDataInfo[j].Count(); testcount++)
+                            {
+                                if (i == 5)
+                                MessageBox.Show(i.ToString() + " " + "meshDataInfo" + " " + meshDataInfo[j][testcount].ToString());
+                            }
+                            */
+                            for (int k = 0; k < meshDataInfo[j][9]; k++)
                             {
                                 List<float> vEnum = new List<float>();
                                 float vxF = 0; float vyF = 0; float vzF = 0;
@@ -765,13 +785,21 @@ namespace GT6_モデル抽出ツール
                                         break;
                                 }
                                 else
+                                {
                                     vList0.Add(vEnum);
+                                    test += 6;
+                                    test2 += 1;
+                                }
                             }
                             if (objunknown < 10)
                             {
+                                //MessageBox.Show(test2.ToString());
+                                //MessageBox.Show(i.ToString() + " " + "meshDataInfo1" + " " + meshDataInfo[j][0].ToString("X"));
+                                //MessageBox.Show(i.ToString() + " " + "meshDataInfo2" + " " + (meshDataInfo[j][0] + test).ToString("X"));
                                 string outputPath = bfi.DirectoryName + "\\" + Path.GetFileNameWithoutExtension(bfi.Name) + "_extracted";
                                 Directory.CreateDirectory(outputPath);
-                                writeSpecifiedObjFile(vList0, outputPath, ref bfi, 1, bfi.Name, "_" + j.ToString() + "_" + sTable1[i][0].ToString("X"));
+                                //MessageBox.Show(i.ToString());
+                                writeSpecifiedObjFile(vList0, outputPath, ref bfi, 1, bfi.Name, "_" + i.ToString() + "_" + sTable1[i][0].ToString("X"));
                             }
                         }
 

@@ -63,7 +63,7 @@
             this.Controls.Add(this.ProgressBar1);
             this.Controls.Add(this.Label1);
             this.Name = "Form1";
-            this.Text = "GT6 モデル抽出ツール";
+            this.Text = "GT6 モデル抽出ツール v1.01";
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
