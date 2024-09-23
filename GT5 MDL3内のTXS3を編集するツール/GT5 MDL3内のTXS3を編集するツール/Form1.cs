@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -357,25 +358,60 @@ namespace GT5_MDL3内のTXS3を編集するツール
                 if (!System.IO.File.Exists(folderpath_file))
                     goto labelfinish;
 
+                string filename = Path.GetFileName(folderpath_file);
+
+                string path_wheel = "";
+                if (filename.LastIndexOf("wheel") >= 0)
+                    path_wheel = "wheel";
+                else if (filename.LastIndexOf("ホイール") >= 0)
+                    path_wheel = "ホイール";
+
                 if (!Directory.Exists(Path.GetDirectoryName(folderpath_file) + @"\new\"))
                     Directory.CreateDirectory(Path.GetDirectoryName(folderpath_file) + @"\new\");
 
-                string filename = Path.GetFileName(folderpath_file);
                 if (filename.Substring(filename.Length - 3, 3) == "_hq")
                 {
                     filename = @"hq\" + filename.Substring(0, filename.Length - 3);
+                    //数字8文字
                     if (Path.GetFileName(folderpath_file).Substring(0, 8).All(char.IsDigit))
-                        filename = @"hq\" + Path.GetFileName(folderpath_file).Substring(0, 8);
-                    if (!Directory.Exists(Path.GetDirectoryName(folderpath_file) + @"\new\" + @"hq\"))
-                        Directory.CreateDirectory(Path.GetDirectoryName(folderpath_file) + @"\new\" + @"hq\");
+                        //ホイール
+                        if (filename.Substring(filename.Length - 5, 5) == "wheel" || filename.Substring(filename.Length - 4, 4) == "ホイール")
+                        {
+                            if (Path.GetFileName(folderpath_file).Substring(8, 1) == "." && Path.GetFileName(folderpath_file).Substring(9, 2).All(char.IsDigit))
+                                filename = @"wheel\hq\" + Path.GetFileName(folderpath_file).Substring(0, 11);
+                            else
+                                filename = @"wheel\hq\" + Path.GetFileName(folderpath_file).Substring(0, 8);
+                            if (!Directory.Exists(Path.GetDirectoryName(folderpath_file) + @"\new\wheel\hq\"))
+                                Directory.CreateDirectory(Path.GetDirectoryName(folderpath_file) + @"\new\wheel\hq\");
+                        }
+                        else
+                        {
+                            filename = @"car\hq\" + Path.GetFileName(folderpath_file).Substring(0, 8);
+                            if (!Directory.Exists(Path.GetDirectoryName(folderpath_file) + @"\new\car\hq\"))
+                                Directory.CreateDirectory(Path.GetDirectoryName(folderpath_file) + @"\new\car\hq\");
+                        }
                 }
                 else if (filename.Substring(filename.Length - 5, 5) == "_race")
                 {
                     filename = @"race\" + filename.Substring(0, filename.Length - 5);
+                    //数字8文字
                     if (Path.GetFileName(folderpath_file).Substring(0, 8).All(char.IsDigit))
-                        filename = @"race\" + Path.GetFileName(folderpath_file).Substring(0, 8);
-                    if (!Directory.Exists(Path.GetDirectoryName(folderpath_file) + @"\new\" + @"race\"))
-                        Directory.CreateDirectory(Path.GetDirectoryName(folderpath_file) + @"\new\" + @"race\");
+                        //ホイール
+                        if (filename.Substring(filename.Length - 5, 5) == "wheel" || filename.Substring(filename.Length - 4, 4) == "ホイール")
+                        {
+                            if (Path.GetFileName(folderpath_file).Substring(8, 1) == "." && Path.GetFileName(folderpath_file).Substring(9, 2).All(char.IsDigit))
+                                filename = @"wheel\race\" + Path.GetFileName(folderpath_file).Substring(0, 11);
+                            else
+                                filename = @"wheel\race\" + Path.GetFileName(folderpath_file).Substring(0, 8);
+                            if (!Directory.Exists(Path.GetDirectoryName(folderpath_file) + @"\new\wheel\race\"))
+                                Directory.CreateDirectory(Path.GetDirectoryName(folderpath_file) + @"\new\wheel\race\");
+                        }
+                        else
+                        {
+                            filename = @"car\race\" + Path.GetFileName(folderpath_file).Substring(0, 8);
+                            if (!Directory.Exists(Path.GetDirectoryName(folderpath_file) + @"\new\car\race\"))
+                                Directory.CreateDirectory(Path.GetDirectoryName(folderpath_file) + @"\new\car\race\");
+                        }
                 }
 
                 string folderpath_newfile = Path.GetDirectoryName(folderpath_file) + @"\new\" + filename;
