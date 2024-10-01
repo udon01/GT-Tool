@@ -27,14 +27,15 @@ namespace GT6_モデル抽出ツール
         public static int a = 0;
         public static int filecount = 0;
         public static bool close = false;
-        public static float ScaleX = 1;
-        public static float ScaleY = 1;
-        public static float ScaleZ = 1;
-        public static float ScaleW = 1;
-        public static float OffsetX = 0;
-        public static float OffsetY = 0;
-        public static float OffsetZ = 0;
-        public static float OffsetW = 0;
+        public static int ElementBitLayoutDA_Count = 0;
+        public static List<float> ScaleX = new List<float>();
+        public static List<float> ScaleY = new List<float>();
+        public static List<float> ScaleZ = new List<float>();
+        public static List<uint> ScaleW = new List<uint>();
+        public static List<float> OffsetX = new List<float>();
+        public static List<float> OffsetY = new List<float>();
+        public static List<float> OffsetZ = new List<float>();
+        public static List<uint> OffsetW = new List<uint>();
 
         private void Form1_Shown(object sender, EventArgs e)
         {
@@ -220,11 +221,15 @@ namespace GT6_モデル抽出ツール
             foreach (List<float> lf in posList)
             {
                 string x, y, z;
-                float vx = lf[0] * ScaleX;
-                float vy = lf[1] * ScaleY;
-                float vz = lf[2] * ScaleZ;
-                //オフセットを適用するとおかしい
+                float vx = lf[0] * (ScaleX[ElementBitLayoutDA_Count] * 2);
+                float vy = lf[1] * (ScaleY[ElementBitLayoutDA_Count] * 2);
+                float vz = -lf[2] * (ScaleZ[ElementBitLayoutDA_Count] * 2);
 
+                // オフセット
+                vx = vx - (OffsetX[ElementBitLayoutDA_Count] / 3);
+                vy = vy + (OffsetY[ElementBitLayoutDA_Count] / 9);
+                vz = vz - (OffsetZ[ElementBitLayoutDA_Count] / 3);
+                
                 Vector3 vec = new Vector3(vx, vy, vz);
                 float radian = (float)(90 * Math.PI / 180); // 90度をラジアン角に変換
                 Quaternion q = Quaternion.CreateFromAxisAngle(Vector3.UnitX, radian); // ワールド座標のX(1, 0, 0)を軸に90度の回転
@@ -450,32 +455,43 @@ namespace GT6_モデル抽出ツール
             List<int> YBitEnd = new List<int>();
             List<int> ZBitEnd = new List<int>();
             List<int> WBitEnd = new List<int>();
+            ScaleX = new List<float>();
+            ScaleY = new List<float>();
+            ScaleZ = new List<float>();
+            ScaleW = new List<uint>();
+            OffsetX = new List<float>();
+            OffsetY = new List<float>();
+            OffsetZ = new List<float>();
+            OffsetW = new List<uint>();
 
             for (int i = 0; i < pmshTable3Count; i++)
             {
                 fs.Seek(pmshTable3Address + (i * 8), SeekOrigin.Begin);
-                fs.Read(infoBuffer4, 0, 4); // Length
+                fs.Read(infoBuffer4, 0, 4); uint Length = BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0);
                 fs.Read(infoBuffer4, 0, 4); uint EntriesOffset = BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0);
                 fs.Seek(EntriesOffset, SeekOrigin.Begin);
-                fs.Read(infoBuffer4, 0, 4); TotalBitCount.Add(BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0));
-                fs.Read(infoBuffer1, 0, 1); XBitCount.Add(infoBuffer1[0]);
-                fs.Read(infoBuffer1, 0, 1); YBitCount.Add(infoBuffer1[0]);
-                fs.Read(infoBuffer1, 0, 1); ZBitCount.Add(infoBuffer1[0]);
-                fs.Read(infoBuffer1, 0, 1); WBitCount.Add(infoBuffer1[0]);
-                fs.Read(infoBuffer1, 0, 1); XBitEnd.Add(infoBuffer1[0]);
-                fs.Read(infoBuffer1, 0, 1); YBitEnd.Add(infoBuffer1[0]);
-                fs.Read(infoBuffer1, 0, 1); ZBitEnd.Add(infoBuffer1[0]);
-                fs.Read(infoBuffer1, 0, 1); WBitEnd.Add(infoBuffer1[0]);
-                fs.Read(infoBuffer2, 0, 2); // unk[0]
-                fs.Read(infoBuffer2, 0, 2); // unk[1]
-                fs.Read(infoBuffer4, 0, 4); ScaleX = BitConverter.ToSingle(ArrayReverse(infoBuffer4), 0);
-                fs.Read(infoBuffer4, 0, 4); ScaleY = BitConverter.ToSingle(ArrayReverse(infoBuffer4), 0);
-                fs.Read(infoBuffer4, 0, 4); ScaleZ = BitConverter.ToSingle(ArrayReverse(infoBuffer4), 0);
-                fs.Read(infoBuffer4, 0, 4); ScaleW = BitConverter.ToSingle(ArrayReverse(infoBuffer4), 0);
-                fs.Read(infoBuffer4, 0, 4); OffsetX = BitConverter.ToSingle(ArrayReverse(infoBuffer4), 0);
-                fs.Read(infoBuffer4, 0, 4); OffsetY = BitConverter.ToSingle(ArrayReverse(infoBuffer4), 0);
-                fs.Read(infoBuffer4, 0, 4); OffsetZ = BitConverter.ToSingle(ArrayReverse(infoBuffer4), 0);
-                fs.Read(infoBuffer4, 0, 4); OffsetW = BitConverter.ToSingle(ArrayReverse(infoBuffer4), 0);
+                for (int j = 0; j < Length; j++)
+                {
+                    fs.Read(infoBuffer4, 0, 4); TotalBitCount.Add(BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0));
+                    fs.Read(infoBuffer1, 0, 1); XBitCount.Add(infoBuffer1[0]);
+                    fs.Read(infoBuffer1, 0, 1); YBitCount.Add(infoBuffer1[0]);
+                    fs.Read(infoBuffer1, 0, 1); ZBitCount.Add(infoBuffer1[0]);
+                    fs.Read(infoBuffer1, 0, 1); WBitCount.Add(infoBuffer1[0]);
+                    fs.Read(infoBuffer1, 0, 1); XBitEnd.Add(infoBuffer1[0]);
+                    fs.Read(infoBuffer1, 0, 1); YBitEnd.Add(infoBuffer1[0]);
+                    fs.Read(infoBuffer1, 0, 1); ZBitEnd.Add(infoBuffer1[0]);
+                    fs.Read(infoBuffer1, 0, 1); WBitEnd.Add(infoBuffer1[0]);
+                    fs.Read(infoBuffer2, 0, 2); // unk[0]
+                    fs.Read(infoBuffer2, 0, 2); // unk[1]
+                    fs.Read(infoBuffer4, 0, 4); ScaleX.Add(BitConverter.ToSingle(ArrayReverse(infoBuffer4), 0));
+                    fs.Read(infoBuffer4, 0, 4); ScaleY.Add(BitConverter.ToSingle(ArrayReverse(infoBuffer4), 0));
+                    fs.Read(infoBuffer4, 0, 4); ScaleZ.Add(BitConverter.ToSingle(ArrayReverse(infoBuffer4), 0));
+                    fs.Read(infoBuffer4, 0, 4); ScaleW.Add(BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0));
+                    fs.Read(infoBuffer4, 0, 4); OffsetX.Add(BitConverter.ToSingle(ArrayReverse(infoBuffer4), 0));
+                    fs.Read(infoBuffer4, 0, 4); OffsetY.Add(BitConverter.ToSingle(ArrayReverse(infoBuffer4), 0));
+                    fs.Read(infoBuffer4, 0, 4); OffsetZ.Add(BitConverter.ToSingle(ArrayReverse(infoBuffer4), 0));
+                    fs.Read(infoBuffer4, 0, 4); OffsetW.Add(BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0));
+                }
             }
 
             if (pmshTable4Count > 0)
@@ -732,7 +748,6 @@ namespace GT6_モデル抽出ツール
                     }
                     else //highest lod
                     {
-                        int ElementBitLayoutDA_Count = 0;
                         //Read bounding box
                         bfs.Seek(sTable1[i][3], SeekOrigin.Begin);
                         List<List<float>> boundingBox = new List<List<float>>();
@@ -747,7 +762,7 @@ namespace GT6_モデル抽出ツール
 
                         string outputPath = bfi.DirectoryName + "\\" + Path.GetFileNameWithoutExtension(bfi.Name) + "_extracted" + @"\boundingBox";
                         Directory.CreateDirectory(outputPath);
-                        WriteSpecifiedObjFile_High(boundingBox, outputPath, ref bfi, 1, bfi.Name, "_" + "boundingBox_" + sTable1[i][0].ToString("X"));
+                        WriteSpecifiedObjFile_High(boundingBox, outputPath, ref bfi, 1, bfi.Name, "_boundingBox_" + sTable1[i][0].ToString("X"));
 
                         //Read info1
                         bfs.Seek(sTable1[i][4], SeekOrigin.Begin);
@@ -792,6 +807,7 @@ namespace GT6_モデル抽出ツール
 
                             //Enumerate ushort vertices as tris
                             List<List<float>> vList0 = new List<List<float>>();
+
                             int objunknown = 0;
                             /*
                             for (int testcount = 0; testcount < meshDataInfo[j].Count(); testcount++)
@@ -800,6 +816,11 @@ namespace GT6_モデル抽出ツール
                                 MessageBox.Show(i.ToString() + " " + "meshDataInfo" + " " + meshDataInfo[j][testcount].ToString());
                             }
                             */
+                            //MessageBox.Show(meshDataInfo[j][9].ToString("X"));
+                            //MessageBox.Show(XBitCount[ElementBitLayoutDA_Count].ToString("X"));
+
+                            ElementBitLayoutDA_Count = 0;
+                            int TotalBitCount_all = 0;
                             for (int k = 0; k < meshDataInfo[j][9]; k++)
                             {
                                 List<float> vEnum = new List<float>();
@@ -813,13 +834,36 @@ namespace GT6_モデル抽出ツール
                                 }
                                 else
                                 {
-                                    int TotalByteCount = (int)(TotalBitCount[ElementBitLayoutDA_Count] / 8);
-                                    if (TotalBitCount[ElementBitLayoutDA_Count] % 8 != 0)
+                                    int TotalByteCount = (int)(TotalBitCount[ElementBitLayoutDA_Count]) / 8;
+                                    if ((int)(TotalBitCount[ElementBitLayoutDA_Count]) % 8 != 0)
                                         TotalByteCount += 1;
-                                    byte[] infoBuffer_Byteunk = new byte[TotalByteCount];
-                                    bfs.Read(infoBuffer_Byteunk, 0, TotalByteCount);
-                                    string Bitstr = BitConverter.ToString(infoBuffer_Byteunk).Replace("-", string.Empty);
-                                    //MessageBox.Show(Bitstr);
+                                    string TotalBitstr2 = "";
+                                    bfs.Seek(bfs.Position + TotalBitCount_all / 8, SeekOrigin.Begin);
+                                    for (int m = 0; m < TotalByteCount; m++)
+                                    {
+                                        bfs.Read(infoBuffer1, 0, 1); int Bitint = infoBuffer1[0];
+                                        string Bitstr2 = Convert.ToString(Bitint, 2);
+                                        if (Bitstr2.Length < 8)
+                                        {
+                                            string Bitstr_plus0 = "";
+                                            for (int n = 0; n < 8 - Bitstr2.Length; n++)
+                                            {
+                                                Bitstr_plus0 = "0" + Bitstr_plus0;
+                                            }
+                                            Bitstr2 = Bitstr_plus0 + Bitstr2;
+                                        }
+                                        TotalBitstr2 = TotalBitstr2 + Bitstr2;
+                                    }
+                                    //MessageBox.Show(TotalBitstr2);
+
+                                    string XBitstr = TotalBitstr2.Substring(0,XBitCount[ElementBitLayoutDA_Count]);
+                                    vxF = -Convert.ToInt32(XBitstr, 2); vxF /= 0xFFFF; vEnum.Add(vxF);
+                                    string YBitstr = TotalBitstr2.Substring(XBitstr.Length, YBitCount[ElementBitLayoutDA_Count]);
+                                    vyF = Convert.ToInt32(YBitstr, 2); vyF /= 0xFFFF; vEnum.Add(vyF);
+                                    string ZBitstr = TotalBitstr2.Substring(XBitstr.Length + YBitstr.Length, ZBitCount[ElementBitLayoutDA_Count]);
+                                    vzF = Convert.ToInt32(ZBitstr, 2); vzF /= 0xFFFF; vEnum.Add(vzF);
+                                    vList0.Add(vEnum);
+                                    TotalBitCount_all = TotalBitCount_all + XBitstr.Length + YBitstr.Length + ZBitstr.Length;
                                 }
                                 /*
                                 if (vxF == 0 & vyF == 0 & vzF == 0)
