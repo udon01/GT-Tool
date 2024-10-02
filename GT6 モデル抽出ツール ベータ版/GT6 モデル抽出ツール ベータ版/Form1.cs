@@ -427,24 +427,37 @@ namespace GT6_モデル抽出ツール
             fs.Read(infoBuffer2, 0, 2);
             fs.Read(infoBuffer4, 0, 4); //PMSH Address from beginning of MDL3 file
             fs.Read(infoBuffer4, 0, 4); //padding?
-            fs.Read(infoBuffer2, 0, 2); ushort pmshTable1Count = BitConverter.ToUInt16(ArrayReverse(infoBuffer2), 0);
-            fs.Read(infoBuffer2, 0, 2); ushort pmshTable2Count = BitConverter.ToUInt16(ArrayReverse(infoBuffer2), 0);
-            fs.Read(infoBuffer2, 0, 2); ushort pmshTable3Count = BitConverter.ToUInt16(ArrayReverse(infoBuffer2), 0);
-            fs.Read(infoBuffer2, 0, 2); ushort pmshTable4Count = BitConverter.ToUInt16(ArrayReverse(infoBuffer2), 0);
-            fs.Read(infoBuffer4, 0, 4); uint pmshTable1Address = BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0);
-            fs.Read(infoBuffer4, 0, 4); uint pmshTable2Address = BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0);
-            fs.Read(infoBuffer4, 0, 4); uint pmshTable3Address = BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0);
-            fs.Read(infoBuffer4, 0, 4); uint pmshTable4Address = BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0);
+            fs.Read(infoBuffer2, 0, 2); ushort FormatCount = BitConverter.ToUInt16(ArrayReverse(infoBuffer2), 0);
+            fs.Read(infoBuffer2, 0, 2); ushort UnkCount = BitConverter.ToUInt16(ArrayReverse(infoBuffer2), 0);
+            fs.Read(infoBuffer2, 0, 2); ushort ElementBitLayoutDefinitionArrayCount = BitConverter.ToUInt16(ArrayReverse(infoBuffer2), 0);
+            fs.Read(infoBuffer2, 0, 2); ushort StructDeclarationCount = BitConverter.ToUInt16(ArrayReverse(infoBuffer2), 0);
+            fs.Read(infoBuffer4, 0, 4); uint FormatsOffset = BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0);
+            fs.Read(infoBuffer4, 0, 4); uint UnkOffset = BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0);
+            fs.Read(infoBuffer4, 0, 4); uint ElementBitLayoutDefinitionArraysOffset = BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0);
+            fs.Read(infoBuffer4, 0, 4); uint StructDeclarationsOffset = BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0);
 
-            if (pmshTable1Count > 0)
+            List<int> ElementBitLayoutDefinitionIndex = new List<int>();
+
+            for (int i = 0; i < FormatCount; i++)
             {
-                fs.Seek(pmshTable1Address, SeekOrigin.Begin);
+                fs.Seek(FormatsOffset, SeekOrigin.Begin);
+                fs.Read(infoBuffer2, 0, 2); // FlexDeclarationIndex
+                fs.Read(infoBuffer2, 0, 2); ElementBitLayoutDefinitionIndex.Add(BitConverter.ToUInt16(ArrayReverse(infoBuffer2), 0));
+                fs.Read(infoBuffer2, 0, 2); // unk[0]
+                fs.Read(infoBuffer1, 0, 1); // CountOfUnk
+                fs.Read(infoBuffer1, 0, 1); // unk[1]
+                fs.Read(infoBuffer4, 0, 4); // UnkOffset
+                fs.Read(infoBuffer4, 0, 4); // unk[2]
+                fs.Read(infoBuffer4, 0, 4); // DataOffset
+                fs.Read(infoBuffer4, 0, 4); // BBoxOffset
             }
 
-            if (pmshTable2Count > 0)
+            /*
+            if (UnkCount > 0)
             {
-                fs.Seek(pmshTable2Address, SeekOrigin.Begin);
+                fs.Seek(UnkOffset, SeekOrigin.Begin);
             }
+            */
 
             List<uint> TotalBitCount = new List<uint>();
             List<int> XBitCount = new List<int>();
@@ -464,9 +477,9 @@ namespace GT6_モデル抽出ツール
             OffsetZ = new List<float>();
             OffsetW = new List<uint>();
 
-            for (int i = 0; i < pmshTable3Count; i++)
+            for (int i = 0; i < ElementBitLayoutDefinitionArrayCount; i++)
             {
-                fs.Seek(pmshTable3Address + (i * 8), SeekOrigin.Begin);
+                fs.Seek(ElementBitLayoutDefinitionArraysOffset + (i * 8), SeekOrigin.Begin);
                 fs.Read(infoBuffer4, 0, 4); uint Length = BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0);
                 fs.Read(infoBuffer4, 0, 4); uint EntriesOffset = BitConverter.ToUInt32(ArrayReverse(infoBuffer4), 0);
                 fs.Seek(EntriesOffset, SeekOrigin.Begin);
@@ -494,13 +507,13 @@ namespace GT6_モデル抽出ツール
                 }
             }
 
-            if (pmshTable4Count > 0)
+            if (StructDeclarationCount > 0)
             {
                 List<uint> stringTableInfoPointers = new List<uint>();
 
-                fs.Seek(pmshTable4Address, SeekOrigin.Begin);
+                fs.Seek(StructDeclarationsOffset, SeekOrigin.Begin);
 
-                for (int i = 0; i < pmshTable4Count; i++)
+                for (int i = 0; i < StructDeclarationCount; i++)
                 {
                     fs.Read(infoBuffer1, 0, 1); //flag1
                     fs.Read(infoBuffer1, 0, 1); //flag2
@@ -512,7 +525,7 @@ namespace GT6_モデル抽出ツール
                     fs.Read(infoBuffer4, 0, 4); //unk2
                 }
 
-                for (int i = 0; i < pmshTable4Count; i++)
+                for (int i = 0; i < StructDeclarationCount; i++)
                 {
                     fs.Seek(stringTableInfoPointers[i], SeekOrigin.Begin);
                     fs.Read(infoBuffer2, 0, 2); // ushort unk01;
@@ -561,7 +574,7 @@ namespace GT6_モデル抽出ツール
                         fs.Read(infoBuffer4, 0, 4); //ulong unkL07;
                         fs.Read(infoBuffer4, 0, 4); //ulong unkL08;
                     }
-                    if (i == (pmshTable4Count - 1))
+                    if (i == (StructDeclarationCount - 1))
                     {
                         //bp++;
                     }
@@ -691,6 +704,7 @@ namespace GT6_モデル抽出ツール
                 }
 
                 //Parse and extract sTable1[i][7] //SO FAR, (known as the mesh data signaling flag when its 0x00000000, 0x00000001, and 0x00000002)
+                //for (int i = 0; i < 1; i++)
                 for (int i = 0; i < sTable1Count; i++)
                 {
                     if (sTable1[i][7] == 0) //standard lod
@@ -798,6 +812,7 @@ namespace GT6_モデル抽出ツール
                         }
 
                         //MessageBox.Show(sTable1[i][7].ToString("X"));
+                        int EBLDI_count = 0;
                         //Process HIGHLOD vertices
                         for (int j = 0; j < sTable1[i][7]; j++)
                         {
@@ -817,54 +832,44 @@ namespace GT6_モデル抽出ツール
                             }
                             */
                             //MessageBox.Show(meshDataInfo[j][9].ToString("X"));
-                            //MessageBox.Show(XBitCount[ElementBitLayoutDA_Count].ToString("X"));
 
-                            ElementBitLayoutDA_Count = 0;
                             int TotalBitCount_all = 0;
                             for (int k = 0; k < meshDataInfo[j][9]; k++)
                             {
                                 List<float> vEnum = new List<float>();
                                 float vxF = 0; float vyF = 0; float vzF = 0;
-                                if (XBitCount[ElementBitLayoutDA_Count] == 16 && YBitCount[ElementBitLayoutDA_Count] == 16 && ZBitCount[ElementBitLayoutDA_Count] == 16)
+                                int TotalByteCount = (int)(TotalBitCount[ElementBitLayoutDefinitionIndex[EBLDI_count]]) / 8;
+                                if ((int)(TotalBitCount[ElementBitLayoutDefinitionIndex[EBLDI_count]]) % 8 != 0)
+                                    TotalByteCount += 1;
+                                string TotalBitstr2 = "";
+                                bfs.Seek(meshDataInfo[j][0] + (TotalBitCount_all / 8), SeekOrigin.Begin);
+                                //MessageBox.Show((meshDataInfo[j][0] + (TotalBitCount_all / 8)).ToString("X"));
+                                for (int m = 0; m < TotalByteCount; m++)
                                 {
-                                    bfs.Read(infoBuffer2, 0, 2); vxF = -BitConverter.ToUInt16(ArrayReverse(infoBuffer2), 0); vxF /= 0xFFFF; vEnum.Add(vxF);
-                                    bfs.Read(infoBuffer2, 0, 2); vyF = BitConverter.ToUInt16(ArrayReverse(infoBuffer2), 0); vyF /= 0xFFFF; vEnum.Add(vyF);
-                                    bfs.Read(infoBuffer2, 0, 2); vzF = BitConverter.ToUInt16(ArrayReverse(infoBuffer2), 0); vzF /= 0xFFFF; vEnum.Add(vzF);
-                                    vList0.Add(vEnum);
-                                }
-                                else
-                                {
-                                    int TotalByteCount = (int)(TotalBitCount[ElementBitLayoutDA_Count]) / 8;
-                                    if ((int)(TotalBitCount[ElementBitLayoutDA_Count]) % 8 != 0)
-                                        TotalByteCount += 1;
-                                    string TotalBitstr2 = "";
-                                    bfs.Seek(bfs.Position + TotalBitCount_all / 8, SeekOrigin.Begin);
-                                    for (int m = 0; m < TotalByteCount; m++)
+                                    bfs.Read(infoBuffer1, 0, 1); int Bitint = infoBuffer1[0];
+                                    string Bitstr2 = Convert.ToString(Bitint, 2);
+                                    if (Bitstr2.Length < 8)
                                     {
-                                        bfs.Read(infoBuffer1, 0, 1); int Bitint = infoBuffer1[0];
-                                        string Bitstr2 = Convert.ToString(Bitint, 2);
-                                        if (Bitstr2.Length < 8)
+                                        string Bitstr_plus0 = "";
+                                        for (int n = 0; n < 8 - Bitstr2.Length; n++)
                                         {
-                                            string Bitstr_plus0 = "";
-                                            for (int n = 0; n < 8 - Bitstr2.Length; n++)
-                                            {
-                                                Bitstr_plus0 = "0" + Bitstr_plus0;
-                                            }
-                                            Bitstr2 = Bitstr_plus0 + Bitstr2;
+                                            Bitstr_plus0 = "0" + Bitstr_plus0;
                                         }
-                                        TotalBitstr2 = TotalBitstr2 + Bitstr2;
+                                        Bitstr2 = Bitstr_plus0 + Bitstr2;
                                     }
-                                    //MessageBox.Show(TotalBitstr2);
-
-                                    string XBitstr = TotalBitstr2.Substring(0,XBitCount[ElementBitLayoutDA_Count]);
-                                    vxF = -Convert.ToInt32(XBitstr, 2); vxF /= 0xFFFF; vEnum.Add(vxF);
-                                    string YBitstr = TotalBitstr2.Substring(XBitstr.Length, YBitCount[ElementBitLayoutDA_Count]);
-                                    vyF = Convert.ToInt32(YBitstr, 2); vyF /= 0xFFFF; vEnum.Add(vyF);
-                                    string ZBitstr = TotalBitstr2.Substring(XBitstr.Length + YBitstr.Length, ZBitCount[ElementBitLayoutDA_Count]);
-                                    vzF = Convert.ToInt32(ZBitstr, 2); vzF /= 0xFFFF; vEnum.Add(vzF);
-                                    vList0.Add(vEnum);
-                                    TotalBitCount_all = TotalBitCount_all + XBitstr.Length + YBitstr.Length + ZBitstr.Length;
+                                    TotalBitstr2 = TotalBitstr2 + Bitstr2;
                                 }
+                                //MessageBox.Show(TotalBitstr2);
+
+                                string XBitstr = TotalBitstr2.Substring(0, XBitCount[ElementBitLayoutDefinitionIndex[EBLDI_count]]);
+                                vxF = -Convert.ToInt32(XBitstr, 2); vxF /= 0xFFFF; vEnum.Add(vxF);
+                                string YBitstr = TotalBitstr2.Substring(XBitstr.Length, YBitCount[ElementBitLayoutDefinitionIndex[EBLDI_count]]);
+                                vyF = Convert.ToInt32(YBitstr, 2); vyF /= 0xFFFF; vEnum.Add(vyF);
+                                string ZBitstr = TotalBitstr2.Substring(XBitstr.Length + YBitstr.Length, ZBitCount[ElementBitLayoutDefinitionIndex[EBLDI_count]]);
+                                vzF = Convert.ToInt32(ZBitstr, 2); vzF /= 0xFFFF; vEnum.Add(vzF);
+                                vList0.Add(vEnum);
+                                TotalBitCount_all = TotalBitCount_all + XBitstr.Length + YBitstr.Length + ZBitstr.Length;
+                                //MessageBox.Show((TotalBitCount_all / 8).ToString("X") + "\n" + bfs.Position.ToString("X"));
                                 /*
                                 if (vxF == 0 & vyF == 0 & vzF == 0)
                                 {
@@ -886,6 +891,7 @@ namespace GT6_モデル抽出ツール
                                 Directory.CreateDirectory(outputPath);
                                 WriteSpecifiedObjFile_High(vList0, outputPath, ref bfi, 1, bfi.Name, "_" + i.ToString() + "_" + sTable1[i][0].ToString("X"));
                             }
+                            EBLDI_count += 1;
                         }
 
                     }
