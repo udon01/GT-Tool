@@ -25,9 +25,8 @@ namespace GT6_body_s内のTXS3を編集するツール
         public static byte[] zero4 = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
         public static string dfs_path = "";
         public static string[] dragfilepath = new string[0];
-        public static string texfoldername_before = "";
-        public static bool comp_double = false;
         public static byte[] zFlag_cmp = new byte[1] { 0x80 };
+        public static bool isfolder = false;
 
         private void Form1_DragDrop(object sender, DragEventArgs e)
         {
@@ -121,11 +120,12 @@ namespace GT6_body_s内のTXS3を編集するツール
                 //ここまで
                 */
 
+                //ボディ
                 string path_hq = path[b] + @"\hq\body";
                 string path_race = path[b] + @"\race\body";
 
                 int loopcount = 1;
-                bool isfolder = Directory.Exists(path[b]);
+                isfolder = Directory.Exists(path[b]);
                 bool path_hq_exist = System.IO.File.Exists(path_hq);
                 bool path_race_exist = System.IO.File.Exists(path_race);
                 if (isfolder == true)
@@ -151,305 +151,48 @@ namespace GT6_body_s内のTXS3を編集するツール
                         path_body = MDL3path;
                     }
 
-                    if (!Directory.Exists(folderpath))
-                        Directory.CreateDirectory(folderpath);
-
-                    FileStream fs_s = new FileStream(path_body, FileMode.Open, FileAccess.Read);
-                    FileInfo fi_s = new FileInfo(path_body);
-                    extractMDL3(ref fs_s, ref fi_s, isfolder);
-
-                    // body
-                    FileStream fsr_body = new FileStream(path_body, FileMode.Open, FileAccess.Read);
-                    byte[] bs_body = new byte[fsr_body.Length];
-                    fsr_body.Read(bs_body, 0, bs_body.Length);
-                    fsr_body.Close();
-
-                    // body_s.bin
-                    FileStream fsr_body_s = new FileStream(dfs_path, FileMode.Open, FileAccess.Read);
-                    byte[] bs_body_s = new byte[fsr_body_s.Length];
-                    fsr_body_s.Read(bs_body_s, 0, bs_body_s.Length);
-                    fsr_body_s.Close();
-
-                    int TXS3_header_pointer = Getbyteint4(bs_body, 72);
-                    int TXS3_count = Getbyteint4(bs_body, TXS3_header_pointer + 20);
-                    filecount = TXS3_count;
-                    int TXS3_pointer = TXS3_header_pointer + 64;
-                    int TXS3_tex_seek_base = Getbyteint4(bs_body_s, 28);
-
-                    byte[] MDL3 = new byte[4];
-                    Array.Copy(bs_body, 0, MDL3, 0, 4);
-                    string MDL3_str = System.Text.Encoding.ASCII.GetString(MDL3);
-                    if (MDL3_str != "MDL3")
-                        goto labelfinish;
-
-                    int writefilecount = 0;
-
-                    for (a = 0; a < TXS3_count; a++)
-                    {
-                        string DXT = Getbytestr1(bs_body, TXS3_pointer + 9);
-                        int TXS3_num = Getbyteint4(bs_body_s, TXS3_tex_seek_base + (writefilecount * 16));
-                        int TXS3_tex_seek = Getbyteint4(bs_body_s, TXS3_tex_seek_base + 4 + (writefilecount * 16));
-                        if (DXT == "A5" || TXS3_num != a)
-                            goto labelTXS3finish;
-                        else
-                            writefilecount += 1;
-
-                        int lod_count = Getbyteint1(bs_body, TXS3_pointer + 10);
-                        if (lod_count > 1)
-                            lod_count -= 4;
-
-                        int TXS3_tex_length = Getbyteint4(bs_body, TXS3_pointer + 4);
-
-                        byte[] TXS3_yoko = new byte[2];
-                        Array.Copy(bs_body, TXS3_pointer + 12, TXS3_yoko, 0, 2);
-                        int TXS3_yoko_int = Getbyteint2(TXS3_yoko, 0);
-                        byte[] TXS3_tate = new byte[2];
-                        Array.Copy(bs_body, TXS3_pointer + 14, TXS3_tate, 0, 2);
-                        int TXS3_tate_int = Getbyteint2(TXS3_tate, 0);
-
-                        for (int j = 0; j < lod_count; j++)
-                        {
-                            if (lod_count > 1)
-                            {
-                                TXS3_tex_length = TXS3_yoko_int * TXS3_tate_int;
-                                if (DXT == "86")
-                                    TXS3_tex_length /= 2;
-                                else if (DXT == "85")
-                                    TXS3_tex_length *= 4;
-                            }
-                            if (TXS3_tex_length <= 128)
-                                goto labelTXS3finish;
-
-                            byte[] TXS3_tex = new byte[TXS3_tex_length];
-
-                            if (TXS3_tex_seek + TXS3_tex_length > bs_body_s.Length)
-                                goto loopfinish;
-                            Array.Copy(bs_body_s, TXS3_tex_seek, TXS3_tex, 0, TXS3_tex_length);
-
-                            byte[] TXS3_header = new byte[4];
-                            byte[] TXS3 = new byte[4] { 0x54, 0x58, 0x53, 0x33 };
-                            Array.Copy(TXS3, 0, TXS3_header, 0, 4);
-
-                            byte[] TXS3_length = Gethex4(256 + TXS3_tex_length);
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                            Array.Copy(TXS3_length, 0, TXS3_header, TXS3_header.Length - 4, 4);
-
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                            Array.Copy(zero4, 0, TXS3_header, TXS3_header.Length - 4, 4);
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                            Array.Copy(TXS3_length, 0, TXS3_header, TXS3_header.Length - 4, 4);
-
-                            byte[] TXS3_unk1 = new byte[16] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x84 };
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 16);
-                            Array.Copy(TXS3_unk1, 0, TXS3_header, TXS3_header.Length - 16, 16);
-
-                            /*
-                            //GT6用?
-                            if (DXT == "")
-                            {
-                                byte[] TXS3_DXT = new byte[4] { 0x00, 0x00, 0x01, 0x00 };
-                                Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                                Array.Copy(TXS3_DXT, 0, TXS3_header, TXS3_header.Length - 4, 4);
-                            }
-                            */
-
-                            for (int i = 0; i < 8; i++)
-                            {
-                                Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                                Array.Copy(zero4, 0, TXS3_header, TXS3_header.Length - 4, 4);
-                            }
-
-                            byte[] TXS3_unk2 = new byte[4] { 0x00, 0x00, 0x1A, 0x00 };
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                            Array.Copy(TXS3_unk2, 0, TXS3_header, TXS3_header.Length - 4, 4);
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                            Array.Copy(zero4, 0, TXS3_header, TXS3_header.Length - 4, 4);
-
-                            byte[] TXS3_unk3 = new byte[2] { 0x00, 0x01 };
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
-                            Array.Copy(TXS3_unk3, 0, TXS3_header, TXS3_header.Length - 2, 2);
-
-                            byte[] TXS3_DXT1 = new byte[1] { 0xA6 };
-                            byte[] TXS3_DXT3 = new byte[1] { 0xA7 };
-                            byte[] TXS3_DXT5 = new byte[1] { 0xA8 };
-                            byte[] TXS3_DXT10 = new byte[1] { 0xA5 };
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
-
-                            if (DXT == "86")
-                                Array.Copy(TXS3_DXT1, 0, TXS3_header, TXS3_header.Length - 1, 1);
-                            else if (DXT == "87")
-                                Array.Copy(TXS3_DXT3, 0, TXS3_header, TXS3_header.Length - 1, 1);
-                            else if (DXT == "88")
-                                Array.Copy(TXS3_DXT5, 0, TXS3_header, TXS3_header.Length - 1, 1);
-                            else if (DXT == "85")
-                                Array.Copy(TXS3_DXT10, 0, TXS3_header, TXS3_header.Length - 1, 1);
-
-                            byte[] TXS3_unk4 = new byte[1] { 0x2A };
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
-                            Array.Copy(TXS3_unk4, 0, TXS3_header, TXS3_header.Length - 1, 1);
-
-                            byte[] TXS3_unk5 = new byte[4] { 0x00, 0x03, 0x03, 0x03 };
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                            Array.Copy(TXS3_unk5, 0, TXS3_header, TXS3_header.Length - 4, 4);
-
-                            byte[] TXS3_unk6 = new byte[12] { 0x80, 0x07, 0x80, 0x00, 0x00, 0x00, 0xAA, 0xE4, 0x02, 0x02, 0x20, 0x00 };
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 12);
-                            Array.Copy(TXS3_unk6, 0, TXS3_header, TXS3_header.Length - 12, 12);
-
-                            /*TXS3converter1.1.3
-                            if (DXT == "86")
-                            {
-                                TXS3_yoko_int /= 2;
-                                TXS3_yoko = Gethex2(TXS3_yoko_int);
-                            }
-                            */
-
-                            TXS3_yoko = Gethex2(TXS3_yoko_int);
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
-                            Array.Copy(TXS3_yoko, 0, TXS3_header, TXS3_header.Length - 2, 2);
-                            TXS3_tate = Gethex2(TXS3_tate_int);
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
-                            Array.Copy(TXS3_tate, 0, TXS3_header, TXS3_header.Length - 2, 2);
-
-                            byte[] TXS3_unk7 = new byte[10] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18, 0x40, 0x00, 0x10 };
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 10);
-                            Array.Copy(TXS3_unk7, 0, TXS3_header, TXS3_header.Length - 10, 10);
-
-                            int TXS3_yoko_4 = Getbyteint2(TXS3_yoko, 0) / 4;
-                            string TXS3_yoko_4_str = TXS3_yoko_4.ToString("X");
-                            TXS3_yoko_4_str += "0";
-                            if (TXS3_yoko_4_str.Length == 1 || TXS3_yoko_4_str.Length == 3)
-                                TXS3_yoko_4_str = "0" + TXS3_yoko_4_str;
-                            if (TXS3_yoko_4_str.Length == 2)
-                                TXS3_yoko_4_str = "00" + TXS3_yoko_4_str;
-
-                            byte[] TXS3_yoko_4_byte = StringToBytes(TXS3_yoko_4_str);
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
-                            Array.Copy(TXS3_yoko_4_byte, 0, TXS3_header, TXS3_header.Length - 2, 2);
-
-                            for (int i = 0; i < 6; i++)
-                            {
-                                Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                                Array.Copy(zero4, 0, TXS3_header, TXS3_header.Length - 4, 4);
-                            }
-
-                            byte[] TXS3_unk8 = new byte[4] { 0x00, 0x00, 0x01, 0x00 };
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                            Array.Copy(TXS3_unk8, 0, TXS3_header, TXS3_header.Length - 4, 4);
-
-                            string TXS3_unk9_str = BitConverter.ToString(TXS3_length).Replace("-", string.Empty);
-                            TXS3_unk9_str = TXS3_unk9_str.Substring(0, TXS3_unk9_str.Length - 2);
-                            TXS3_unk9_str = TXS3_unk9_str + "00";
-                            int TXS3_unk9_int = Convert.ToInt32(TXS3_unk9_str, 16);
-                            TXS3_unk9_int -= 256;
-                            TXS3_unk9_str = TXS3_unk9_int.ToString("X");
-
-                            int add0 = 8 - TXS3_unk9_str.Length;
-                            if (add0 > 0)
-                            {
-                                for (int i = 0; i < add0; i++)
-                                {
-                                    TXS3_unk9_str = "0" + TXS3_unk9_str;
-                                }
-                            }
-
-                            byte[] TXS3_unk9 = StringToBytes(TXS3_unk9_str);
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                            Array.Copy(TXS3_unk9, 0, TXS3_header, TXS3_header.Length - 4, 4);
-
-                            byte[] TXS3_unk10 = new byte[1] { 0x02 };
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
-                            Array.Copy(TXS3_unk10, 0, TXS3_header, TXS3_header.Length - 1, 1);
-
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
-                            if (DXT == "86")
-                                Array.Copy(TXS3_DXT1, 0, TXS3_header, TXS3_header.Length - 1, 1);
-                            else if (DXT == "87")
-                                Array.Copy(TXS3_DXT3, 0, TXS3_header, TXS3_header.Length - 1, 1);
-                            else if (DXT == "88")
-                                Array.Copy(TXS3_DXT5, 0, TXS3_header, TXS3_header.Length - 1, 1);
-                            else if (DXT == "85")
-                                Array.Copy(TXS3_DXT10, 0, TXS3_header, TXS3_header.Length - 1, 1);
-
-                            byte[] TXS3_unk11 = new byte[1] { 0x01 };
-                            for (int i = 0; i < 2; i++)
-                            {
-                                Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
-                                Array.Copy(TXS3_unk11, 0, TXS3_header, TXS3_header.Length - 1, 1);
-                            }
-
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
-                            Array.Copy(TXS3_yoko, 0, TXS3_header, TXS3_header.Length - 2, 2);
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
-                            Array.Copy(TXS3_tate, 0, TXS3_header, TXS3_header.Length - 2, 2);
-
-                            byte[] TXS3_unk12 = new byte[4] { 0x00, 0x01, 0x00, 0x00 };
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                            Array.Copy(TXS3_unk12, 0, TXS3_header, TXS3_header.Length - 4, 4);
-
-                            for (int i = 0; i < 26; i++)
-                            {
-                                Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                                Array.Copy(zero4, 0, TXS3_header, TXS3_header.Length - 4, 4);
-                            }
-
-                            //上下反転(むり)
-                            /*
-                            int TXS3_tate_int = Getbyteint2(TXS3_tate, 0);
-                            int TXS3_narabikae_seek = TXS3_tex_length - 8;
-                            byte[] TXS3_tex_new = new byte[0];
-                            //MessageBox.Show(TXS3_yoko_int + "," + TXS3_tate_int);
-                            for (int i = 0; i < TXS3_tex_length / 8; i++)
-                            {
-                                Array.Resize(ref TXS3_tex_new, TXS3_tex_new.Length + 8);
-                                Array.Copy(TXS3_tex, TXS3_narabikae_seek, TXS3_tex_new, TXS3_tex_new.Length - 8, 8);
-                                TXS3_narabikae_seek -= 8;
-                            }
-                            */
-
-                            string newpath = folderpath + @"\" + (TXS3_num + 1) + "_" + (j + 1) + "_";
-                            if (DXT == "86")
-                                newpath = newpath + "DXT1";
-                            else if (DXT == "87")
-                                newpath = newpath + "DXT3";
-                            else if (DXT == "88")
-                                newpath = newpath + "DXT5";
-                            else if (DXT == "85")
-                                newpath = newpath + "DXT10";
-                            newpath = newpath + ".img";
-
-                            FileStream fsw = new FileStream(newpath, FileMode.Create, FileAccess.Write);
-                            fsw.Write(TXS3_header, 0, TXS3_header.Length);
-                            fsw.Write(TXS3_tex, 0, TXS3_tex.Length);
-                            fsw.Close();
-
-                            if (lod_count > 1)
-                            {
-                                TXS3_tex_seek += TXS3_tex_length;
-                                TXS3_yoko_int /= 2;
-                                TXS3_tate_int /= 2;
-                            }
-                        }
-
-                        labelTXS3finish:;
-
-                            TXS3_pointer += 32;
-                            bgWorker.ReportProgress(a);
-                    }
-                loopfinish:;
+                    extractTXS3(true, path_body, folderpath, bgWorker);
                 }
+
+                if (isfolder == false)
+                    goto labelfinish;
+
+                //ホイール
+                path_hq = path[b] + @"\hq\wheel";
+                path_race = path[b] + @"\race\wheel";
+                loopcount = 1;
+                path_hq_exist = System.IO.File.Exists(path_hq);
+                path_race_exist = System.IO.File.Exists(path_race);
+                if (isfolder == true)
+                {
+                    if (path_hq_exist == false && path_race_exist == false)
+                        goto labelfinish;
+                    if (path_hq_exist == true && path_race_exist == true)
+                        loopcount += 1;
+                }
+
+                for (int c = 0; c < loopcount; c++)
+                {
+                    string folderpath = MDL3path + "_ホイール_hq_texture";
+                    string path_wheel = path_hq;
+                    if (path_hq_exist == false || c == 1)
+                    {
+                        folderpath = MDL3path + "_ホイール_race_texture";
+                        path_wheel = path_race;
+                    }
+
+                    extractTXS3(false, path_wheel, folderpath, bgWorker);
+                }
+
                 goto labelfinish;
 
             labelfolder_apply:;
 
                 string[] img_files = null;
                 string path_directory = "";
-                string path2_tex_folder = "";
                 string path_body_GT6 = "";
-                string path2_body_GT6 = "";
                 string path_GT6folder = "";
                 string path_newfolder = "";
-                string path2_newfolder = "";
 
                 //hqとraceの存在チェック(ボディ)
                 int path_lastindex = path[b].LastIndexOf(@"\");
@@ -462,87 +205,83 @@ namespace GT6_body_s内のTXS3を編集するツール
                 if (path_replace.IndexOf("_hq_texture") >= 0)
                 {
                     texfoldername = path_replace.Replace("_hq_texture", "");
-                    path_replace = path_replace.Replace("_hq_texture", "_race_texture");
-                    path_GT6folder = path_directory + @"\" + texfoldername;
-                    path_body_GT6 = path_GT6folder + @"\hq\body";
-                    path2_body_GT6 = path_GT6folder + @"\race\body";
 
-                    if (Regex.IsMatch(path_replace.Substring(0, 8), @"^[0-9]+$") == true)
+                    if (texfoldername.Substring(texfoldername.Length - 5, 5) == "_ホイール" || texfoldername.Substring(texfoldername.Length - 6, 6).ToLower() == "_wheel")
                     {
-                        texfoldername = path_replace.Substring(0, 8);
-                        texfoldername = texfoldername.Insert(4, @"\");
-                    }
+                        if (texfoldername.Substring(texfoldername.Length - 5, 5) == "_ホイール")
+                            texfoldername = texfoldername.Substring(0, texfoldername.Length - 5);
+                        else if (texfoldername.Substring(texfoldername.Length - 6, 6).ToLower() == "_wheel")
+                            texfoldername = texfoldername.Substring(0, texfoldername.Length - 6);
 
-                    path_newfolder = path_directory + @"\new\" + texfoldername + @"\hq\";
-                    path2_newfolder = path_directory + @"\new\" + texfoldername + @"\race\";
+                        path_GT6folder = path_directory + @"\" + texfoldername;
+                        path_body_GT6 = path_GT6folder + @"\hq\wheel";
+
+                        if (Regex.IsMatch(path_replace.Substring(0, 8), @"^[0-9]+$") == true)
+                        {
+                            texfoldername = path_replace.Substring(0, 8);
+                            texfoldername = texfoldername.Insert(4, @"\");
+                        }
+
+                        path_newfolder = path_directory + @"\new\" + texfoldername + @"\hq\";
+                    }
+                    else
+                    {
+                        path_GT6folder = path_directory + @"\" + texfoldername;
+                        path_body_GT6 = path_GT6folder + @"\hq\body";
+
+                        if (Regex.IsMatch(path_replace.Substring(0, 8), @"^[0-9]+$") == true)
+                        {
+                            texfoldername = path_replace.Substring(0, 8);
+                            texfoldername = texfoldername.Insert(4, @"\");
+                        }
+
+                        path_newfolder = path_directory + @"\new\" + texfoldername + @"\hq\";
+                    }
                 }
                 else if (path_replace.IndexOf("_race_texture") >= 0)
                 {
                     texfoldername = path_replace.Replace("_race_texture", "");
-                    path_replace = path_replace.Replace("_race_texture", "_hq_texture");
-                    path_GT6folder = path_directory + @"\" + texfoldername;
-                    path_body_GT6 = path_GT6folder + @"\race\body";
-                    path2_body_GT6 = path_GT6folder + @"\hq\body";
 
-                    /*
-                    if (texfoldername.Length == 8 && Regex.IsMatch(texfoldername, @"^[0-9]+$") == true)
-                        texfoldername = texfoldername.Insert(4, @"\");
-                    */
-
-                    if (Regex.IsMatch(path_replace.Substring(0, 8), @"^[0-9]+$") == true)
+                    if (texfoldername.Substring(texfoldername.Length - 5, 5) == "_ホイール" || texfoldername.Substring(texfoldername.Length - 6, 6).ToLower() == "_wheel")
                     {
-                        texfoldername = path_replace.Substring(0, 8);
-                        texfoldername = texfoldername.Insert(4, @"\");
+                        if (texfoldername.Substring(texfoldername.Length - 5, 5) == "_ホイール")
+                            texfoldername = texfoldername.Substring(0, texfoldername.Length - 5);
+                        else if (texfoldername.Substring(texfoldername.Length - 6, 6).ToLower() == "_wheel")
+                            texfoldername = texfoldername.Substring(0, texfoldername.Length - 6);
+
+                        path_GT6folder = path_directory + @"\" + texfoldername;
+                        path_body_GT6 = path_GT6folder + @"\race\wheel";
+
+                        if (Regex.IsMatch(path_replace.Substring(0, 8), @"^[0-9]+$") == true)
+                        {
+                            texfoldername = path_replace.Substring(0, 8);
+                            texfoldername = texfoldername.Insert(4, @"\");
+                        }
+
+                        path_newfolder = path_directory + @"\new\" + texfoldername + @"\race\";
                     }
+                    else
+                    {
+                        path_GT6folder = path_directory + @"\" + texfoldername;
+                        path_body_GT6 = path_GT6folder + @"\race\body";
 
-                    path_newfolder = path_directory + @"\new\" + texfoldername + @"\race\";
-                    path2_newfolder = path_directory + @"\new\" + texfoldername + @"\hq\";
+                        if (Regex.IsMatch(path_replace.Substring(0, 8), @"^[0-9]+$") == true)
+                        {
+                            texfoldername = path_replace.Substring(0, 8);
+                            texfoldername = texfoldername.Insert(4, @"\");
+                        }
+
+                        path_newfolder = path_directory + @"\new\" + texfoldername + @"\race\";
+                    }
                 }
-
-                if (texfoldername == texfoldername_before)
-                    goto labelfinish;
-                texfoldername_before = texfoldername;
-
-                path2_tex_folder = path[b].Substring(0, path_lastindex) + @"\" + path_replace;
-
-                bool istexfolder = Directory.Exists(path2_tex_folder);
-
-                bool path_hq_exist_comp = System.IO.File.Exists(path_body_GT6);
-                bool path_race_exist_comp = System.IO.File.Exists(path2_body_GT6);
-
-                if (istexfolder == true && path_hq_exist_comp == true && path_race_exist_comp == true)
-                    loopcount = 2;
 
                 MDL3path = MDL3path + @"\body_s.bin";
-
-                /*
-                MDL3path = MDL3path.Remove(MDL3path.LastIndexOf("_texture"), 8);
-                if (MDL3path.LastIndexOf("_hq") - 3 == 0)
-                {
-                    MDL3path = MDL3path.Remove(MDL3path.LastIndexOf("_hq"), 3);
-                    MDL3path = MDL3path + @"\hq\body_s.bin";
-                }
-                else if (MDL3path.LastIndexOf("_race") - 5 == 0)
-                {
-                    MDL3path = MDL3path.Remove(MDL3path.LastIndexOf("_race"), 5);
-                    MDL3path = MDL3path + @"\race\body_s.bin";
-                }
-                */
-
-                if (!System.IO.File.Exists(MDL3path))
-                    goto labelfinish;
+                bool iscompression = System.IO.File.Exists(MDL3path);
                 
-                for (int c = 0; c < loopcount; c++)
+                if (iscompression == true)
                 {
                     string path_body_s_dcmp = path[b] + @"\body_s.bin";
                     img_files = Directory.GetFiles(path[b], "*.img");
-                    if (c == 1)
-                    {
-                        path_body_s_dcmp = path2_tex_folder + @"\body_s.bin";
-                        img_files = Directory.GetFiles(path2_tex_folder, "*.img");
-                        path_body_GT6 = path2_body_GT6;
-                        path_newfolder = path2_newfolder;
-                    }
 
                     if (!System.IO.File.Exists(path_body_s_dcmp))
                         goto labelfinish;
@@ -666,6 +405,107 @@ namespace GT6_body_s内のTXS3を編集するツール
                     compressMDL3(ref fs_s_cmp, ref fi_s_cmp);
                     
                     System.IO.File.Delete(Path.GetDirectoryName(path_newfolder) + @"\body_s.bin");
+                }
+
+                else
+                {
+                    img_files = Directory.GetFiles(path[b], "*.img");
+                    Array.Sort(img_files, new LogicalStringComparer());
+
+                    if (!Directory.Exists(Path.GetDirectoryName(path_newfolder)))
+                        Directory.CreateDirectory(Path.GetDirectoryName(path_newfolder));
+
+                    // wheel
+                    FileStream fsr_wheel = new FileStream(path_body_GT6, FileMode.Open, FileAccess.Read);
+                    byte[] bs_wheel = new byte[fsr_wheel.Length];
+                    fsr_wheel.Read(bs_wheel, 0, bs_wheel.Length);
+                    fsr_wheel.Close();
+
+                    FileStream fsw_app = new FileStream(Path.GetDirectoryName(path_newfolder) + @"\wheel", FileMode.Create, FileAccess.Write);
+                    fsw_app.Write(bs_wheel, 0, bs_wheel.Length);
+                    int newfilecount = -1;
+
+                    int TXS3_header_pointer = Getbyteint4(bs_wheel, 72);
+                    int TXS3_count = Getbyteint4(bs_wheel, TXS3_header_pointer + 20);
+                    filecount = TXS3_count;
+                    int TXS3_pointer = TXS3_header_pointer + 64;
+                    int TXS3_tex_seek = Getbyteint4(bs_wheel, TXS3_pointer);
+
+                    for (a = 0; a < TXS3_count; a++)
+                    {
+                    labelnewfilestart:;
+
+                        string DXT = Getbytestr1(bs_wheel, TXS3_pointer + 9);
+                        if (DXT == "A5")
+                        {
+                            TXS3_pointer += 32;
+                            goto labelnewfilestart;
+                        }
+
+                        int lod_count = Getbyteint1(bs_wheel, TXS3_pointer + 10);
+                        if (lod_count > 1)
+                            lod_count -= 4;
+
+                        TXS3_tex_seek = Getbyteint4(bs_wheel, TXS3_pointer);
+                        int TXS3_tex_length = Getbyteint4(bs_wheel, TXS3_pointer + 4);
+
+                        for (int j = 0; j < lod_count; j++)
+                        {
+                            newfilecount += 1;
+
+                            if (img_files.Count() == newfilecount)
+                                goto lodcountfinish;
+                            string img_files_check_1 = img_files[newfilecount];
+                            img_files_check_1 = Path.GetFileName(img_files_check_1);
+                            string img_files_check_2 = img_files_check_1.Substring(img_files_check_1.IndexOf("_") + 1, 1);
+                            img_files_check_1 = img_files_check_1.Substring(0, img_files_check_1.IndexOf("_"));
+                            if (Regex.IsMatch(img_files_check_1, "[1-9]") == true)
+                            {
+                                int img_files_lod_num = int.Parse(img_files_check_1);
+                                if (img_files_lod_num - 1 != a + 1)
+                                {
+                                    newfilecount -= 1;
+                                    goto lodcountfinish;
+                                }
+                            }
+                            else
+                            {
+                                newfilecount -= 1;
+                                goto lodcountfinish;
+                            }
+                            if (Regex.IsMatch(img_files_check_2, "[1-9]") == true)
+                            {
+                                int img_files_lod_num = int.Parse(img_files_check_2);
+                                if (img_files_lod_num - 1 != j)
+                                {
+                                    newfilecount -= 1;
+                                    goto lodcountfinish;
+                                }
+                            }
+                            else
+                            {
+                                newfilecount -= 1;
+                                goto lodcountfinish;
+                            }
+
+                            byte[] TXS3_tex_new = new byte[0];
+                            //img読み込み
+                            FileStream fsr_img = new FileStream(img_files[newfilecount], FileMode.Open, FileAccess.Read);
+                            byte[] bs_img = new byte[fsr_img.Length];
+                            fsr_img.Read(bs_img, 0, bs_img.Length);
+                            fsr_img.Close();
+                            Array.Resize(ref TXS3_tex_new, bs_img.Length - 256);
+                            Array.Copy(bs_img, 256, TXS3_tex_new, 0, bs_img.Length - 256);
+                            fsw_app.Seek(TXS3_tex_seek, SeekOrigin.Begin);
+                            fsw_app.Write(TXS3_tex_new, 0, TXS3_tex_new.Length);
+
+                            TXS3_tex_seek += TXS3_tex_new.Length;
+
+                        lodcountfinish:;
+                        }
+                        TXS3_pointer += 32;
+                        bgWorker.ReportProgress(a);
+                    }
                 }
                 
             labelfinish:;
@@ -887,7 +727,317 @@ namespace GT6_body_s内のTXS3を編集するツール
             return array;
         }
 
-        public void extractMDL3(ref FileStream fs, ref FileInfo fi, bool isfolder_body_s)
+        public void extractTXS3(bool compress, string path_body, string folderpath, BackgroundWorker bgWorker)
+        {
+            if (!Directory.Exists(folderpath))
+                Directory.CreateDirectory(folderpath);
+
+            // bodyかwheel
+            FileStream fsr_body = new FileStream(path_body, FileMode.Open, FileAccess.Read);
+            byte[] bs_body = new byte[fsr_body.Length];
+            fsr_body.Read(bs_body, 0, bs_body.Length);
+            fsr_body.Close();
+
+            byte[] bs_body_s = null;
+            if (compress == true)
+            {
+                FileStream fs_s = new FileStream(path_body, FileMode.Open, FileAccess.Read);
+                FileInfo fi_s = new FileInfo(path_body);
+                extractMDL3(ref fs_s, ref fi_s);
+
+                // body_s.bin
+                FileStream fsr_body_s = new FileStream(dfs_path, FileMode.Open, FileAccess.Read);
+                bs_body_s = new byte[fsr_body_s.Length];
+                fsr_body_s.Read(bs_body_s, 0, bs_body_s.Length);
+                fsr_body_s.Close();
+            }
+
+            int TXS3_header_pointer = Getbyteint4(bs_body, 72);
+            int TXS3_count = Getbyteint4(bs_body, TXS3_header_pointer + 20);
+            filecount = TXS3_count;
+            int TXS3_pointer = TXS3_header_pointer + 64;
+            int TXS3_tex_seek = 0;
+            int TXS3_tex_seek_base = 0;
+
+            if (compress == false)
+                TXS3_tex_seek = Getbyteint4(bs_body, TXS3_pointer);
+            else if (compress == true)
+                TXS3_tex_seek_base = Getbyteint4(bs_body_s, 28);
+
+            byte[] MDL3 = new byte[4];
+            Array.Copy(bs_body, 0, MDL3, 0, 4);
+            string MDL3_str = System.Text.Encoding.ASCII.GetString(MDL3);
+            if (MDL3_str != "MDL3")
+                goto labelfinish_ex3;
+
+            int writefilecount = 0;
+
+            for (a = 0; a < TXS3_count; a++)
+            {
+                string DXT = Getbytestr1(bs_body, TXS3_pointer + 9);
+                int TXS3_num = 0;
+
+                if (compress == false)
+                {
+                    if (DXT == "A5")
+                        goto labelTXS3finish;
+                    else
+                        writefilecount += 1;
+                    TXS3_num = writefilecount;
+                }
+                else if (compress == true)
+                {
+                    TXS3_num = Getbyteint4(bs_body_s, TXS3_tex_seek_base + (writefilecount * 16));
+                    TXS3_tex_seek = Getbyteint4(bs_body_s, TXS3_tex_seek_base + 4 + (writefilecount * 16));
+                    if (DXT == "A5" || TXS3_num != a)
+                        goto labelTXS3finish;
+                    else
+                        writefilecount += 1;
+                }
+
+                int lod_count = Getbyteint1(bs_body, TXS3_pointer + 10);
+                if (lod_count > 1)
+                    lod_count -= 4;
+
+                if (compress == false)
+                    TXS3_tex_seek = Getbyteint4(bs_body, TXS3_pointer);
+                int TXS3_tex_length = Getbyteint4(bs_body, TXS3_pointer + 4);
+
+                byte[] TXS3_yoko = new byte[2];
+                Array.Copy(bs_body, TXS3_pointer + 12, TXS3_yoko, 0, 2);
+                int TXS3_yoko_int = Getbyteint2(TXS3_yoko, 0);
+                byte[] TXS3_tate = new byte[2];
+                Array.Copy(bs_body, TXS3_pointer + 14, TXS3_tate, 0, 2);
+                int TXS3_tate_int = Getbyteint2(TXS3_tate, 0);
+
+                for (int j = 0; j < lod_count; j++)
+                {
+                    if (lod_count > 1)
+                    {
+                        TXS3_tex_length = TXS3_yoko_int * TXS3_tate_int;
+                        if (DXT == "86")
+                            TXS3_tex_length /= 2;
+                        else if (DXT == "85")
+                            TXS3_tex_length *= 4;
+                    }
+                    if (TXS3_tex_length <= 128)
+                        goto labelTXS3finish;
+
+                    byte[] TXS3_tex = new byte[TXS3_tex_length];
+
+                    if (compress == false)
+                        Array.Copy(bs_body, TXS3_tex_seek, TXS3_tex, 0, TXS3_tex_length);
+                    else if (compress == true)
+                    {
+                        if (TXS3_tex_seek + TXS3_tex_length > bs_body_s.Length)
+                            goto labelfinish_ex3;
+                        Array.Copy(bs_body_s, TXS3_tex_seek, TXS3_tex, 0, TXS3_tex_length);
+                    }
+
+                    byte[] TXS3_header = new byte[4];
+                    byte[] TXS3 = new byte[4] { 0x54, 0x58, 0x53, 0x33 };
+                    Array.Copy(TXS3, 0, TXS3_header, 0, 4);
+
+                    byte[] TXS3_length = Gethex4(256 + TXS3_tex_length);
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                    Array.Copy(TXS3_length, 0, TXS3_header, TXS3_header.Length - 4, 4);
+
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                    Array.Copy(zero4, 0, TXS3_header, TXS3_header.Length - 4, 4);
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                    Array.Copy(TXS3_length, 0, TXS3_header, TXS3_header.Length - 4, 4);
+
+                    byte[] TXS3_unk1 = new byte[16] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x84 };
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 16);
+                    Array.Copy(TXS3_unk1, 0, TXS3_header, TXS3_header.Length - 16, 16);
+
+                    for (int i = 0; i < 8; i++)
+                    {
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                        Array.Copy(zero4, 0, TXS3_header, TXS3_header.Length - 4, 4);
+                    }
+
+                    byte[] TXS3_unk2 = new byte[4] { 0x00, 0x00, 0x1A, 0x00 };
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                    Array.Copy(TXS3_unk2, 0, TXS3_header, TXS3_header.Length - 4, 4);
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                    Array.Copy(zero4, 0, TXS3_header, TXS3_header.Length - 4, 4);
+
+                    byte[] TXS3_unk3 = new byte[2] { 0x00, 0x01 };
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
+                    Array.Copy(TXS3_unk3, 0, TXS3_header, TXS3_header.Length - 2, 2);
+
+                    byte[] TXS3_DXT1 = new byte[1] { 0xA6 };
+                    byte[] TXS3_DXT3 = new byte[1] { 0xA7 };
+                    byte[] TXS3_DXT5 = new byte[1] { 0xA8 };
+                    byte[] TXS3_DXT10 = new byte[1] { 0xA5 };
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
+
+                    if (DXT == "86")
+                        Array.Copy(TXS3_DXT1, 0, TXS3_header, TXS3_header.Length - 1, 1);
+                    else if (DXT == "87")
+                        Array.Copy(TXS3_DXT3, 0, TXS3_header, TXS3_header.Length - 1, 1);
+                    else if (DXT == "88")
+                        Array.Copy(TXS3_DXT5, 0, TXS3_header, TXS3_header.Length - 1, 1);
+                    else if (DXT == "85")
+                        Array.Copy(TXS3_DXT10, 0, TXS3_header, TXS3_header.Length - 1, 1);
+
+                    byte[] TXS3_unk4 = new byte[1] { 0x2A };
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
+                    Array.Copy(TXS3_unk4, 0, TXS3_header, TXS3_header.Length - 1, 1);
+
+                    byte[] TXS3_unk5 = new byte[4] { 0x00, 0x03, 0x03, 0x03 };
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                    Array.Copy(TXS3_unk5, 0, TXS3_header, TXS3_header.Length - 4, 4);
+
+                    byte[] TXS3_unk6 = new byte[12] { 0x80, 0x07, 0x80, 0x00, 0x00, 0x00, 0xAA, 0xE4, 0x02, 0x02, 0x20, 0x00 };
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 12);
+                    Array.Copy(TXS3_unk6, 0, TXS3_header, TXS3_header.Length - 12, 12);
+
+                    /*TXS3converter1.1.3
+                    if (DXT == "86")
+                    {
+                        TXS3_yoko_int /= 2;
+                        TXS3_yoko = Gethex2(TXS3_yoko_int);
+                    }
+                    */
+
+                    TXS3_yoko = Gethex2(TXS3_yoko_int);
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
+                    Array.Copy(TXS3_yoko, 0, TXS3_header, TXS3_header.Length - 2, 2);
+                    TXS3_tate = Gethex2(TXS3_tate_int);
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
+                    Array.Copy(TXS3_tate, 0, TXS3_header, TXS3_header.Length - 2, 2);
+
+                    byte[] TXS3_unk7 = new byte[10] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18, 0x40, 0x00, 0x10 };
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 10);
+                    Array.Copy(TXS3_unk7, 0, TXS3_header, TXS3_header.Length - 10, 10);
+
+                    int TXS3_yoko_4 = Getbyteint2(TXS3_yoko, 0) / 4;
+                    string TXS3_yoko_4_str = TXS3_yoko_4.ToString("X");
+                    TXS3_yoko_4_str += "0";
+                    if (TXS3_yoko_4_str.Length == 1 || TXS3_yoko_4_str.Length == 3)
+                        TXS3_yoko_4_str = "0" + TXS3_yoko_4_str;
+                    if (TXS3_yoko_4_str.Length == 2)
+                        TXS3_yoko_4_str = "00" + TXS3_yoko_4_str;
+
+                    byte[] TXS3_yoko_4_byte = StringToBytes(TXS3_yoko_4_str);
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
+                    Array.Copy(TXS3_yoko_4_byte, 0, TXS3_header, TXS3_header.Length - 2, 2);
+
+                    for (int i = 0; i < 6; i++)
+                    {
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                        Array.Copy(zero4, 0, TXS3_header, TXS3_header.Length - 4, 4);
+                    }
+
+                    byte[] TXS3_unk8 = new byte[4] { 0x00, 0x00, 0x01, 0x00 };
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                    Array.Copy(TXS3_unk8, 0, TXS3_header, TXS3_header.Length - 4, 4);
+
+                    string TXS3_unk9_str = BitConverter.ToString(TXS3_length).Replace("-", string.Empty);
+                    TXS3_unk9_str = TXS3_unk9_str.Substring(0, TXS3_unk9_str.Length - 2);
+                    TXS3_unk9_str = TXS3_unk9_str + "00";
+                    int TXS3_unk9_int = Convert.ToInt32(TXS3_unk9_str, 16);
+                    TXS3_unk9_int -= 256;
+                    TXS3_unk9_str = TXS3_unk9_int.ToString("X");
+
+                    int add0 = 8 - TXS3_unk9_str.Length;
+                    if (add0 > 0)
+                    {
+                        for (int i = 0; i < add0; i++)
+                        {
+                            TXS3_unk9_str = "0" + TXS3_unk9_str;
+                        }
+                    }
+
+                    byte[] TXS3_unk9 = StringToBytes(TXS3_unk9_str);
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                    Array.Copy(TXS3_unk9, 0, TXS3_header, TXS3_header.Length - 4, 4);
+
+                    byte[] TXS3_unk10 = new byte[1] { 0x02 };
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
+                    Array.Copy(TXS3_unk10, 0, TXS3_header, TXS3_header.Length - 1, 1);
+
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
+                    if (DXT == "86")
+                        Array.Copy(TXS3_DXT1, 0, TXS3_header, TXS3_header.Length - 1, 1);
+                    else if (DXT == "87")
+                        Array.Copy(TXS3_DXT3, 0, TXS3_header, TXS3_header.Length - 1, 1);
+                    else if (DXT == "88")
+                        Array.Copy(TXS3_DXT5, 0, TXS3_header, TXS3_header.Length - 1, 1);
+                    else if (DXT == "85")
+                        Array.Copy(TXS3_DXT10, 0, TXS3_header, TXS3_header.Length - 1, 1);
+
+                    byte[] TXS3_unk11 = new byte[1] { 0x01 };
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 1);
+                        Array.Copy(TXS3_unk11, 0, TXS3_header, TXS3_header.Length - 1, 1);
+                    }
+
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
+                    Array.Copy(TXS3_yoko, 0, TXS3_header, TXS3_header.Length - 2, 2);
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
+                    Array.Copy(TXS3_tate, 0, TXS3_header, TXS3_header.Length - 2, 2);
+
+                    byte[] TXS3_unk12 = new byte[4] { 0x00, 0x01, 0x00, 0x00 };
+                    Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                    Array.Copy(TXS3_unk12, 0, TXS3_header, TXS3_header.Length - 4, 4);
+
+                    for (int i = 0; i < 26; i++)
+                    {
+                        Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
+                        Array.Copy(zero4, 0, TXS3_header, TXS3_header.Length - 4, 4);
+                    }
+
+                    //上下反転(むり)
+                    /*
+                    int TXS3_tate_int = Getbyteint2(TXS3_tate, 0);
+                    int TXS3_narabikae_seek = TXS3_tex_length - 8;
+                    byte[] TXS3_tex_new = new byte[0];
+                    //MessageBox.Show(TXS3_yoko_int + "," + TXS3_tate_int);
+                    for (int i = 0; i < TXS3_tex_length / 8; i++)
+                    {
+                        Array.Resize(ref TXS3_tex_new, TXS3_tex_new.Length + 8);
+                        Array.Copy(TXS3_tex, TXS3_narabikae_seek, TXS3_tex_new, TXS3_tex_new.Length - 8, 8);
+                        TXS3_narabikae_seek -= 8;
+                    }
+                    */
+
+                    string newpath = folderpath + @"\" + (TXS3_num + 1) + "_" + (j + 1) + "_";
+                    if (DXT == "86")
+                        newpath = newpath + "DXT1";
+                    else if (DXT == "87")
+                        newpath = newpath + "DXT3";
+                    else if (DXT == "88")
+                        newpath = newpath + "DXT5";
+                    else if (DXT == "85")
+                        newpath = newpath + "DXT10";
+                    newpath = newpath + ".img";
+
+                    FileStream fsw = new FileStream(newpath, FileMode.Create, FileAccess.Write);
+                    fsw.Write(TXS3_header, 0, TXS3_header.Length);
+                    fsw.Write(TXS3_tex, 0, TXS3_tex.Length);
+                    fsw.Close();
+
+                    if (lod_count > 1)
+                    {
+                        TXS3_tex_seek += TXS3_tex_length;
+                        TXS3_yoko_int /= 2;
+                        TXS3_tate_int /= 2;
+                    }
+                }
+
+            labelTXS3finish:;
+
+                TXS3_pointer += 32;
+                bgWorker.ReportProgress(a);
+            }
+        labelfinish_ex3:;
+        }
+
+        public void extractMDL3(ref FileStream fs, ref FileInfo fi)
         {
             //string extractedPath = fi.DirectoryName + "\\extracted_mdl3";
             //Directory.CreateDirectory(extractedPath);
@@ -1147,7 +1297,7 @@ namespace GT6_body_s内のTXS3を編集するツール
                 //int text_ex_num = 1;
                 //string dfs_path_check = "";
 
-                if (isfolder_body_s == true)
+                if (isfolder == true)
                 {
                     int foundIndex = dfs_path.LastIndexOf(@"\");
                     int nextIndex = foundIndex - 1;

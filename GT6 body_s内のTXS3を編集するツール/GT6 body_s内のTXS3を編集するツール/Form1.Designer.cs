@@ -64,7 +64,7 @@
             this.Controls.Add(this.ProgressBar1);
             this.Controls.Add(this.Label1);
             this.Name = "Form1";
-            this.Text = "GT6 body_s内のTXS3を編集するツール v1.06";
+            this.Text = "GT6 body_s内のTXS3を編集するツール v1.10";
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);

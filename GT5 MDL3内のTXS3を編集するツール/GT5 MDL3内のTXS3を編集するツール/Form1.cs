@@ -115,6 +115,10 @@ namespace GT5_MDL3内のTXS3を編集するツール
                     byte[] TXS3_yoko = new byte[2];
                     Array.Copy(bs, TXS3_pointer + 12, TXS3_yoko, 0, 2);
                     int TXS3_yoko_int = Getbyteint2(TXS3_yoko, 0);
+                    byte[] TXS3_tate = new byte[2];
+                    Array.Copy(bs, TXS3_pointer + 14, TXS3_tate, 0, 2);
+                    int TXS3_tate_int = Getbyteint2(TXS3_tate, 0);
+
                     /*TXS3converter1.1.3
                     if (DXT == "86")
                     {
@@ -122,10 +126,6 @@ namespace GT5_MDL3内のTXS3を編集するツール
                         TXS3_yoko = Gethex2(TXS3_yoko_int);
                     }
                     */
-
-                    byte[] TXS3_tate = new byte[2];
-                    Array.Copy(bs, TXS3_pointer + 14, TXS3_tate, 0, 2);
-                    int TXS3_tate_int = Getbyteint2(TXS3_tate, 0);
 
                     for (int j = 0; j < lod_count; j++)
                     {
@@ -159,16 +159,6 @@ namespace GT5_MDL3内のTXS3を編集するツール
                         byte[] TXS3_unk1 = new byte[16] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x84 };
                         Array.Resize(ref TXS3_header, TXS3_header.Length + 16);
                         Array.Copy(TXS3_unk1, 0, TXS3_header, TXS3_header.Length - 16, 16);
-
-                        /*
-                        //GT6用?
-                        if (DXT == "")
-                        {
-                            byte[] TXS3_DXT = new byte[4] { 0x00, 0x00, 0x01, 0x00 };
-                            Array.Resize(ref TXS3_header, TXS3_header.Length + 4);
-                            Array.Copy(TXS3_DXT, 0, TXS3_header, TXS3_header.Length - 4, 4);
-                        }
-                        */
 
                         for (int i = 0; i < 8; i++)
                         {
@@ -212,6 +202,14 @@ namespace GT5_MDL3内のTXS3を編集するツール
                         byte[] TXS3_unk6 = new byte[12] { 0x80, 0x07, 0x80, 0x00, 0x00, 0x00, 0xAA, 0xE4, 0x02, 0x02, 0x20, 0x00 };
                         Array.Resize(ref TXS3_header, TXS3_header.Length + 12);
                         Array.Copy(TXS3_unk6, 0, TXS3_header, TXS3_header.Length - 12, 12);
+
+                        /*TXS3converter1.1.3
+                        if (DXT == "86")
+                        {
+                            TXS3_yoko_int /= 2;
+                            TXS3_yoko = Gethex2(TXS3_yoko_int);
+                        }
+                        */
 
                         TXS3_yoko = Gethex2(TXS3_yoko_int);
                         Array.Resize(ref TXS3_header, TXS3_header.Length + 2);
@@ -354,17 +352,11 @@ namespace GT5_MDL3内のTXS3を編集するツール
                 
                 string folderpath_file = path[b];
                 folderpath_file = folderpath_file.Remove(folderpath_file.LastIndexOf("_texture"), 8);
-
+                
                 if (!System.IO.File.Exists(folderpath_file))
                     goto labelfinish;
-
+                
                 string filename = Path.GetFileName(folderpath_file);
-
-                string path_wheel = "";
-                if (filename.LastIndexOf("wheel") >= 0)
-                    path_wheel = "wheel";
-                else if (filename.LastIndexOf("ホイール") >= 0)
-                    path_wheel = "ホイール";
 
                 if (!Directory.Exists(Path.GetDirectoryName(folderpath_file) + @"\new\"))
                     Directory.CreateDirectory(Path.GetDirectoryName(folderpath_file) + @"\new\");
@@ -442,6 +434,7 @@ namespace GT5_MDL3内のTXS3を編集するツール
                     {
                         newfilecount += 1;
 
+                        /*
                         if (lod_count > 1)
                         {
                             if (img_files.Count() <= newfilecount)
@@ -464,7 +457,43 @@ namespace GT5_MDL3内のTXS3を編集するツール
                                 goto lodcountfinish;
                             }
                         }
-                        
+                        */
+
+                        if (img_files.Count() == newfilecount)
+                            goto lodcountfinish;
+                        string img_files_check_1 = img_files[newfilecount];
+                        img_files_check_1 = Path.GetFileName(img_files_check_1);
+                        string img_files_check_2 = img_files_check_1.Substring(img_files_check_1.IndexOf("_") + 1, 1);
+                        img_files_check_1 = img_files_check_1.Substring(0, img_files_check_1.IndexOf("_"));
+                        if (Regex.IsMatch(img_files_check_1, "[1-9]") == true)
+                        {
+                            int img_files_lod_num = int.Parse(img_files_check_1);
+                            if (img_files_lod_num - 1 != a + 1)
+                            {
+                                newfilecount -= 1;
+                                goto lodcountfinish;
+                            }
+                        }
+                        else
+                        {
+                            newfilecount -= 1;
+                            goto lodcountfinish;
+                        }
+                        if (Regex.IsMatch(img_files_check_2, "[1-9]") == true)
+                        {
+                            int img_files_lod_num = int.Parse(img_files_check_2);
+                            if (img_files_lod_num - 1 != j)
+                            {
+                                newfilecount -= 1;
+                                goto lodcountfinish;
+                            }
+                        }
+                        else
+                        {
+                            newfilecount -= 1;
+                            goto lodcountfinish;
+                        }
+
                         byte[] TXS3_tex_new = new byte[0];
                         //img読み込み
                         FileStream fsr_img = new FileStream(img_files[newfilecount], FileMode.Open, FileAccess.Read);
