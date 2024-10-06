@@ -360,7 +360,7 @@ namespace GT7_B_specツール_カスタムレース用
 
                 if (count >= Dailyticketget.Value)
                 {
-                    for (int i = 0; i < 5; i++)
+                    for (int i = 0; i < 6; i++)
                     {
                         await Task.Delay(780);
                         if (PS5check.Checked == true)
@@ -792,7 +792,7 @@ namespace GT7_B_specツール_カスタムレース用
 
                 if (count_day >= 4 || count >= Dailyticketget.Value)
                 {
-                    for (int i = 0; i < 5; i++)
+                    for (int i = 0; i < 6; i++)
                     {
                         await Task.Delay(780);
                         if (PS5check.Checked == true)
