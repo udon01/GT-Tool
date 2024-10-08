@@ -358,9 +358,9 @@ namespace GT7_B_specツール_カスタムレース用
                     }
                 }
 
-                if (count >= Dailyticketget.Value)
+                else if (count >= Dailyticketget.Value)
                 {
-                    for (int i = 0; i < 6; i++)
+                    for (int i = 0; i < 5; i++)
                     {
                         await Task.Delay(780);
                         if (PS5check.Checked == true)
@@ -373,7 +373,8 @@ namespace GT7_B_specツール_カスタムレース用
                         else
                             controller.SetButtonState(DualShock4Button.Circle, false);
                     }
-                    await Task.Delay(4500);
+
+                    await Task.Delay(6000);
                     if (PS5check.Checked == true)
                         controller.SetButtonState(DualShock4Button.Cross, true);
                     else
@@ -383,6 +384,7 @@ namespace GT7_B_specツール_カスタムレース用
                         controller.SetButtonState(DualShock4Button.Cross, false);
                     else
                         controller.SetButtonState(DualShock4Button.Circle, false);
+
                     await Task.Delay(1000);
                     if (PS5check.Checked == true)
                         controller.SetButtonState(DualShock4Button.Cross, true);
@@ -393,6 +395,7 @@ namespace GT7_B_specツール_カスタムレース用
                         controller.SetButtonState(DualShock4Button.Cross, false);
                     else
                         controller.SetButtonState(DualShock4Button.Circle, false);
+
                     nowtime2 = DateTime.Now;
                     count = 0;
                 }
@@ -773,8 +776,9 @@ namespace GT7_B_specツール_カスタムレース用
                     }
                 }
 
-                if (count_day <= 3 && count < Dailyticketget.Value)
+                if (count_day < Dailyticketget.Value + 1 && count < Dailyticketget.Value)
                 {
+                    //Workmessage.Text = "実行中... count_day:" + count_day.ToString() + " Dailyticketget:" + Dailyticketget.Value.ToString() + " count:" + count.ToString();
                     for (int i = 0; i < 6; i++)
                     {
                         await Task.Delay(780);
@@ -790,9 +794,11 @@ namespace GT7_B_specツール_カスタムレース用
                     }
                 }
 
-                if (count_day >= 4 || count >= Dailyticketget.Value)
+                else if (count_day >= Dailyticketget.Value + 1 || count >= Dailyticketget.Value)
                 {
-                    for (int i = 0; i < 6; i++)
+                    //int testcount = 0;
+                    //Workmessage.Text = "実行中... else count_day:" + count_day.ToString() + " Dailyticketget:" + Dailyticketget.Value.ToString() + " count:" + count.ToString();
+                    for (int i = 0; i < 5; i++)
                     {
                         await Task.Delay(780);
                         if (PS5check.Checked == true)
@@ -805,7 +811,7 @@ namespace GT7_B_specツール_カスタムレース用
                         else
                             controller.SetButtonState(DualShock4Button.Circle, false);
                     }
-                    await Task.Delay(4500);
+                    await Task.Delay(6000);
                     if (PS5check.Checked == true)
                         controller.SetButtonState(DualShock4Button.Cross, true);
                     else
@@ -815,6 +821,7 @@ namespace GT7_B_specツール_カスタムレース用
                         controller.SetButtonState(DualShock4Button.Cross, false);
                     else
                         controller.SetButtonState(DualShock4Button.Circle, false);
+
                     await Task.Delay(1000);
                     if (PS5check.Checked == true)
                         controller.SetButtonState(DualShock4Button.Cross, true);
@@ -825,6 +832,7 @@ namespace GT7_B_specツール_カスタムレース用
                         controller.SetButtonState(DualShock4Button.Cross, false);
                     else
                         controller.SetButtonState(DualShock4Button.Circle, false);
+
                     nowtime2 = DateTime.Now;
                     count = 0;
                     count_day = 0;

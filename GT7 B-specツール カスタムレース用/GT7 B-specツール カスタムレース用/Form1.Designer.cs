@@ -80,6 +80,7 @@
             this.label18 = new System.Windows.Forms.Label();
             this.Waitstart = new System.Windows.Forms.NumericUpDown();
             this.label19 = new System.Windows.Forms.Label();
+            this.controller_tyuui = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dailyticketget)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Nitroonwait)).BeginInit();
@@ -785,11 +786,24 @@
             this.label19.TabIndex = 17;
             this.label19.Text = "スタートボタンを押した後";
             // 
+            // controller_tyuui
+            // 
+            this.controller_tyuui.AutoSize = true;
+            this.controller_tyuui.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.controller_tyuui.Location = new System.Drawing.Point(100, 340);
+            this.controller_tyuui.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.controller_tyuui.Name = "controller_tyuui";
+            this.controller_tyuui.Size = new System.Drawing.Size(360, 12);
+            this.controller_tyuui.TabIndex = 51;
+            this.controller_tyuui.Text = "※PCにコントローラーを差してある場合は抜いてください！ツールが動きません";
+            this.controller_tyuui.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(556, 341);
+            this.ClientSize = new System.Drawing.Size(556, 364);
+            this.Controls.Add(this.controller_tyuui);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.Start_notdaily);
@@ -874,6 +888,7 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.NumericUpDown Waitstart;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label controller_tyuui;
     }
 }
 
