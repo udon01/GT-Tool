@@ -468,7 +468,8 @@ namespace GT5_MDL3内のTXS3を編集するツール
                         if (Regex.IsMatch(img_files_check_1, "[1-9]") == true)
                         {
                             int img_files_lod_num = int.Parse(img_files_check_1);
-                            if (img_files_lod_num - 1 != a + 1)
+                            //MessageBox.Show((img_files_lod_num - 1).ToString() + " " + (a).ToString());
+                            if (img_files_lod_num - 1 != a)
                             {
                                 newfilecount -= 1;
                                 goto lodcountfinish;
