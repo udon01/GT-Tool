@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Net.WebRequestMethods;
 
@@ -22,6 +26,8 @@ namespace GT5_MDL3内のTXS3を編集するツール
         public static int filecount = 0;
         public static bool close = false;
         public static byte[] zero4 = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
+        public static bool notTextureSetConverter = false;
+        public static bool nottexconv = false;
 
         private void Form1_Shown(object sender, EventArgs e)
         {
@@ -56,17 +62,24 @@ namespace GT5_MDL3内のTXS3を編集するツール
 
             for (int b = 0; b < path.Count(); b++)
             {
+                string TXS3comv_path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\一時フォルダ(変換用)";
+
                 if (Path.GetExtension(path[b]).ToLower() == ".exe")
                     goto labelfinish;
 
                 string[] img_files = null;
+                string[] png_files = null;
                 string MDL3path = path[b];
-                
+                string exe_dir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+                Process[] p = new Process[0];
                 var isDirectory = System.IO.File.GetAttributes(path[b]).HasFlag(FileAttributes.Directory);
                 if (isDirectory == true)
                 {
                     img_files = Directory.GetFiles(path[b], "*.img");
                     Array.Sort(img_files, new LogicalStringComparer());
+                    png_files = Directory.GetFiles(path[b], "*.png");
+                    Array.Sort(png_files, new LogicalStringComparer());
 
                     MDL3path = MDL3path.Remove(MDL3path.LastIndexOf("_texture"), 8);
                     if (!System.IO.File.Exists(MDL3path))
@@ -96,6 +109,11 @@ namespace GT5_MDL3内のTXS3を編集するツール
 
                 string folderpath = MDL3path + "_texture";
                 int writefilecount = 0;
+
+                string[] newpath_img = new string[0];
+                string[] newpath_img_notDXT10 = new string[0];
+                string[] newpath_png = new string[0];
+                int TXS3_total_count = 0;
 
                 for (a = 0; a < TXS3_count; a++)
                 {
@@ -303,20 +321,6 @@ namespace GT5_MDL3内のTXS3を編集するツール
                         if (!Directory.Exists(folderpath))
                             Directory.CreateDirectory(folderpath);
 
-                        //上下反転(むり)
-                        /*
-                        int TXS3_tate_int = Getbyteint2(TXS3_tate, 0);
-                        int TXS3_narabikae_seek = TXS3_tex_length - 8;
-                        byte[] TXS3_tex_new = new byte[0];
-                        //MessageBox.Show(TXS3_yoko_int + "," + TXS3_tate_int);
-                        for (int i = 0; i < TXS3_tex_length / 8; i++)
-                        {
-                            Array.Resize(ref TXS3_tex_new, TXS3_tex_new.Length + 8);
-                            Array.Copy(TXS3_tex, TXS3_narabikae_seek, TXS3_tex_new, TXS3_tex_new.Length - 8, 8);
-                            TXS3_narabikae_seek -= 8;
-                        }
-                        */
-
                         string newpath = folderpath + @"\" + writefilecount + "_" + (j + 1) + "_";
                         if (DXT == "86")
                             newpath = newpath + "DXT1";
@@ -326,12 +330,35 @@ namespace GT5_MDL3内のTXS3を編集するツール
                             newpath = newpath + "DXT5";
                         else if (DXT == "85")
                             newpath = newpath + "DXT10";
-                        newpath = newpath + ".img";
+                        Array.Resize(ref newpath_img, newpath_img.Length + 1);
+                        newpath_img[newpath_img.Length - 1] = newpath + ".img";
+                        if (DXT != "85")
+                        {
+                            Array.Resize(ref newpath_img_notDXT10, newpath_img_notDXT10.Length + 1);
+                            newpath_img_notDXT10[newpath_img_notDXT10.Length - 1] = newpath + ".img";
+                            Array.Resize(ref newpath_png, newpath_png.Length + 1);
+                            newpath_png[newpath_png.Length - 1] = newpath + ".png";
+                        }
 
-                        FileStream fsw = new FileStream(newpath, FileMode.Create, FileAccess.Write);
+                        FileStream fsw = new FileStream(newpath_img[newpath_img.Length - 1], FileMode.Create, FileAccess.Write);
                         fsw.Write(TXS3_header, 0, TXS3_header.Length);
                         fsw.Write(TXS3_tex, 0, TXS3_tex.Length);
                         fsw.Close();
+
+                        //imgをpngに変換する処理
+                        if (System.IO.File.Exists(exe_dir + @"\TextureSetConverter.exe"))
+                        {
+                            if (DXT != "85")
+                            {
+                                ProcessStartInfo psi = new ProcessStartInfo();
+                                psi.FileName = exe_dir + @"\TextureSetConverter.exe";
+                                psi.Arguments = " convert-png -i " + "\"" + newpath_img_notDXT10[newpath_img_notDXT10.Length - 1] + "\"";
+                                psi.WindowStyle = ProcessWindowStyle.Hidden;
+                                Array.Resize(ref p, p.Length + 1);
+                                p[p.Length - 1] = Process.Start(psi);
+                                TXS3_total_count += 1;
+                            }
+                        }
 
                         if (lod_count > 1)
                         {
@@ -346,6 +373,20 @@ namespace GT5_MDL3内のTXS3を編集するツール
                     TXS3_pointer += 32;
                     bgWorker.ReportProgress(a);
                 }
+
+                if (System.IO.File.Exists(exe_dir + @"\TextureSetConverter.exe"))
+                {
+                    for (int k = 0; k < TXS3_total_count; k++)
+                    {
+                        p[k].WaitForExit();
+                        System.IO.File.Delete(newpath_img_notDXT10[k]);
+                        Bitmap png = new Bitmap(newpath_png[k]);
+                        png.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                        png.Save(newpath_png[k], System.Drawing.Imaging.ImageFormat.Png);
+                        png.Dispose();
+                    }
+                }
+
                 goto labelfinish;
 
             labelfolder:;
@@ -411,7 +452,80 @@ namespace GT5_MDL3内のTXS3を編集するツール
                 FileStream fsw_fo = new FileStream(folderpath_newfile, FileMode.Create, FileAccess.Write);
                 fsw_fo.Write(bs, 0, bs.Length);
                 int newfilecount = -1;
-                
+
+                if (!Directory.Exists(TXS3comv_path))
+                    Directory.CreateDirectory(TXS3comv_path);
+
+                for (int i = 0; i < img_files.Count(); i++)
+                {
+                    System.IO.File.Copy(img_files[i], TXS3comv_path + @"\" + Path.GetFileName(img_files[i]), true);
+                }
+
+                if (System.IO.File.Exists(exe_dir + @"\TextureSetConverter.exe") && System.IO.File.Exists(exe_dir + @"\texconv.exe"))
+                {
+                    if (exe_dir.Contains(" ") == true)
+                    {
+                        MessageBox.Show("exeのフォルダパスに空白が含まれているので変換できません！\n別の場所に置いてね", "エラー！");
+                        goto labelfinish;
+                    }
+
+                    for (int i = 0; i < png_files.Count(); i++)
+                    {
+                        Bitmap png = new Bitmap(png_files[i]);
+                        png.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                        png.Save(TXS3comv_path + @"\" + Path.GetFileName(png_files[i]), System.Drawing.Imaging.ImageFormat.Png);
+                        png.Dispose();
+                    }
+
+                    for (int i = 0; i < png_files.Count(); i++)
+                    {
+                        //pngをimgに変換する処理
+                        if (System.IO.File.Exists(exe_dir + @"\TextureSetConverter.exe") && System.IO.File.Exists(exe_dir + @"\texconv.exe"))
+                        {
+                            ProcessStartInfo psi = new ProcessStartInfo();
+                            psi.FileName = exe_dir + @"\TextureSetConverter.exe";
+                            string png_DXT = Path.GetFileNameWithoutExtension(png_files[i]).Substring(Path.GetFileNameWithoutExtension(png_files[i]).Length - 4, 4);
+                            psi.Arguments = " convert-img -i " + "\"" + TXS3comv_path + @"\" + Path.GetFileName(png_files[i]) + "\"" + " -f PS3 --pf " + png_DXT;
+                            psi.WindowStyle = ProcessWindowStyle.Hidden;
+                            Array.Resize(ref p, p.Length + 1);
+                            p[p.Length - 1] = Process.Start(psi);
+
+                            /*
+                            ProcessStartInfo psInfo = new ProcessStartInfo();
+
+                            psInfo.FileName = exe_dir + @"\TextureSetConverter.exe"; // 実行するファイル
+                            psInfo.CreateNoWindow = true; // コンソール・ウィンドウを開かない
+                            psInfo.UseShellExecute = false; // シェル機能を使用しない
+                            string png_DXT = Path.GetFileNameWithoutExtension(png_files[i]).Substring(Path.GetFileNameWithoutExtension(png_files[i]).Length - 4, 4);
+                            psInfo.Arguments = " convert-img -i " + "\"" + TXS3comv_path + @"\" + Path.GetFileName(png_files[i]) + "\"" + " -f PS3 --pf " + png_DXT;
+                            MessageBox.Show(" convert-img -i " + "\"" + TXS3comv_path + @"\" + Path.GetFileName(png_files[i]) + "\"" + " -f PS3 --pf " + png_DXT);
+
+                            psInfo.RedirectStandardOutput = true; // 標準出力をリダイレクト
+
+                            Process pr = Process.Start(psInfo); // アプリの実行開始
+                            string output = pr.StandardOutput.ReadToEnd(); // 標準出力の読み取り
+
+                            output = output.Replace("\r\r\n", "\n"); // 改行コードの修正
+                            MessageBox.Show(output); // ［出力］ウィンドウに出力
+                            */
+                        }
+                    }
+
+                    p[png_files.Count() - 1].WaitForExit();
+
+                    png_files = Directory.GetFiles(TXS3comv_path, "*.png");
+                    Array.Sort(png_files, new LogicalStringComparer());
+                    
+                    for (int i = 0; i < png_files.Count(); i++)
+                    {
+                        System.IO.File.Delete(png_files[i]);
+                    }
+                    
+                }
+
+                img_files = Directory.GetFiles(TXS3comv_path, "*.img");
+                Array.Sort(img_files, new LogicalStringComparer());
+
                 for (a = 0; a < TXS3_count; a++)
                 {
                 labelnewfilestart:;
@@ -434,32 +548,7 @@ namespace GT5_MDL3内のTXS3を編集するツール
                     {
                         newfilecount += 1;
 
-                        /*
-                        if (lod_count > 1)
-                        {
-                            if (img_files.Count() <= newfilecount)
-                                goto lodcountfinish;
-                            string img_files_check = img_files[newfilecount];
-                            img_files_check = Path.GetFileName(img_files_check);
-                            img_files_check = img_files_check.Substring(img_files_check.IndexOf("_") + 1, 1);
-                            if (Regex.IsMatch(img_files_check, "[1-9]") == true)
-                            {
-                                int img_files_lod_num = int.Parse(img_files_check);
-                                if (img_files_lod_num - 1 != j)
-                                {
-                                    newfilecount -= 1;
-                                    goto lodcountfinish;
-                                }
-                            }
-                            else
-                            {
-                                newfilecount -= 1;
-                                goto lodcountfinish;
-                            }
-                        }
-                        */
-
-                        if (img_files.Count() == newfilecount)
+                        if (img_files.Count() <= newfilecount)
                             goto lodcountfinish;
                         string img_files_check_1 = img_files[newfilecount];
                         img_files_check_1 = Path.GetFileName(img_files_check_1);
@@ -513,9 +602,21 @@ namespace GT5_MDL3内のTXS3を編集するツール
                     TXS3_pointer += 32;
                     bgWorker.ReportProgress(a);
                 }
+
+                for (int i = 0; i < img_files.Count(); i++)
+                {
+                    System.IO.File.Delete(img_files[i]);
+                }
+
                 fsw_fo.Close();
-                
+
             labelfinish:;
+                if (Directory.Exists(TXS3comv_path))
+                    System.IO.Directory.Delete(TXS3comv_path, true);
+                if (notTextureSetConverter == true)
+                    MessageBox.Show("TextureSetConverter.exeを「ここにimg変換ツールを入れる」フォルダの中に入れてください！");
+                if (nottexconv == true)
+                    MessageBox.Show("texconv.exeを「ここにimg変換ツールを入れる」フォルダの中に入れてください！");
             }
         }
 

@@ -63,7 +63,7 @@
             this.Controls.Add(this.ProgressBar1);
             this.Controls.Add(this.Label1);
             this.Name = "Form1";
-            this.Text = "GT5 MDL3内のTXS3を編集するツール v1.08";
+            this.Text = "GT5 MDL3内のTXS3を編集するツール v1.20";
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
